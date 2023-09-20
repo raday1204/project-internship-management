@@ -1,0 +1,140 @@
+<body class="mx-auto d-block" style="width: 980px;">
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">เมนูหลัก</a> ></li>
+                    <li class="list-item"><a routerLink="/profile-student">ข้อมูลประวัติส่วนตัว</a> ></li>
+                    <li class="list-item">แก้ไขข้อมูลพื้นฐาน</li>
+                </div>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+    <div class="edit-profile">
+        <form (ngSubmit)="getStudentProfiles()">
+            <input type="file" (change)="onFileSelected($event)">
+            <button type="button" (click)="onUpload()">Upload</button>
+            <br><br>
+
+            <p>รายละเอียดส่วนตัว</p>
+            <div class="list">
+                <label for="type">ประเภท : </label>
+                <select id="type" [(ngModel)]="StudentProfileData.type_code">
+                    <option value="option1">ประเภทที่ 1</option>
+                    <option value="option2">ประเภทที่ 2</option>
+                    <option value="option3">ประเภทที่ 3</option>
+                    <option value="option4">ประเภทที่ 4</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+            <div class="list">
+                <label for="student_citizen">หมายเลขประจำวันประชาชน :</label>
+                <input type="text" id="student_citizen" [(ngModel)]="StudentProfileData.student_citizen">
+            </div>
+            <div class="list">
+                <label for="student_nickname">ชื่อเล่น :</label>
+                <input type="email" id="student_nickname" [(ngModel)]="StudentProfileData.student_email">
+            </div>
+            <div class="list">
+                <label for="student_mobile">โทรศัพท์มือถือ :</label>
+                <input type="text" id="student_mobile" [(ngModel)]="StudentProfileData.student_mobile">
+            </div>
+            <div class="list">
+                <label for="student_emial">Email :</label>
+                <input type="text" id="student_emial" [(ngModel)]="StudentProfileData.student_email">
+            </div>
+            <div class="list">
+                <label for="student_facebook">Fackbook URL :</label>
+                <input type="text" id="student_facebook" [(ngModel)]="StudentProfileData.student_facebook">
+            </div>
+            <div class="list">
+                <label for="student_line">Line ID :</label>
+                <input type="text" id="student_line" [(ngModel)]="StudentProfileData.student_line">
+            </div>
+            <br><br>
+
+            <p>ที่อยู่ตามภูมิลำเนา</p>
+            <div class="list">
+                <label for="st_address">ที่อยู่ :</label>
+                <input type="text" id="st_address" [(ngModel)]="StudentProfileData.st_address">
+            </div>
+            <div class="list">
+                <label for="st_tambol">ตำบล/แขวง :</label>
+                <input type="text" id="st_tambol" [(ngModel)]="StudentProfileData.st_tambol">
+            </div>
+            <div class="list">
+                <label for="st_ampher">อำเภอ/เขต :</label>
+                <input type="text" id="st_ampher" [(ngModel)]="StudentProfileData.st_ampher">
+            </div>
+            <div class="list">
+                <label for="st_province">จังหวัด :</label>
+                <input type="text" id="st_province" [(ngModel)]="StudentProfileData.st_province">
+            </div>
+            <div class="list">
+                <label for="st_zipcode">รหัสไปรษณีย์ :</label>
+                <input type="text" id="st_zipcode" [(ngModel)]="StudentProfileData.st_zipcode">
+            </div>
+            <div class="list">
+                <label for="st_tel">โทรศัพท์บ้าน :</label>
+                <input type="text" id="st_tel" [(ngModel)]="StudentProfileData.st_tel">
+            </div>
+            <div class="list">
+                <label for="st_contact">บุคคลอ้างอิง :</label>
+                <input type="text" id="st_contact" [(ngModel)]="StudentProfileData.st_contact">
+            </div>
+            <div class="list">
+                <label for="st_mobile">โทรศัพท์มือถือ :</label>
+                <input type="text" id="st_mobile" [(ngModel)]="StudentProfileData.st_mobile">
+            </div>
+            <br><br>
+
+            <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
+            <div class="list">
+                <label for="ct_address">ที่อยู่ :</label>
+                <input type="text" id="ct_address" [(ngModel)]="StudentProfileData.ct_address">
+            </div>
+            <div class="list">
+                <label for="ct_tambol">ตำบล/แขวง :</label>
+                <input type="text" id="ct_tambol" [(ngModel)]="StudentProfileData.ct_tambol">
+            </div>
+            <div class="list">
+                <label for="ct_ampher">อำเภอ/เขต :</label>
+                <input type="text" id="ct_ampher" [(ngModel)]="StudentProfileData.ct_ampher">
+            </div>
+            <div class="list">
+                <label for="ct_province">จังหวัด :</label>
+                <input type="text" id="ct_province" [(ngModel)]="StudentProfileData.ct_province">
+            </div>
+            <div class="list">
+                <label for="ct_zipcode">รหัสไปรษณีย์ :</label>
+                <input type="text" id="ct_zipcode" [(ngModel)]="StudentProfileData.ct_zipcode">
+            </div>
+            <div class="list">
+                <label for="ct_tel">โทรศัพท์บ้าน :</label>
+                <input type="text" id="ct_tel" [(ngModel)]="StudentProfileData.ct_tel">
+            </div>
+            <div class="list">
+                <label for="ct_tel">อื่นๆ :</label>
+                <input type="text" id="ct_tel" [(ngModel)]="StudentProfileData.ct_tel">
+            </div>
+            <br><br><br>
+
+
+            <div class="button-container">
+                <button class="button" (click)="goBack()"
+                    style="background-color: white; color: #064469;">ย้อนกลับ</button>
+                <button class="button" type="submit"
+                    style="background-color: #064469; color: white;">บันทึกข้อมูล</button>
+            </div>
+        </form>
+    </div>
+    <h6 style="color: red;">*ข้อมูลเบอร์โทรศัพท์หรือหมายเลขบัตร - กรอกเฉพาะตัวเลข</h6>
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
+    </div>
+</body>

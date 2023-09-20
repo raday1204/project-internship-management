@@ -1,0 +1,185 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">เมนูหลัก </a> > </li>
+                    <li class="list-item"><a routerLink="/company-form-student">01-ข้อมูลหน่วยงาน </a> > </li>
+                    <li class="list-item">ประเภทที่ นิสิตที่ออกฝึกงานในภาคเรียน </li>
+                </div>
+                <!-- <h6>สวัสดีนิสิต{{ StudentProfileData.student_name }} รหัสนิสิต {{ StudentProfileData.student_code }}</h6> -->
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- <li>ประเภทที่  นิสิตที่ออกฝึกงานในภาคเรียนที่ </li> แถบข้าง -->
+        <h2>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</h2>
+        <h5>ภาคเรียนที่ ประจำปีการศึกษา </h5>
+
+        <h2>ข้อมูลนิสิต</h2>
+        <h2>ชื่อ-นามสกุล{{StudentProfileData.student_name }}{{StudentProfileData.student_lastname }}</h2>
+        <div>
+            <label for="student_depart">สาขาวิศวกรรม</label>
+            <input type="text" id="student_depart" [(ngModel)]="StudentProfileData.student_depart">
+        </div>
+        <div>
+            <label for="student_pak">ภาควิชาวิศวกรรม</label>
+            <input type="text" id="student_pak" [(ngModel)]="StudentProfileData.student_pak">
+        </div>
+        <div>
+            <label for="student_mobile">เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
+            <input type="text" id="student_mobile" [(ngModel)]="StudentProfileData.student_mobile">
+        </div>
+        <div>
+            <label for="student_facebook">Facebook</label>
+            <input type="text" id="student_facebook" [(ngModel)]="StudentProfileData.student_facebook">
+        </div>
+
+
+        <h2>ข้อมูลหน่วยงาน</h2>
+        <form (ngSubmit)="saveData()">
+            <div>
+                <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+                <input type="text" id="company_name" [(ngModel)]="company.company_name">
+            </div>
+
+            <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
+            <div>
+                <label for="send_name">เรียน</label>
+                <input type="text" id="send_name" [(ngModel)]="company.send_name">
+            </div>
+
+            <h5>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h5>
+
+            <div>
+                <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
+                <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator">
+            </div>
+
+            <div>
+                <label for="send_position">ตำแหน่ง</label>
+                <input type="text" id="send_position" [(ngModel)]="company.send_position">
+            </div>
+
+            <div>
+                <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
+                <input type="text" id="send_tel" [(ngModel)]="company.send_tel">
+            </div>
+
+            <div>
+                <label for="send_email">Emile</label>
+                <input type="text" id="send_email" [(ngModel)]="company.send_email">
+            </div>
+
+            <div>
+                <label for="send_mobile">โทรศัพท์มือถือ</label>
+                <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile">
+            </div>
+
+            <div>
+                <label for="company_job">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
+                <input type="text" id="company_job" [(ngModel)]="company.company_job">
+            </div>
+
+            <div>
+                <label for="company_qualifications">4. คุณสมบัติ/ความสามารถ/ความรู้เพิ่มเติม
+                    ของนิสิตที่บริษัทต้องการ(ถ้ามี)</label>
+                <input type="text" id="company_qualifications" [(ngModel)]="company.company_qualifications">
+            </div>
+
+            <div>
+                <label for="company_period">5. ระยะเวลาฝึกงาน</label>
+                <input type="text" id="company_period" [(ngModel)]="company.company_period">
+            </div>
+
+            <h5>หมายเหตุ ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</h5>
+            <h5>กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</h5>
+            <h5>ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ คณะวิศวกรรมศาสตร์ เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</h5>
+            <button type="submit">บันทึกข้อมูล</button>
+
+        </form>
+    </div>
+
+<!-- popup enter-company -->
+    <!-- <div *ngIf="isPopupVisible" class="popup">
+        <h2>ยืนยันการกรอกแบบฟอร์ม 01 ข้อมุลหน่วยงาน</h2>
+    <h5>ภาคเรียนที่ ประจำปีการศึกษา </h5>
+
+    <h2>ข้อมูลนิสิต</h2>
+        <h2>ชื่อ-นามสกุล{{StudentProfileData.student_name }}{{StudentProfileData.student_lastname }}</h2>
+        รหัสนิสิต{{StudentProfileData.student_code }}
+
+        <div>
+            <label>สาขาวิศวกรรม</label>
+            <span>{{ StudentProfileData.student_depart }}</span>
+        </div>
+
+        <div>
+            <label>ภาควิชาวิศวกรรม</label>
+            <span>{{ StudentProfileData.student_pak }}</span>
+        </div>
+        <div>
+            <label>เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
+            <span>{{ StudentProfileData.student_mobile }}</span>
+        </div>
+        <div>
+            <label>Facebook</label>
+            <span>{{ StudentProfileData.student_facebook }}</span>
+        </div>
+
+        <h2>ข้อมูลหน่วยงาน</h2>
+
+        <div>
+            <label>1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+            <span>{{ company.company_name }}</span>
+        </div>
+        <div>
+            <label>ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน</label>
+            <span>{{ company.company_name }}</span>
+        </div>
+        <div>
+            <label>เรียน</label>
+            <span>{{ company.send_name }}</span>
+        </div>
+        <div>
+            <label>ชื่อผู้ประสานงาน</label>
+            <span>{{ company.send_coordinator }}</span>
+        </div>
+        <div>
+            <label>ตำแหน่ง</label>
+            <span>{{ company.send_position }}</span>
+        </div>
+        <div>
+            <label>เบอร์โทรศัพท์หน่วยงาน</label>
+            <span>{{ company.send_tel }}</span>
+        </div>
+        <div>
+            <label>Email</label>
+            <span>{{ company.send_email }}</span>
+        </div>
+        <div>
+            <label>โทรศัพท์มือถือ</label>
+            <span>{{ company.send_mobile }}</span>
+        </div>
+        <div>
+            <label>ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
+            <span>{{ company.company_job }}</span>
+        </div>
+        <div>
+            <label>คุณสมบัติพิเศษ/ความสามารถ/ความรู้เพิ่มเติม</label>
+            <span>{{ company.company_qualifications }}</span>
+        </div>
+        <div>
+            <label>ระยะเวลาฝึกงาน</label>
+            <span>{{ company.company_period }}</span>
+        </div>
+
+        <button (click)="isPopupVisible = false">ย้อนกลับ</button>
+        <button (click)="printDocument()">พิมพ์เอกสาร</button>
+    </div> -->
+</body>

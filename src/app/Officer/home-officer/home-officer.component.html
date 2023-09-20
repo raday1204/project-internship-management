@@ -1,0 +1,44 @@
+<body class="mx-auto d-block" style="width: 980px;">
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li>{{ dateTime | date: 'fullDate' }}</li>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="sidebar">
+        <p>ข้อมูลทั่วไป</p>
+        <ul class="nav-links" id="nav-links">
+            <li *ngFor="let item of menuSidebar" #itemEl routerLinkActive="active">
+                <a [routerLink]="[item.link]">
+                    <i [class]="item.icon"></i>
+                    <span class="link_name">{{item.link_name}}</span>
+                </a>
+            </li><br>
+
+            <hr style="border-width: 3px; border-color: white;">
+
+            <p>หนังสือต่างๆ</p>
+            <li *ngFor="let item of formSidebar" #itemEl routerLinkActive="active">
+                <a [routerLink]="[item.link]">
+                    <i [class]="item.icon"></i>
+                    <span class="link_name">{{item.link_name}}</span>
+                </a>
+            </li><br>
+
+            <hr style="border-width: 3px; border-color: white;">
+            
+            <p>แจ้งข่าวประชาสัมพันธ์</p>
+            <li *ngFor="let item of newsSidebar" #itemEl routerLinkActive="active">
+                <a [routerLink]="[item.link]">
+                    <i [class]="item.icon"></i>
+                    <span class="link_name">{{item.link_name}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</body>

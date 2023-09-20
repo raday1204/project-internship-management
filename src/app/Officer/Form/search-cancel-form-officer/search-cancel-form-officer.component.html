@@ -1,0 +1,43 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-officer">เมนูหลัก </a> > </li>
+                    <li class="list-item">หนังสือขอยกเลิกการเข้าฝึกงาน</li>
+                </div>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="form-container">
+        <p>กรุณากรอกข้อมูล</p>
+        <form (ngSubmit)="submitForm()">
+            <div class="form-group">
+                <label for="option1">ปีการศึกษา</label><br>
+                <select id="option1" [(ngModel)]="selectedOption1" name="option1">
+                    <option value="typenaem1">2565</option>
+                    <option value="value2">2566</option>
+                </select><br>
+                <label for="option2">ประเภท</label><br>
+                <select id="option2" [(ngModel)]="selectedOption2" name="option2">
+                    <option value="typecode1">ประเภทที่ 1</option>
+                    <option value="typecode2">ประเภทที่ 2</option>
+                    <option value="typecode3">ประเภทที่ 3</option>
+                    <option value="typecode4">ประเภทที่ 4</option>
+                </select>
+            </div>
+
+            <div class="button-container">
+                <button class="button" style="background-color: #FDFDF6; color: #072D44;"
+                    [routerLink]="['/home-officer']">ย้อนกลับ</button>
+                <button class="button" style="background-color: #064469; color: #FDFDF6;"
+                    (click)="search()">ยืนยัน</button>
+            </div>
+        </form>
+    </div>
+</body>

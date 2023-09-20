@@ -1,0 +1,39 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป > </a></li>
+                <li class="list-item">ข้อมูลหน่วยงาน</li>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>ชื่อหน่วยงาน</th>
+                <th>หน่วยงานภายใน</th>
+                <th>รับ-ลง-เหลือ</th>
+                <th>รหัสนิสิต</th>
+                <th>ชื่อนิสิตที่ลงทะเบียน</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ CompanyInformation.company_id }}</td>
+                <td>{{ CompanyInformation.company_name }}</td>
+                <td>{{ CompanyInformation.company_building }}</td>
+                <td>{{ CompanyInformation.number_student_train }}</td>
+                <td>{{ StudentProfileData.student_code }}</td>
+                <td>{{ StudentProfileData.student_name }}</td>
+                <td><button (click)="selectCompany(CompanyInformation)">แก้ไขข้อมูลหน่วยงาน</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>

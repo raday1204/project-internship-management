@@ -1,0 +1,32 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li><a routerLink="/home-student">เมนูหลัก</a></li>
+                <li>กรุณาใส่ Username และ Password ของมหาวิทยาลัยนเรศวร (NU-NET)</li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="login-container">
+        <li>เข้าสู่ระบบ</li>
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <i class="fa-solid fa-user" style="color: #F3A530;"></i>
+                <label for="username">Username</label>
+                <input class="form-control form-control-lg mb-3" type="text" id="username" [(ngModel)]="username"
+                    name="username" required>
+
+                <i class="fa-solid fa-lock" style="color: #F3A530;"></i>
+                <label for="password">Password</label>
+                <input class="form-control form-control-lg" type="password" id="password" [(ngModel)]="password"
+                    name="password" required>
+            </div>
+            <button class="button" type="submit">LOGIN</button>
+            <div *ngIf="errorMessage" class="error-message">
+                {{ errorMessage }}
+            </div>
+        </form>
+    </div>
+</body>

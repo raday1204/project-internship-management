@@ -1,0 +1,44 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป > </a></li>
+                <li class="list-item">ข้อมูลนิสิตวิศวกรรมคอมพิวเตอร์</li>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+ปีการศึกษา  ภาคเรียนที่ 
+    <table>
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>หมายเลขประจำตัว</th>
+                <th>รหัสนิสิต</th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>โทรศัพท์มือถือ</th>
+                <th>Email</th>
+                <th>Facebook</th>
+                <th>Line</th>
+                <th>ที่อยู่ปัจจุบัน</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ StudentProfileData.id }}</td>
+                <td>{{ StudentProfileData.student_citizen }}</td>
+                <td>{{ StudentProfileData.student_code }}</td>
+                <td>{{ StudentProfileData.student_name}} {{ StudentProfileData.student_lastname }}</td>
+                <td>{{ StudentProfileData.mobile }}</td>
+                <td>{{ StudentProfileData.email }}</td>
+                <td>{{ StudentProfileData.facebook }}</td>
+                <td>{{ StudentProfileData.line }}</td>
+                <td>{{ StudentProfileData.staddress }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+

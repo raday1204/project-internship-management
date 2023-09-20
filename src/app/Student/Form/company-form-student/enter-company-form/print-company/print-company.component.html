@@ -1,0 +1,108 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป > </a></li>
+                <li class="list-item"><a routerLink="/company">01 ข้อมูลหน่วยงาน ></a></li>
+                <li>ประเภทที่ นิสิตที่ออกฝึกงานในภาคเรียนที่ </li>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+<div>
+    <h2>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</h2>
+    <h5>ภาคเรียนที่ ประจำปีการศึกษา </h5>
+    <h2>ข้อมูลนิสิต</h2>
+    <h2>{{ StudentProfileData.student_name }}</h2>
+    <div>
+        <label for="student_depart">สาขาวิศวกรรม</label>
+        <span>{{ StudentProfileData.student_depart }}</span>
+    </div>
+
+    <div>
+        <label for="student_pak">ภาควิชาวิศวกรรม</label>
+        <span>{{ StudentProfileData.student_pak }}</span>
+    </div>
+
+    <div>
+        <label for="student_mobile">เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
+        <span>{{ StudentProfileData.student_mobile }}</span>
+    </div>
+
+    <div>
+        <label for="student_facebook">Facebook</label>
+        <span>{{ StudentProfileData.student_facebook }}</span>
+    </div>
+
+    <h2>ข้อมูลหน่วยงาน</h2>
+    <div>
+        <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+        <span>{{ company.company_name }}</span>
+    </div>
+
+    <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
+    <div>
+        <label for="send_name">เรียน</label>
+        <span>{{ company.send_name }}</span>
+    </div>
+
+    <h5>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h5>
+    <div>
+        <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
+        <span>{{ company.send_coordinator }}</span>
+    </div>
+    
+    <div>
+        <label for="send_position">ตำแหน่ง</label>
+        <span>{{ company.send_position }}</span>
+    </div>
+
+    <div>
+        <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
+        <span>{{ company.send_tel }}</span>
+    </div>
+
+    <div>
+        <label for="send_email">Email</label>
+        <span>{{ company.send_email }}</span>
+    </div>
+
+    <div>
+        <label for="send_mobile">โทรศัพท์มือถือ</label>
+        <span>{{ company.company_job }}</span>
+    </div>
+
+    <div>
+        <label for="company_job">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
+        <span>{{ company.company_job }}</span>
+    </div>
+
+    <div>
+        <label for="company_qualifications">4. คุณสมบัติพิเศษ/ความสามารถ/ความรู้เพิ่มเติม</label>
+        <span>{{ company.company_qualifications }}</span>
+    </div>
+
+    <div>
+        <label for="company_period">ระยะเวลาฝึกงาน</label>
+        <span>{{ company.company_period }}</span>
+    </div>
+
+    นิสิต
+    ()
+    วันที่ เดือน พ.ศ.
+    อาจารย์ที่รับรอง
+    ()
+    วันที่ เดือน พ.ศ.
+
+    <h5>หมายเหตุ ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</h5>
+    <h5>กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</h5>
+    <h5>ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ คณะวิศวกรรมศาสตร์ เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</h5>
+
+
+    <button (click)="printDocument()">พิมพ์เอกสาร</button>
+</div>
+</body>

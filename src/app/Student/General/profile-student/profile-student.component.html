@@ -1,0 +1,141 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">เมนูหลัก </a> ></li>
+                    <li class="list-item">ข้อมูลประวัติส่วนตัว</li>
+                </div>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="profile">
+
+        <img [src]="imageUrl" alt="Uploaded Image"><br><br>
+
+        <p>รายละเอียดส่วนตัว</p>
+        <h2>{{ StudentProfileData.student_name }}</h2>
+        
+        <div class="list">
+            <label for="type">ประเภท :</label>
+            <span>{{ StudentProfileData.type_code }}</span>
+        </div>
+        <div class="list">
+            <label for="type">หมายเลขประจำวันประชาชน:</label>
+            <span>{{ StudentProfileData.citizen }}</span>
+        </div>
+        <div class="list">
+            <label for="type">ชื่อเล่น :</label>
+            <span>{{ StudentProfileData.nickname }}</span>
+        </div>
+        <div class="list">
+            <label for="type">โทรศัพท์มือถือ :</label>
+            <span>{{ StudentProfileData.mobile }}</span>
+        </div>
+        <div class="list">
+            <label for="type">Email :</label>
+            <span>{{ StudentProfileData.email }}</span>
+        </div>
+        <div class="list">
+            <label for="type">Fackbook URL :</label>
+            <span>{{ StudentProfileData.facebook }}</span>
+        </div>
+        <div class="list">
+            <label for="type">Line ID :</label>
+            <span>{{ StudentProfileData.line }}</span>
+        </div>
+        <br><br>
+
+
+        <p>ที่อยู่ตามภูมิลำเนา</p>
+        <div class="list">
+            <label for="type">ที่อยู่ :</label>
+            <span>{{ StudentProfileData.staddress }}</span>
+        </div>
+        <div class="list">
+            <label for="type">ตำบล/แขวง :</label>
+            <span>{{ StudentProfileData.sttambol }}</span>
+        </div>
+        <div class="list">
+            <label for="type">อำเภอ/เขต :</label>
+            <span>{{ StudentProfileData.stampher }}</span>
+        </div>
+        <div class="list">
+            <label for="type">จังหวัด :</label>
+            <span>{{ StudentProfileData.stprovince }}</span>
+        </div>
+        <div class="list">
+            <label for="type">รหัสไปรษณีย์ :</label>
+            <span>{{ StudentProfileData.stzipcode }}</span>
+        </div>
+        <div class="list">
+            <label for="type">โทรศัพท์บ้าน :</label>
+            <span>{{ StudentProfileData.sttel }}</span>
+        </div>
+        <div class="list">
+            <label for="type">บุคคลอ้างอิง :</label>
+            <span>{{ StudentProfileData.stcontact }}</span>
+        </div>
+        <div class="list">
+            <label for="type">โทรศัพท์มือถือ :</label>
+            <span>{{ StudentProfileData.stmobile }}</span>
+        </div>
+        <br><br>
+
+        <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
+        <div class="list">
+            <label for="type">ที่อยู่ :</label>
+            <span>{{ StudentProfileData.ctaddress }}</span>
+        </div>
+        <div class="list">
+            <label for="type">ตำบล/แขวง :</label>
+            <span>{{ StudentProfileData.cttambol }}</span>
+        </div>
+        <div class="list">
+            <label for="type">อำเภอ/เขต :</label>
+            <span>{{ StudentProfileData.ctampher }}</span>
+        </div>
+        <div class="list">
+            <label for="type">จังหวัด :</label>
+            <span>{{ StudentProfileData.ctprovince }}</span>
+        </div>
+        <div class="list">
+            <label for="type">รหัสไปรษณีย์ :</label>
+            <span>{{ StudentProfileData.ctzipcode }}</span>
+        </div>
+        <div class="list">
+            <label for="type">โทรศัพท์บ้าน :</label>
+            <span>{{ StudentProfileData.cttel }}</span>
+        </div>
+        <br><br>
+
+        <p>ข้อมูลสถานประกอบการ</p>
+        <div class="list">
+            <label for="type">ชื่อสถานประกอบการ :</label>
+            <span>{{ StudentProfileData.compant_name }}</span>
+        </div>
+        <div class="list">
+            <label for="type">ที่ตั้งสถานประกอบการ :</label>
+            <span>{{ StudentProfileData.compant_address}}</span>
+        </div>
+        <br><br><br>
+
+        <div class="button-container">
+            <button class="button" [routerLink]="['/home-student']"
+                style="background-color: white; color: #064469;">ย้อนกลับ</button>
+            <button class="button" [routerLink]="['/edit-profile']"
+                style="background-color: #064469; color: white;">แก้ไขข้อมูลพื้นฐาน</button>
+        </div>
+    </div>
+
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
+    </div>
+</body>

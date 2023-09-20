@@ -1,0 +1,87 @@
+body {
+    background-color: white;
+    background-position: top;
+    /* margin: 0px 260px;
+    padding: 0%; */
+    height: 100%; 
+    overflow: auto;
+}
+
+.header {
+    background-color: #44779F;
+    border-radius: 8px;
+}
+
+.header ul {
+    font-size: 18px;
+    color: white;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 20px;
+    padding: 10px;
+}
+
+.header a {
+    text-decoration: none;
+    color: white;
+}
+
+.login-container {
+    background-color: #DFEBF6;
+    margin: 80px 300px;
+    border-radius: 10px;
+    height: 420px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.login-container li {
+    background-color: #4F92B3;
+    font-size: 20px;
+    color: white;
+    list-style: none;
+    text-align: center;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+form {
+    display: block;
+    height: fit-content;
+}
+
+.form-group {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    padding: 20px;
+    margin: 20px 50px;
+}
+
+i {
+    margin-right: 10px;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+
+.button {
+    background-color: #F9C770;
+    font-size: 16px;
+    font-weight: 700;
+    color: black;
+    border-radius: 10px;
+    padding: 5px;
+    margin: auto;
+    display: block;
+    width: 100px;
+    border: none;
+}
+
+/* error-message part */
+
+.error-message {
+    color: #C1211F;
+    padding: 15px;
+    text-align: center;
+}
