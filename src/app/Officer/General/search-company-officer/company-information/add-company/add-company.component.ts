@@ -8,7 +8,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-company.component.css']
 })
 export class AddCompanyComponent {
-  company: any = {};
+  company: any = {
+    company_name: '',
+    send_name: '',
+    send_coordinator: '',
+    send_position: '',
+    send_tel: '',
+    send_email: '',
+    send_mobile: '',
+  };
   constructor(private router: Router, private http: HttpClient) { }
 
   saveData() {
@@ -22,7 +30,7 @@ export class AddCompanyComponent {
       send_mobile: this.company.send_mobile
     };
   
-    this.http.post('http://localhost:4200/api/saveData', formData)
+    this.http.post('http://localhost:3000/saveDataToMySQL', formData)
       .subscribe((response: any) => {
         if (response.success) {
           console.log('Company data saved successfully');

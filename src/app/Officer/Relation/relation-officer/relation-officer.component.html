@@ -14,4 +14,38 @@
         </nav>
     </header>
 
+    <p>ข่าวประชาสัมพันธ์</p>
+
+    <button [routerLink]="['/add-relation']">
+        เพิ่มข่าว<i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+    </button>
+    <table class="table-container" style="width: 900px;">
+        <thead style="font-size: 13px;">
+            <tr>
+                <th>วัน-เดือน-ปี</th>
+                <th>เนื้อหา</th>
+                <th>ลบ-แก้ไข</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 13px;">
+            <tr>
+                <td>{{ relation.relation_date }}</td>
+                <td>{{ relation.relation_content }}</td>
+
+                <td class="text-center"><button (click)="deleteRelation(relation.id)"
+                        style="background-color: #66B366; color: #FDFDF6;">ลบ</button></td>
+
+                <td class="text-center"> <button [routerLink]="['/edit-relation']"
+                        style="background-color: #66B366; color: #FDFDF6;">แก้ไข</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h6 style="color: red;">*นิสิตสามารถลงทะเบียนได้เพียง 1 หน่วยงาน เท่านั้น</h6>
+
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
+    </div>
 </body>

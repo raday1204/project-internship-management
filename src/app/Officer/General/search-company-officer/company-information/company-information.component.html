@@ -3,20 +3,27 @@
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
-                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
-                <li class="list-item">ข้อมูลหน่วยงาน</li>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-officer">เมนูหลัก </a> > </li>
+                    <li class="list-item">ข้อมูลหน่วยงาน</li>
+                </div>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
         </nav>
     </header>
-ปีกาารศึกษา ประเภทที่
-<button [routerLink]="['/add-company']">
-    เพิ่มข้อมูลหน่วยงาน <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
-</button>
-    <table>
-        <thead>
+
+    <p>ปีกาารศึกษา ประเภทที่</p>
+
+    <div class="add-container">
+        <button class="add-button" [routerLink]="['/add-company']" style="background-color: #3699FF; color: white;">
+            <i class="fa-solid fa-plus p-2"></i>เพิ่มข้อมูลหน่วยงาน
+        </button>
+    </div>
+
+    <table class="table-container" style="width: 900px;">
+        <thead style="font-size: 13px;">
             <tr>
                 <th>ลำดับ</th>
                 <th>ชื่อหน่วยงาน</th>
@@ -26,7 +33,8 @@
                 <th>ชื่อนิสิตที่ลงทะเบียน</th>
             </tr>
         </thead>
-        <tbody>
+        
+        <tbody style="font-size: 13px;">
             <tr>
                 <td>{{ CompanyInformation.company_id }}</td>
                 <td>{{ CompanyInformation.company_name }}</td>
@@ -34,7 +42,8 @@
                 <td>{{ CompanyInformation.number_student_train }}</td>
                 <td>{{ StudentProfileData.student_code }}</td>
                 <td>{{ StudentProfileData.student_name }}</td>
-                <td><button (click)="selectCompany(CompanyInformation)">แก้ไขข้อมูลหน่วยงาน</button></td>
+                <td class="text-center"><button (click)="selectCompany(CompanyInformation)"
+                    style="background-color: #66B366; color: #FDFDF6;">แก้ไขข้อมูลหน่วยงาน</button></td>
             </tr>
         </tbody>
     </table>

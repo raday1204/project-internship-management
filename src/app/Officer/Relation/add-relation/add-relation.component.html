@@ -1,1 +1,40 @@
-<p>add-relation works!</p>
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item">เพิ่ม-ลบ-แก้ไขประชาสัมพันธ์</li>
+                </div>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+    <p>เพิ่มข่าวประชาสัมพันธ์</p>
+    <form (ngSubmit)="saveRelation()">
+        <div class="list">
+            <label for="relation_date">วัน-เดือน-ปี</label>
+            <input type="text" id="relation_date" [(ngModel)]="relation.relation_date">
+        </div>
+        <div class="list">
+            <label for="relation_content">เนื้อหา</label>
+            <input type="email" id="relation_content" [(ngModel)]="relation.relation_content">
+        </div>
+        <div class="list">
+            <label for="relation_pic">แนบรูป</label>
+        </div>
+
+        <input type="file" (change)="onFileSelected($event)">
+        <button type="button" (click)="onUpload()">Upload</button>
+
+        <div class="button-container">
+            <button class="button" style="background-color: #FDFDF6; color: #072D44;"
+                [routerLink]="['/relation-officer']">ย้อนกลับ</button>
+            <button class="button" style="background-color: #064469; color: #FDFDF6;">ยืนยัน</button>
+        </div>
+
+    </form>
+</body>

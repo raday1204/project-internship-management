@@ -7,8 +7,14 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-internal-company.component.css']
 })
 export class AddInternalCompanyComponent {
-  company: any = {};
-  need_student: any = {};
+  company: any = {
+    company_building: '',
+    company_job: '',
+    company_period: '',
+  };
+  need_student: any = {
+    number_student_train: '',
+  };
 
   constructor(private http: HttpClient) {}
 

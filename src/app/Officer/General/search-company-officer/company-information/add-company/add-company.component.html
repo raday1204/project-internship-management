@@ -3,9 +3,11 @@
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
-                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
-                <li class="list-item"><a routerLink="/company-information">ข้อมูลหน่วยงาน > </a></li>
-                <li class="list-item">เพิ่มข้อมูลหน่วยงาน</li>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-officer">เมนูหลัก </a> > </li>
+                    <li class="list-item"><a routerLink="/company-information">ข้อมูลหน่วยงาน </a> > </li>
+                    <li class="list-item">เพิ่มข้อมูลหน่วยงาน</li>
+                </div>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
@@ -13,49 +15,60 @@
         </nav>
     </header>
 
-    ปีการศึกษา ประเภทที่
+    <p>ปีการศึกษา ประเภทที่</p>
 
-    <h2>ข้อมูลหน่วยงาน</h2>
+    <div class="main-container">
+        <p>ข้อมูลหน่วยงาน</p>
         <form (ngSubmit)="saveData()">
-            <div>
+            <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
                 <input type="text" id="company_name" [(ngModel)]="company.company_name">
             </div>
 
-            <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
-            <div>
+            <div class="list">
+                <li>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร
+                </li>
+            </div>
+
+            <div class="list">
                 <label for="send_name">เรียน</label>
                 <input type="text" id="send_name" [(ngModel)]="company.send_name">
             </div>
 
-            <h5>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h5>
+            <div class="list">
+                <li>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</li>
+            </div>
 
-            <div>
+            <div  class="list">
                 <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
                 <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator">
             </div>
 
-            <div>
+            <div  class="list">
                 <label for="send_position">ตำแหน่ง</label>
                 <input type="text" id="send_position" [(ngModel)]="company.send_position">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
                 <input type="text" id="send_tel" [(ngModel)]="company.send_tel">
             </div>
 
-            <div>
+            <div  class="list">
                 <label for="send_email">Emile</label>
                 <input type="text" id="send_email" [(ngModel)]="company.send_email">
             </div>
 
-            <div>
+            <div  class="list">
                 <label for="send_mobile">โทรศัพท์มือถือ</label>
                 <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile">
             </div>
 
-            <button type="submit">เพิ่มหน่วยงานภายใน</button>
+            <div class="button-container">
+                <button class="button" type="submit"
+                    style="background-color: #064469; color: #FDFDF6;">เพิ่มหน่วยงานภายใน</button>
+            </div>
         </form>
+    </div>
 </body>
 

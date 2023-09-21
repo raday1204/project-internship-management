@@ -1,0 +1,51 @@
+body {
+    background-color: white;
+    background-position: top;
+    height: 100%; 
+    overflow: auto;
+ }
+
+ .header {
+    background-color: #44779F;
+    border-radius: 8px;
+}
+
+.header ul {
+    font-size: 18px;
+    color: white;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 0px 0px 5px;
+    cursor: pointer;
+}
+
+.header button {
+    background-color: #FF8A00;
+    font-size: 18px;
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 8px;
+    border: none;
+    margin-right: 0px;
+}
+
+.header-list {
+    white-space: nowrap;
+}
+
+.list-item {
+    display: inline-block;
+    padding: 10px 5px 0px 5px;
+}
+
+.list-item a {
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+}
+
+.list-item a:hover {
+    color: #FFC300;
+}

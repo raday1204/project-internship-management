@@ -3,17 +3,20 @@
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
+                <div class="header-list">
                 <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
                 <li class="list-item">ข้อมูลนิสิตวิศวกรรมคอมพิวเตอร์</li>
+            </div>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
         </nav>
     </header>
-ปีการศึกษา  ภาคเรียนที่ 
-    <table>
-        <thead>
+
+    <p>ปีการศึกษา  ภาคเรียนที่</p> 
+    <table class="table-container" style="width: 900px;">
+        <thead style="font-size: 13px;">
             <tr>
                 <th>ลำดับ</th>
                 <th>หมายเลขประจำตัว</th>
@@ -26,7 +29,7 @@
                 <th>ที่อยู่ปัจจุบัน</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="font-size: 13px;">
             <tr>
                 <td>{{ StudentProfileData.id }}</td>
                 <td>{{ StudentProfileData.student_citizen }}</td>

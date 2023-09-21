@@ -3,20 +3,21 @@
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
-                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
-                <li class="list-item">ข้อมูลหน่วยงาน</li>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item">ข้อมูลหน่วยงาน</li>
+                </div>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
         </nav>
     </header>
-    ปีกาารศึกษา ประเภทที่
-    <button [routerLink]="['/add-company']">
-        เพิ่มข้อมูลหน่วยงาน <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
-    </button>
-    <table>
-        <thead>
+
+    <p>ปีกาารศึกษา ประเภทที่</p>
+
+    <table class="table-container" style="width: 900px;">
+        <thead style="font-size: 13px;">
             <tr>
                 <th>ลำดับ</th>
                 <th>ชื่อหน่วยงาน</th>
@@ -26,7 +27,7 @@
                 <th>ชื่อนิสิตที่ลงทะเบียน</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody style="font-size: 13px;">
             <tr>
                 <td>{{ CompanyInformation.company_id }}</td>
                 <td>{{ CompanyInformation.company_name }}</td>
@@ -34,10 +35,10 @@
                 <td>{{ CompanyInformation.number_student_train }}</td>
                 <td>{{ StudentProfileData.student_code }}</td>
                 <td>{{ StudentProfileData.student_name }}</td>
-                <td><button (click)="confirmCompanyStatus()">ยืนยัน</button></td>
-                <td><button (click)="rejectCompanyStatus()">ไม่รับนิสิตเข้าฝึกงาน</button></td>
-
-
+                <td class="text-center">
+                    <button class="button" (click)="confirmCompanyStatus()" style="background-color: white; color: #0075FF;">ยืนยัน</button><br>
+                    <button class="button" (click)="rejectCompanyStatus()" style="background-color: white; color: #FF0000;">ไม่รับนิสิตเข้าฝึกงาน</button>
+                </td>
             </tr>
         </tbody>
     </table>
