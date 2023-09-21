@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
 
 import { AdviceStudentComponent } from './Student/General/advice-student/advice-student.component';
 import { CalendarStudentComponent } from './Student/General/calendar-student/calendar-student.component';
@@ -39,8 +40,14 @@ import { EditRelationComponent } from './Officer/Relation/edit-relation/edit-rel
 import { LoginOfficerComponent } from './Officer/login-officer/login-officer.component';
 import { HomeOfficerComponent } from './Officer/home-officer/home-officer.component';
 import { RelationOfficerComponent } from './Officer/Relation/relation-officer/relation-officer.component';
+import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
+import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
+import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
+import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
 
 const routes: Routes = [
+  { path: 'app', component: AppComponent },
+
   { path: 'advice-student', component: AdviceStudentComponent },
   { path: 'calendar-student', component: CalendarStudentComponent },
   { path: 'cancel-status', component: CancelStatusComponent },
@@ -79,6 +86,10 @@ const routes: Routes = [
   { path: 'login-officer', component: LoginOfficerComponent },
   { path: 'home-officer', component: HomeOfficerComponent },
   { path: 'relation-officer', component: RelationOfficerComponent },
+  { path: 'add-company', component: AddCompanyComponent },
+  { path: 'edit-company', component: EditCompanyComponent },
+  { path: 'add-internal-company', component: AddInternalCompanyComponent },
+  { path: 'status-information', component: StatusInformationComponent },
   
 ];
 

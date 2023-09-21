@@ -11,10 +11,10 @@
             </ul>
         </nav>
     </header>
-ปีกาารศึกษา ประเภทที่
-<button [routerLink]="['/add-company']">
-    เพิ่มข้อมูลหน่วยงาน <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
-</button>
+    ปีกาารศึกษา ประเภทที่
+    <button [routerLink]="['/add-company']">
+        เพิ่มข้อมูลหน่วยงาน <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+    </button>
     <table>
         <thead>
             <tr>
@@ -34,7 +34,10 @@
                 <td>{{ CompanyInformation.number_student_train }}</td>
                 <td>{{ StudentProfileData.student_code }}</td>
                 <td>{{ StudentProfileData.student_name }}</td>
-                <td><button (click)="selectCompany(CompanyInformation)">แก้ไขข้อมูลหน่วยงาน</button></td>
+                <td><button (click)="confirmCompanyStatus()">ยืนยัน</button></td>
+                <td><button (click)="rejectCompanyStatus()">ไม่รับนิสิตเข้าฝึกงาน</button></td>
+
+
             </tr>
         </tbody>
     </table>

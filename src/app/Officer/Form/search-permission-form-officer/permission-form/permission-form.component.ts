@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./permission-form.component.css']
 })
 export class PermissionFormComponent {
+  CompanyInformation: any = {};
+  StudentProfileData: any = {};
+  selectCompany(selectedCompany: any) {
+    console.log("Selected Company:", selectedCompany);
 
+    window.print();
+  }
 }
+
+

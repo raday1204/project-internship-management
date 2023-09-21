@@ -6,5 +6,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./send-form.component.css']
 })
 export class SendFormComponent {
+  CompanyInformation: any = {};
+  StudentProfileData: any = {};
+  selectCompany(selectedCompany: any) {
+    console.log("Selected Company:", selectedCompany);
 
+    window.print();
+  }
 }
+
+

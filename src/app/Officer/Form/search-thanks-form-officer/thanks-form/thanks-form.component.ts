@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./thanks-form.component.css']
 })
 export class ThanksFormComponent {
+  CompanyInformation: any = {};
+  StudentProfileData: any = {};
 
+  selectCompany(selectedCompany: any) {
+    console.log("Selected Company:", selectedCompany);
+
+    window.print();
+  }
 }
+
+

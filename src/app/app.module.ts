@@ -58,6 +58,8 @@ import { NotifyingFormComponent } from './Officer/Form/search-notifying-form-off
 import { PermissionFormComponent } from './Officer/Form/search-permission-form-officer/permission-form/permission-form.component';
 import { SendFormComponent } from './Officer/Form/search-send-form-officer/send-form/send-form.component';
 import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/thanks-form/thanks-form.component';
+import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
+import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +111,8 @@ import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/t
     PermissionFormComponent,
     SendFormComponent,
     ThanksFormComponent,
+    AddInternalCompanyComponent,
+    StatusInformationComponent,
   ],
   imports: [
     BrowserModule,

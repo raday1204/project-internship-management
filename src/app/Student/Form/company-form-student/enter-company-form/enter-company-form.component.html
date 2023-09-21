@@ -6,7 +6,7 @@
                 <div class="header-list">
                     <li class="list-item"><a routerLink="/home-student">เมนูหลัก </a> > </li>
                     <li class="list-item"><a routerLink="/company-form-student">01-ข้อมูลหน่วยงาน </a> > </li>
-                    <li class="list-item">ประเภทที่ นิสิตที่ออกฝึกงานในภาคเรียน </li>
+                    <li class="list-item">ประเภทที่ นิสิตที่ออกฝึกงานในภาคเรียนที่ </li>
                 </div>
                 <!-- <h6>สวัสดีนิสิต{{ StudentProfileData.student_name }} รหัสนิสิต {{ StudentProfileData.student_code }}</h6> -->
                 <button [routerLink]="['/app']">
@@ -16,96 +16,121 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="main-container">
         <!-- <li>ประเภทที่  นิสิตที่ออกฝึกงานในภาคเรียนที่ </li> แถบข้าง -->
-        <h2>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</h2>
-        <h5>ภาคเรียนที่ ประจำปีการศึกษา </h5>
+        <div class="head-list">
+            <li>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</li>
+            <li>ภาคเรียนที่ ประจำปีการศึกษา </li>
+        </div>
 
-        <h2>ข้อมูลนิสิต</h2>
-        <h2>ชื่อ-นามสกุล{{StudentProfileData.student_name }}{{StudentProfileData.student_lastname }}</h2>
-        <div>
+        <p>ข้อมูลนิสิต</p>
+        <div class="list">
+            <li>ชื่อ-นามสกุล{{StudentProfileData.student_name }}{{StudentProfileData.student_lastname }}</li>
+        </div>
+
+        <div class="list">
             <label for="student_depart">สาขาวิศวกรรม</label>
             <input type="text" id="student_depart" [(ngModel)]="StudentProfileData.student_depart">
         </div>
-        <div>
+
+        <div class="list">
             <label for="student_pak">ภาควิชาวิศวกรรม</label>
             <input type="text" id="student_pak" [(ngModel)]="StudentProfileData.student_pak">
         </div>
-        <div>
+
+        <div class="list">
             <label for="student_mobile">เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
             <input type="text" id="student_mobile" [(ngModel)]="StudentProfileData.student_mobile">
         </div>
-        <div>
+
+        <div class="list">
             <label for="student_facebook">Facebook</label>
             <input type="text" id="student_facebook" [(ngModel)]="StudentProfileData.student_facebook">
         </div>
 
 
-        <h2>ข้อมูลหน่วยงาน</h2>
+        <p>ข้อมูลหน่วยงาน</p>
         <form (ngSubmit)="saveData()">
-            <div>
+            <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
                 <input type="text" id="company_name" [(ngModel)]="company.company_name">
             </div>
 
-            <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
-            <div>
+            <div class="list">
+                <li>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร
+                </li>
+            </div>
+
+            <div class="list">
                 <label for="send_name">เรียน</label>
                 <input type="text" id="send_name" [(ngModel)]="company.send_name">
             </div>
 
-            <h5>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h5>
+            <div class="list">
+                <li>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</li>
+            </div>
 
-            <div>
+            <div class="list">
                 <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
                 <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="send_position">ตำแหน่ง</label>
                 <input type="text" id="send_position" [(ngModel)]="company.send_position">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
                 <input type="text" id="send_tel" [(ngModel)]="company.send_tel">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="send_email">Emile</label>
                 <input type="text" id="send_email" [(ngModel)]="company.send_email">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="send_mobile">โทรศัพท์มือถือ</label>
                 <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="company_job">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
                 <input type="text" id="company_job" [(ngModel)]="company.company_job">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="company_qualifications">4. คุณสมบัติ/ความสามารถ/ความรู้เพิ่มเติม
                     ของนิสิตที่บริษัทต้องการ(ถ้ามี)</label>
                 <input type="text" id="company_qualifications" [(ngModel)]="company.company_qualifications">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="company_period">5. ระยะเวลาฝึกงาน</label>
                 <input type="text" id="company_period" [(ngModel)]="company.company_period">
             </div>
 
-            <h5>หมายเหตุ ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</h5>
-            <h5>กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</h5>
-            <h5>ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ คณะวิศวกรรมศาสตร์ เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</h5>
-            <button type="submit">บันทึกข้อมูล</button>
+            <div class="text">
+                <li>หมายเหตุ&nbsp;&nbsp;ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</li>
+                <li style="margin-left: 77px;">กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</li>
+                <li style="margin-left: 77px;">ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ &nbsp;คณะวิศวกรรมศาสตร์&nbsp;
+                    เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</li>
+            </div>
 
+            <div class="button-container">
+                <button class="button" type="submit"
+                    style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+            </div>
         </form>
     </div>
 
-<!-- popup enter-company -->
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
+    </div>
+    <!-- popup enter-company -->
     <!-- <div *ngIf="isPopupVisible" class="popup">
         <h2>ยืนยันการกรอกแบบฟอร์ม 01 ข้อมุลหน่วยงาน</h2>
     <h5>ภาคเรียนที่ ประจำปีการศึกษา </h5>

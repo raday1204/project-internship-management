@@ -6,5 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./notifying-form.component.css']
 })
 export class NotifyingFormComponent {
+  CompanyInformation: any = {};
+  StudentProfileData: any = {};
+  selectCompany(selectedCompany: any) {
+    console.log("Selected Company:", selectedCompany);
 
+    window.print();
+  }
 }
+

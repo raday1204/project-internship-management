@@ -1,1 +1,82 @@
-<p>edit-company works!</p>
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
+                <li class="list-item"><a routerLink="/company-information">ข้อมูลหน่วยงาน > </a></li>
+                <li class="list-item">แก้ไขข้อมูลหน่วยงาน</li>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+    ปีการศึกษา ประเภทที่
+
+    <h2>ข้อมูลหน่วยงาน</h2>
+    <form (ngSubmit)="saveData()">
+        <div>
+            <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+            <input type="text" id="company_name" [(ngModel)]="company.company_name">
+        </div>
+
+        <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
+        <div>
+            <label for="send_name">เรียน</label>
+            <input type="text" id="send_name" [(ngModel)]="company.send_name">
+        </div>
+
+        <h5>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h5>
+
+        <div>
+            <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
+            <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator">
+        </div>
+
+        <div>
+            <label for="send_position">ตำแหน่ง</label>
+            <input type="text" id="send_position" [(ngModel)]="company.send_position">
+        </div>
+
+        <div>
+            <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
+            <input type="text" id="send_tel" [(ngModel)]="company.send_tel">
+        </div>
+
+        <div>
+            <label for="send_email">Emile</label>
+            <input type="text" id="send_email" [(ngModel)]="company.send_email">
+        </div>
+
+        <div>
+            <label for="send_mobile">โทรศัพท์มือถือ</label>
+            <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile">
+        </div>
+
+        <h2>3. ข้อมูลหน่วยงานภายใน</h2>
+        <div>
+            <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+            <input type="text" id="company_name" [(ngModel)]="company.company_name">
+        </div>
+
+        <div>
+            <label for="company_job">ลักษณะงาน</label>
+            <input type="text" id="company_job" [(ngModel)]="company.company_job">
+        </div>
+
+        <div>
+            <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
+            <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train">
+        </div>
+
+        <div>
+            <label for="company_period">ระยะเวลาฝึกงาน</label>
+            <input type="text" id="company_period" [(ngModel)]="company.company_period">
+        </div>
+
+        <button type="submit">เพิ่มหน่วยงานภายใน</button>
+
+    </form>
+    <button type="submit">บันทึกข้อมูล</button>
+</body>
