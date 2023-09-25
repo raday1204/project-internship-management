@@ -8,24 +8,27 @@ import { LoginStudentService } from 'src/app/Student/login-student/login-student
   styleUrls: ['./search-thanks-form-officer.component.css']
 })
 export class SearchThanksFormOfficerComponent {
-  selectedOption1: string | undefined;
-  selectedOption2: string | undefined;
+  selectedOption1: string = '';
+  selectedOption2: string = '';
   searchTerm: string = '';
 
   constructor(private router: Router, private loginStudentService: LoginStudentService) {}
-
+  
   submitForm() {
-    // Send data to service or perform any other actions here
-    this.router.navigate(['/company'], { 
-      queryParams: { option1: this.selectedOption1, option2: this.selectedOption2 } 
-    });
-  }
+  this.router.navigate(['/thanks-form'], {
+    queryParams: {
+      option1: this.selectedOption1,
+      option2: this.selectedOption2
+    }
+  });
+}
 
-  search() {
-    this.loginStudentService['searchData'](this.selectedOption1, this.selectedOption2, this.searchTerm)
-      .subscribe((results: any) => {
-        // Process the search results here
-        console.log(results);
-      });
+search() {
+  if (this.selectedOption1 && this.selectedOption2) {
+    this.loginStudentService.searchData(this.selectedOption1, this.selectedOption2, this.searchTerm);
+  } else {
+    console.error("Selected options are undefined.");
   }
 }
+}
+

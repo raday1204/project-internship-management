@@ -24,10 +24,10 @@ export class SearchEvaluationFormOfficerComponent {
   }
 
   search() {
-    this.loginStudentService['searchData'](this.selectedOption1, this.selectedOption2, this.searchTerm)
-      .subscribe((results: any) => {
-        // Process the search results here
-        console.log(results);
-      });
+    if (this.selectedOption1 && this.selectedOption2) {
+      this.loginStudentService.searchData(this.selectedOption1, this.selectedOption2, this.searchTerm);
+    } else {
+      console.error("Selected options are undefined.");
+    }
   }
-}
+  }

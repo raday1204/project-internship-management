@@ -46,9 +46,8 @@ export class EditProfileComponent implements OnInit {
     }
   
     ngOnInit(): void {
-      this.http.get('http://localhost:3000/students').subscribe((data: any) => {
+      this.http.get('http://4200/edit-profile').subscribe((data: any) => {
         console.log('Fetched data: ', data);
-        // Assign the fetched data to userProfileData if needed
         this.StudentProfileData = data;
       });
     }
@@ -58,7 +57,7 @@ export class EditProfileComponent implements OnInit {
         console.error('Student name is required');
         return;
       }
-      this.http.post('/getStudentProfiles', this.StudentProfileData).subscribe(
+      this.http.post('/edit-profile', this.StudentProfileData).subscribe(
         (response) => {
           console.log('Profile saved:', response);
         },
@@ -80,7 +79,7 @@ export class EditProfileComponent implements OnInit {
         const fd = new FormData();
         fd.append('image', this.selectedFile, this.selectedFile.name);
   
-        this.http.post('http://localhost:3000/students', fd)
+        this.http.post('http://4200/edit-profile', fd)
           .subscribe(
             (response) => {
               console.log('File uploaded successfully:', response);

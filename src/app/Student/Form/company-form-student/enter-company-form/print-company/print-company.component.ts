@@ -13,8 +13,8 @@ export class PrintCompanyComponent implements OnInit {
   constructor(private loginStudentService: LoginStudentService) { }
 
   ngOnInit(): void {
-    this.StudentProfileData = this.loginStudentService['getStudentProfileData']();
-    this.company = this.loginStudentService['getCompanyData']();
+    this.StudentProfileData = this.StudentProfileData = this.loginStudentService.getStudentProfileData();
+    this.company = this.StudentProfileData = this.loginStudentService.getStudentProfileData();
   }
 
   printDocument() {

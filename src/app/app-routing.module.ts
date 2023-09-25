@@ -44,6 +44,13 @@ import { AddCompanyComponent } from './Officer/General/search-company-officer/co
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
+import { CancelFormComponent } from './Officer/Form/search-cancel-form-officer/cancel-form/cancel-form.component';
+import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
+import { EvaluationFormComponent } from './Officer/Form/search-evaluation-form-officer/evaluation-form/evaluation-form.component';
+import { NotifyingFormComponent } from './Officer/Form/search-notifying-form-officer/notifying-form/notifying-form.component';
+import { PermissionFormComponent } from './Officer/Form/search-permission-form-officer/permission-form/permission-form.component';
+import { SendFormComponent } from './Officer/Form/search-send-form-officer/send-form/send-form.component';
+import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/thanks-form/thanks-form.component';
 
 const routes: Routes = [
   { path: 'app', component: AppComponent },
@@ -90,7 +97,13 @@ const routes: Routes = [
   { path: 'edit-company', component: EditCompanyComponent },
   { path: 'add-internal-company', component: AddInternalCompanyComponent },
   { path: 'status-information', component: StatusInformationComponent },
-  
+  { path: 'cancel-form', component: CancelFormComponent },
+  { path: 'confirm-form', component: ConfirmFormComponent },
+  { path: 'evaluation-form', component: EvaluationFormComponent },
+  { path: 'notifying-form', component: NotifyingFormComponent },
+  { path: 'permission-form', component: PermissionFormComponent },
+  { path: 'send-form', component: SendFormComponent },
+  { path: 'thanks-form', component: ThanksFormComponent },
 ];
 
 @NgModule({
