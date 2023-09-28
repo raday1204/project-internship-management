@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { EditProfileService } from './edit-profile.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 
 @Component({
   selector: 'app-edit-profile',
@@ -11,83 +10,81 @@ import { EditProfileService } from './edit-profile.service';
 })
 export class EditProfileComponent implements OnInit {
   selectedFile: File | null = null;
-    
-  StudentProfileData = {
-      student_name: 'some',
-      student_lastname: '',
-      student_code: '',
-      type_code: '',
-      student_citizen: '',
-      student_email: '',
-      student_mobile: '',
-      student_facebook: '',
-      student_line: '',
-      st_address: '',
-      st_tambol: '',
-      st_ampher: '',
-      st_province: '',
-      st_zipcode: '',
-      st_tel: '',
-      st_contact: '',
-      st_mobile: '',
-      ct_address: '',
-      ct_tambol: '',
-      ct_ampher: '',
-      ct_province: '',
-      ct_zipcode: '',
-      ct_tel: ''
-      
-    };
-  
-    constructor(private router: Router, private http: HttpClient, private editProfileService: EditProfileService, private location: Location) { }
-  
-    goBack(): void {
-      this.location.back();
-    }
-  
-    ngOnInit(): void {
-      this.http.get('http://4200/edit-profile').subscribe((data: any) => {
-        console.log('Fetched data: ', data);
-        this.StudentProfileData = data;
-      });
-    }
-  
-    getStudentProfiles(){
-      if (!this.StudentProfileData.student_name) {
-        console.error('Student name is required');
-        return;
+
+  studentProfileForm: FormGroup;
+
+  constructor(
+    private http: HttpClient,
+    private location: Location,
+    private formBuilder: FormBuilder
+  ) {
+
+    this.studentProfileForm = this.formBuilder.group({
+      student_name: ['', Validators.required],
+      student_lastname: ['', Validators.required],
+      student_code: ['', Validators.required],
+      type_code: ['', Validators.required],
+      student_citizen: ['', Validators.required],
+      student_email: ['', Validators.required],
+      student_mobile: ['', Validators.required],
+      student_facebook: ['', Validators.required],
+      student_line: ['', Validators.required],
+
+      st_address: ['', Validators.required],
+      st_tambol: ['', Validators.required],
+      st_ampher: ['', Validators.required],
+      st_province: ['', Validators.required],
+      st_zipcode: ['', Validators.required],
+      st_tel: ['', Validators.required],
+      st_contact: ['', Validators.required],
+      st_mobile: ['', Validators.required],
+
+      ct_address: ['', Validators.required],
+      ct_tambol: ['', Validators.required],
+      ct_ampher: ['', Validators.required],
+      ct_province: ['', Validators.required],
+      ct_zipcode: ['', Validators.required],
+      ct_tel: ['', Validators.required],
+    });
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  ngOnInit(): void {
+    this.http.get('http://4200/edit-profile').subscribe(
+  (data: any) => {
+    console.log('Fetched data: ', data);
+    this.studentProfileForm = data;
+  },
+  (error) => {
+    console.error('HTTP Error:', error);
+  }
+);
+  }
+
+  getStudentProfiles() {
+    this.http.post('http://localhost/PJ/InternshipNEW/Backend/edit-profile.php', this.studentProfileForm.value).subscribe({
+      next: (res) => {
+        console.log(res);
       }
-      this.http.post('/edit-profile', this.StudentProfileData).subscribe(
-        (response) => {
-          console.log('Profile saved:', response);
-        },
-        (error) => {
-          console.error('Error saving profile:', error);
-        }
-      );
-    }
-  
-    onFileSelected(event: Event) {
-      const inputElement = event.target as HTMLInputElement;
-      if (inputElement.files) {
-        this.selectedFile = inputElement.files[0];
-      }
-    }
-  
-    onUpload() {
-      if (this.selectedFile) {
-        const fd = new FormData();
-        fd.append('image', this.selectedFile, this.selectedFile.name);
-  
-        this.http.post('http://4200/edit-profile', fd)
-          .subscribe(
-            (response) => {
-              console.log('File uploaded successfully:', response);
-            },
-            (error) => {
-              console.error('Error uploading file:', error);
-            }
-          );
-      }
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input?.files) {
+      this.selectedFile = input.files[0];
     }
   }
+
+  onUpload() {
+    if (this.selectedFile) {
+
+    } else {
+      console.error('No file selected');
+    }
+  }
+}
+

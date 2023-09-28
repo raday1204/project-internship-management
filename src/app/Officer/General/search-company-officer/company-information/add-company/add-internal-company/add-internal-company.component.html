@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป  </a> > </li>
+                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
                     <li class="list-item"><a routerLink="/company-information">ข้อมูลหน่วยงาน </a> > </li>
                     <li class="list-item"><a routerLink="/add-company">เพิ่มข้อมูลหน่วยงาน </a> > </li>
                     <li class="list-item">เพิ่มข้อมูลหน่วยงานภายใน</li>
@@ -16,32 +16,35 @@
         </nav>
     </header>
 
-    ปีการศึกษา ประเภทที่
+    <p>ปีการศึกษา ประเภทที่</p>
 
-    <h2>ข้อมูลหน่วยงานภายใน</h2>
+    <div class="main-container">
+        <p>ข้อมูลหน่วยงานภายใน</p>
         <form (ngSubmit)="saveData()">
-            <div>
+            <div class="list">
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
                 <input type="text" id="company_building" [(ngModel)]="company.company_building">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="company_job">ลักษณะงาน</label>
                 <input type="text" id="company_job" [(ngModel)]="company.company_job">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
                 <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train">
             </div>
 
-            <div>
+            <div class="list">
                 <label for="company_period">ระยะเวลาฝึกงาน</label>
                 <input type="text" id="company_period" [(ngModel)]="company.company_period">
             </div>
 
-            <button type="submit">บันทึกข้อมูล</button>
+            <div class="button-container">
+                <button class="button" type="submit"
+                    style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+            </div>
         </form>
+    </div>
 </body>
-
-
