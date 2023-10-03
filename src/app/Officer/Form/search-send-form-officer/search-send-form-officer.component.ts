@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginStudentService } from 'src/app/Student/login-student/login-student.service';
 
 @Component({
   selector: 'app-search-send-form-officer',
@@ -12,7 +11,7 @@ export class SearchSendFormOfficerComponent {
   selectedOption2: string | undefined;
   searchTerm: string = '';
 
-  constructor(private router: Router, private loginStudentService: LoginStudentService) {}
+  constructor(private router: Router) {}
 
   submitForm() {
     // Send data to service or perform any other actions here
@@ -21,11 +20,4 @@ export class SearchSendFormOfficerComponent {
     });
   }
 
-  search() {
-    if (this.selectedOption1 && this.selectedOption2) {
-      this.loginStudentService.searchData(this.selectedOption1, this.selectedOption2, this.searchTerm);
-    } else {
-      console.error("Selected options are undefined.");
-    }
-  }
   }

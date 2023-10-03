@@ -13,7 +13,7 @@
             </ul>
         </nav>
     </header>
-<p>ปีการศึกษา ประเภทที่</p>
+    <p>ปีการศึกษา ประเภทที่</p>
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">
             <tr>
@@ -35,16 +35,10 @@
                 <td>{{ StudentProfileData.student_code }}</td>
                 <td>{{ StudentProfileData.student_name }}</td>
                 <td class="text-center"><button (click)="selectCompany(CompanyInformation)"
-                        style="background-color: #66B366; color: #FDFDF6;"></button></td>
+                        style="background-color: #66B366;"><i class="fa-solid fa-print"
+                            style="color: #FDFDF6; font-size: 16px;"></i></button>
+                </td>
             </tr>
         </tbody>
     </table>
-
-    <h6 style="color: red;">*นิสิตสามารถลงทะเบียนได้เพียง 1 หน่วยงาน เท่านั้น</h6>
-
-    <div class="text-box">
-        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
-        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
-        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
-    </div>
 </body>

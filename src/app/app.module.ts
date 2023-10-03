@@ -45,7 +45,6 @@ import { EditRelationComponent } from './Officer/Relation/edit-relation/edit-rel
 import { LoginOfficerComponent } from './Officer/login-officer/login-officer.component';
 import { HomeOfficerComponent } from './Officer/home-officer/home-officer.component';
 import { RelationOfficerComponent } from './Officer/Relation/relation-officer/relation-officer.component';
-import { LoginStudentService } from './Student/login-student/login-student.service';
 import { EditProfileService } from './Student/General/profile-student/edit-profile/edit-profile.service';
 import { ProfileUploadService } from './Student/General/profile-student/profile-upload.service';
 import { EnterCompanyService } from './Student/Form/company-form-student/enter-company-form/enter-company.service';
@@ -124,7 +123,6 @@ import { StatusInformationComponent } from './Officer/General/status-officer/sta
   ],
 
   providers: [
-    LoginStudentService,
     EditProfileService,
     ProfileUploadService,
     EnterCompanyService,

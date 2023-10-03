@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoginStudentService } from 'src/app/Student/login-student/login-student.service';
 
 @Component({
   selector: 'app-login-officer',
@@ -9,32 +8,28 @@ import { LoginStudentService } from 'src/app/Student/login-student/login-student
   styleUrls: ['./login-officer.component.css']
 })
 export class LoginOfficerComponent {
-  constructor(private loginStudentService: LoginStudentService, private router: Router, private http: HttpClient) {}
-  username: string = '';
-  password: string = '';
-  errorMessage: string = '';
+  constructor(
+    private router: Router,
+    private http: HttpClient) { }
 
-  ngOnInit(): void {
-    this.loginStudentService.getData().subscribe((data: any) => {
-      console.log(data); // Handle the response from the backend
-    });
-  }
+  username: string = '';
 
   onSubmit() {
-    if (!this.username || !this.password) {
-      this.errorMessage = 'กรุณากรอกข้อมูล!';
-      return; 
-    }
-
-    this.http.post<any>('http://localhost:3000/users', { username: this.username }).subscribe(
-      (response) => {
-        console.log('Response from server:', response);
-        this.errorMessage = '';
+    // console.log(this.username);
+    this.http.post('http://localhost:8080/PJ/Backend/Officer/login-officer.php', {
+username: this.username,
+    }).subscribe({
+      next: (res) => {
+        console.log(res);
+        if (res == 'login success') {
+          this.router.navigate(['/home-officer'])
+        } 
       },
-      (error) => {
+      error: (error) => {
         console.error('Error:', error);
-        this.errorMessage = '';
       }
-    );
+    });
   }
 }
+
+

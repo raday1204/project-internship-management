@@ -8,16 +8,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EditProfileService {
+  [x: string]: any;
 
-  private apiUrl = 'http://localhost/Backend/';
+  private apiUrl = 'http://localhost:8080/Backend';
 
   constructor(private http: HttpClient) { }
 
-  getStudentProfiles(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}get-student-profiles`);
+  getUser(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/single_user.php`,
+    { params: { id: id } });
   }
 
-  saveStudentProfile(data: any) {
-    return this.http.post(`${this.apiUrl}edit-profile.php`, data);
+  createProfileStudent(user: Object): Observable<Object> {
+    return this.http.post(`${this.apiUrl}/create.php`, user);
   }
-}
+
+  getUsersList(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/read.php`);
+  }
+  }
+

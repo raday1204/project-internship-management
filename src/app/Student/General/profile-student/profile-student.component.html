@@ -16,112 +16,112 @@
 
     <div class="profile">
 
-        <img [src]="imageUrl" alt="Uploaded Image"><br><br>
+        <!-- <img [src]="imageUrl" alt="Uploaded Image"><br><br> -->
 
         <p>รายละเอียดส่วนตัว</p>
-        <h2>{{ StudentProfileData.student_name }}</h2>
+        <h2>{{ studentData.student_name }}</h2>
         
-        <div class="list">
-            <label for="type">ประเภท :</label>
-            <span>{{ StudentProfileData.type_code }}</span>
+        <div class="list" >
+            <label for="typeCode">ประเภท :</label>
+            <span>{{ studentData.type_code }}</span>
         </div>
         <div class="list">
-            <label for="type">หมายเลขประจำวันประชาชน:</label>
-            <span>{{ StudentProfileData.citizen }}</span>
+            <label for="studentCitizen">หมายเลขประจำวันประชาชน:</label>
+            <span>{{ studentData.student_citizen }}</span>
         </div>
         <div class="list">
-            <label for="type">ชื่อเล่น :</label>
-            <span>{{ StudentProfileData.nickname }}</span>
+            <label for="studentNickname">ชื่อเล่น :</label>
+            <span>{{ studentData.student_nickname }}</span>
         </div>
         <div class="list">
-            <label for="type">โทรศัพท์มือถือ :</label>
-            <span>{{ StudentProfileData.mobile }}</span>
+            <label for="studentMobile">โทรศัพท์มือถือ :</label>
+            <span>{{ studentData.student_mobile }}</span>
         </div>
         <div class="list">
-            <label for="type">Email :</label>
-            <span>{{ StudentProfileData.email }}</span>
+            <label for="studentEmail">Email :</label>
+            <span>{{ studentData.student_email }}</span>
         </div>
         <div class="list">
-            <label for="type">Fackbook URL :</label>
-            <span>{{ StudentProfileData.facebook }}</span>
+            <label for="studentFacebook">Fackbook URL :</label>
+            <span>{{ studentData.student_facebook }}</span>
         </div>
         <div class="list">
-            <label for="type">Line ID :</label>
-            <span>{{ StudentProfileData.line }}</span>
+            <label for="studentLine">Line ID :</label>
+            <span>{{ studentData.student_line }}</span>
         </div>
         <br><br>
 
 
         <p>ที่อยู่ตามภูมิลำเนา</p>
         <div class="list">
-            <label for="type">ที่อยู่ :</label>
-            <span>{{ StudentProfileData.staddress }}</span>
+            <label for="stAddress">ที่อยู่ :</label>
+            <span>{{ studentData.st_address }}</span>
         </div>
         <div class="list">
-            <label for="type">ตำบล/แขวง :</label>
-            <span>{{ StudentProfileData.sttambol }}</span>
+            <label for="stTambol">ตำบล/แขวง :</label>
+            <span>{{ studentData.st_tambol }}</span>
         </div>
         <div class="list">
-            <label for="type">อำเภอ/เขต :</label>
-            <span>{{ StudentProfileData.stampher }}</span>
+            <label for="stAmpher">อำเภอ/เขต :</label>
+            <span>{{ studentData.st_ampher }}</span>
         </div>
         <div class="list">
-            <label for="type">จังหวัด :</label>
-            <span>{{ StudentProfileData.stprovince }}</span>
+            <label for="stProvince">จังหวัด :</label>
+            <span>{{ studentData.st_province }}</span>
         </div>
         <div class="list">
-            <label for="type">รหัสไปรษณีย์ :</label>
-            <span>{{ StudentProfileData.stzipcode }}</span>
+            <label for="stZipcode">รหัสไปรษณีย์ :</label>
+            <span>{{ studentData.st_zipcode }}</span>
         </div>
         <div class="list">
-            <label for="type">โทรศัพท์บ้าน :</label>
-            <span>{{ StudentProfileData.sttel }}</span>
+            <label for="stTel">โทรศัพท์บ้าน :</label>
+            <span>{{ studentData.st_tel }}</span>
         </div>
         <div class="list">
-            <label for="type">บุคคลอ้างอิง :</label>
-            <span>{{ StudentProfileData.stcontact }}</span>
+            <label for="stContact">บุคคลอ้างอิง :</label>
+            <span>{{ studentData.st_contact }}</span>
         </div>
         <div class="list">
-            <label for="type">โทรศัพท์มือถือ :</label>
-            <span>{{ StudentProfileData.stmobile }}</span>
+            <label for="stMobile">โทรศัพท์มือถือ :</label>
+            <span>{{ studentData.st_mobile }}</span>
         </div>
         <br><br>
 
         <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
         <div class="list">
-            <label for="type">ที่อยู่ :</label>
-            <span>{{ StudentProfileData.ctaddress }}</span>
+            <label for="ctAddress">ที่อยู่ :</label>
+            <span>{{ studentData.ct_address }}</span>
         </div>
         <div class="list">
-            <label for="type">ตำบล/แขวง :</label>
-            <span>{{ StudentProfileData.cttambol }}</span>
+            <label for="ctTambol">ตำบล/แขวง :</label>
+            <span>{{ studentData.ct_tambol }}</span>
         </div>
         <div class="list">
-            <label for="type">อำเภอ/เขต :</label>
-            <span>{{ StudentProfileData.ctampher }}</span>
+            <label for="ctAmpher">อำเภอ/เขต :</label>
+            <span>{{ studentData.ct_ampher }}</span>
         </div>
         <div class="list">
-            <label for="type">จังหวัด :</label>
-            <span>{{ StudentProfileData.ctprovince }}</span>
+            <label for="ctProvince">จังหวัด :</label>
+            <span>{{ studentData.ct_province }}</span>
         </div>
         <div class="list">
-            <label for="type">รหัสไปรษณีย์ :</label>
-            <span>{{ StudentProfileData.ctzipcode }}</span>
+            <label for="ctZipcode">รหัสไปรษณีย์ :</label>
+            <span>{{ studentData.ct_zipcode }}</span>
         </div>
         <div class="list">
-            <label for="type">โทรศัพท์บ้าน :</label>
-            <span>{{ StudentProfileData.cttel }}</span>
+            <label for="ctTel">โทรศัพท์บ้าน :</label>
+            <span>{{ studentData.ct_tel }}</span>
         </div>
         <br><br>
 
         <p>ข้อมูลสถานประกอบการ</p>
         <div class="list">
-            <label for="type">ชื่อสถานประกอบการ :</label>
-            <span>{{ StudentProfileData.compant_name }}</span>
+            <label for="company_name">ชื่อสถานประกอบการ :</label>
+            <span>{{ company.company_name }}</span>
         </div>
         <div class="list">
-            <label for="type">ที่ตั้งสถานประกอบการ :</label>
-            <span>{{ StudentProfileData.compant_address}}</span>
+            <label for="company_address">ที่ตั้งสถานประกอบการ :</label>
+            <span>{{ company.company_address}}</span>
         </div>
         <br><br><br>
 

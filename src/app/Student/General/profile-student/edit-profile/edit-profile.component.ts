@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { EditProfileService } from './edit-profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -9,82 +11,73 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent implements OnInit {
-  selectedFile: File | null = null;
+  selectedFile: File | undefined;
 
-  studentProfileForm: FormGroup;
+  studentData = {
+    student_id: '',
+    type_code: '',
+    student_citizen: '',
+    student_nickname: '', 
+    student_mobile: '', 
+    student_email: '', 
+    student_facebook: '', 
+    student_line: '', 
+
+    st_address: '', 
+    st_tambol: '', 
+    st_ampher: '', 
+    st_province: '', 
+    st_zipcode: '', 
+    st_tel: '', 
+    st_contact: '', 
+    st_mobile: '', 
+
+    ct_address: '', 
+    ct_tambol: '', 
+    ct_ampher: '', 
+    ct_province: '', 
+    ct_zipcode: '', 
+    ct_tel: '', 
+  };
 
   constructor(
     private http: HttpClient,
-    private location: Location,
-    private formBuilder: FormBuilder
-  ) {
+    private location: Location
+  ) { }
 
-    this.studentProfileForm = this.formBuilder.group({
-      student_name: ['', Validators.required],
-      student_lastname: ['', Validators.required],
-      student_code: ['', Validators.required],
-      type_code: ['', Validators.required],
-      student_citizen: ['', Validators.required],
-      student_email: ['', Validators.required],
-      student_mobile: ['', Validators.required],
-      student_facebook: ['', Validators.required],
-      student_line: ['', Validators.required],
-
-      st_address: ['', Validators.required],
-      st_tambol: ['', Validators.required],
-      st_ampher: ['', Validators.required],
-      st_province: ['', Validators.required],
-      st_zipcode: ['', Validators.required],
-      st_tel: ['', Validators.required],
-      st_contact: ['', Validators.required],
-      st_mobile: ['', Validators.required],
-
-      ct_address: ['', Validators.required],
-      ct_tambol: ['', Validators.required],
-      ct_ampher: ['', Validators.required],
-      ct_province: ['', Validators.required],
-      ct_zipcode: ['', Validators.required],
-      ct_tel: ['', Validators.required],
-    });
+  ngOnInit() {
   }
 
   goBack(): void {
     this.location.back();
   }
 
-  ngOnInit(): void {
-    this.http.get('http://4200/edit-profile').subscribe(
-  (data: any) => {
-    console.log('Fetched data: ', data);
-    this.studentProfileForm = data;
-  },
-  (error) => {
-    console.error('HTTP Error:', error);
-  }
-);
-  }
-
-  getStudentProfiles() {
-    this.http.post('http://localhost/PJ/InternshipNEW/Backend/edit-profile.php', this.studentProfileForm.value).subscribe({
-      next: (res) => {
-        console.log(res);
+  updateStudent() {
+    // console.log(this.frmStudentProfile.value)
+    this.http.post('http://localhost:80/PJ/Backend/Student/edit-profile.php', this.studentData)
+    .subscribe({
+      next: (response: any) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        // Handle errors
       }
     });
-  }
+}
 
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input?.files) {
-      this.selectedFile = input.files[0];
-    }
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
   onUpload() {
     if (this.selectedFile) {
-
-    } else {
-      console.error('No file selected');
+      const formData = new FormData();
+      formData.append('file', this.selectedFile, this.selectedFile.name);
     }
   }
-}
+//   getImageSrc() {
+//     return URL.createObjectURL(this.selectedFile);
+// }
 
+}

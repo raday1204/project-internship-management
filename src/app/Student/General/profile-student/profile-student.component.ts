@@ -1,35 +1,42 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { EditProfileService } from './edit-profile/edit-profile.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-student',
   templateUrl: './profile-student.component.html',
   styleUrls: ['./profile-student.component.css']
 })
-export class ProfileStudentComponent {
-  StudentProfileData: any;
-  imageUrl: string = '';
+export class ProfileStudentComponent implements OnInit {
+  studentData: any = {};
+  company: any = {};
 
-  constructor(private router: Router, private http: HttpClient, private editProfileService: EditProfileService) { 
-    this.StudentProfileData = this.editProfileService.getStudentProfiles();
+
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+  ) {
 
   }
 
-  ngOnInit(): void {
-    this.editProfileService.getStudentProfiles().subscribe((data: any) => {
-      this.StudentProfileData = data;
+  ngOnInit() {
+    this.route.params.subscribe((params) => {
+      const studentId = params['id']; 
+      this.getStudentData(studentId);
     });
   }
-  getProfileImage() {
-    this.http.get('http://localhost:3000/getProfileImage').subscribe(
-      (response: any) => {
-        this.imageUrl = 'data:image/jpeg;base64,' + response.imageData;
-      },
-      (error) => {
-        console.error('Error fetching image:', error);
-      }
-    );
+
+  getStudentData(studentId: string) {
+    this.http.get(`http://localhost:80/PJ/Backend/Student/profile-student.php?student_id=${studentId}`)
+      .subscribe((data: any) => {
+        if (data) {
+          this.studentData = data;
+        } else {
+          console.error('No data found');
+        }
+      });
   }
 }
