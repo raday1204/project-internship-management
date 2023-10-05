@@ -15,17 +15,15 @@ export class LoginStudentComponent {
     private router: Router,
     private http: HttpClient) { }
 
-
-
   onSubmit() {
     // console.log(this.username);
     this.http.post('http://localhost:8080/PJ/Backend/Student/login-student.php', {
       username: this.username,
     }).subscribe({
-      next: (res) => {
+      next: (res: any) => {
         console.log(res);
         if (res == 'login success') {
-          this.router.navigate(['/home-student'])
+          this.router.navigate(['/home-student']);
         }
       },
       error: (error) => {

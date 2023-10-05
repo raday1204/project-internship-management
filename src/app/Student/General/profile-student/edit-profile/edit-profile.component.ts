@@ -54,7 +54,7 @@ export class EditProfileComponent implements OnInit {
 
   updateStudent() {
     // console.log(this.frmStudentProfile.value)
-    this.http.post('http://localhost:80/PJ/Backend/Student/edit-profile.php', this.studentData)
+    this.http.post('http://localhost:8080/PJ/Backend/Student/edit-profile.php', this.studentData)
     .subscribe({
       next: (response: any) => {
         console.log(response);

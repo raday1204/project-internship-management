@@ -15,121 +15,122 @@
     </header>
 
     <div class="profile">
+        <div *ngIf="studentData">
+            <!-- <img [src]="imageUrl" alt="Uploaded Image"><br><br> -->
 
-        <!-- <img [src]="imageUrl" alt="Uploaded Image"><br><br> -->
+            <p>รายละเอียดส่วนตัว</p>
+            <h2>{{ studentData.student_name }}</h2>
 
-        <p>รายละเอียดส่วนตัว</p>
-        <h2>{{ studentData.student_name }}</h2>
-        
-        <div class="list" >
-            <label for="typeCode">ประเภท :</label>
-            <span>{{ studentData.type_code }}</span>
-        </div>
-        <div class="list">
-            <label for="studentCitizen">หมายเลขประจำวันประชาชน:</label>
-            <span>{{ studentData.student_citizen }}</span>
-        </div>
-        <div class="list">
-            <label for="studentNickname">ชื่อเล่น :</label>
-            <span>{{ studentData.student_nickname }}</span>
-        </div>
-        <div class="list">
-            <label for="studentMobile">โทรศัพท์มือถือ :</label>
-            <span>{{ studentData.student_mobile }}</span>
-        </div>
-        <div class="list">
-            <label for="studentEmail">Email :</label>
-            <span>{{ studentData.student_email }}</span>
-        </div>
-        <div class="list">
-            <label for="studentFacebook">Fackbook URL :</label>
-            <span>{{ studentData.student_facebook }}</span>
-        </div>
-        <div class="list">
-            <label for="studentLine">Line ID :</label>
-            <span>{{ studentData.student_line }}</span>
-        </div>
-        <br><br>
+            <div class="list">
+                <label for="typeCode">ประเภท :</label>
+                <span>{{ studentData.type_code }}</span>
+            </div>
+            <div class="list">
+                <label for="studentCitizen">หมายเลขประจำวันประชาชน:</label>
+                <span>{{ studentData.student_citizen }}</span>
+            </div>
+            <div class="list">
+                <label for="studentNickname">ชื่อเล่น :</label>
+                <span>{{ studentData.student_nickname }}</span>
+            </div>
+            <div class="list">
+                <label for="studentMobile">โทรศัพท์มือถือ :</label>
+                <span>{{ studentData.student_mobile }}</span>
+            </div>
+            <div class="list">
+                <label for="studentEmail">Email :</label>
+                <span>{{ studentData.student_email }}</span>
+            </div>
+            <div class="list">
+                <label for="studentFacebook">Fackbook URL :</label>
+                <span>{{ studentData.student_facebook }}</span>
+            </div>
+            <div class="list">
+                <label for="studentLine">Line ID :</label>
+                <span>{{ studentData.student_line }}</span>
+            </div>
+            <br><br>
 
 
-        <p>ที่อยู่ตามภูมิลำเนา</p>
-        <div class="list">
-            <label for="stAddress">ที่อยู่ :</label>
-            <span>{{ studentData.st_address }}</span>
-        </div>
-        <div class="list">
-            <label for="stTambol">ตำบล/แขวง :</label>
-            <span>{{ studentData.st_tambol }}</span>
-        </div>
-        <div class="list">
-            <label for="stAmpher">อำเภอ/เขต :</label>
-            <span>{{ studentData.st_ampher }}</span>
-        </div>
-        <div class="list">
-            <label for="stProvince">จังหวัด :</label>
-            <span>{{ studentData.st_province }}</span>
-        </div>
-        <div class="list">
-            <label for="stZipcode">รหัสไปรษณีย์ :</label>
-            <span>{{ studentData.st_zipcode }}</span>
-        </div>
-        <div class="list">
-            <label for="stTel">โทรศัพท์บ้าน :</label>
-            <span>{{ studentData.st_tel }}</span>
-        </div>
-        <div class="list">
-            <label for="stContact">บุคคลอ้างอิง :</label>
-            <span>{{ studentData.st_contact }}</span>
-        </div>
-        <div class="list">
-            <label for="stMobile">โทรศัพท์มือถือ :</label>
-            <span>{{ studentData.st_mobile }}</span>
-        </div>
-        <br><br>
+            <p>ที่อยู่ตามภูมิลำเนา</p>
+            <div class="list">
+                <label for="stAddress">ที่อยู่ :</label>
+                <span>{{ studentData.st_address }}</span>
+            </div>
+            <div class="list">
+                <label for="stTambol">ตำบล/แขวง :</label>
+                <span>{{ studentData.st_tambol }}</span>
+            </div>
+            <div class="list">
+                <label for="stAmpher">อำเภอ/เขต :</label>
+                <span>{{ studentData.st_ampher }}</span>
+            </div>
+            <div class="list">
+                <label for="stProvince">จังหวัด :</label>
+                <span>{{ studentData.st_province }}</span>
+            </div>
+            <div class="list">
+                <label for="stZipcode">รหัสไปรษณีย์ :</label>
+                <span>{{ studentData.st_zipcode }}</span>
+            </div>
+            <div class="list">
+                <label for="stTel">โทรศัพท์บ้าน :</label>
+                <span>{{ studentData.st_tel }}</span>
+            </div>
+            <div class="list">
+                <label for="stContact">บุคคลอ้างอิง :</label>
+                <span>{{ studentData.st_contact }}</span>
+            </div>
+            <div class="list">
+                <label for="stMobile">โทรศัพท์มือถือ :</label>
+                <span>{{ studentData.st_mobile }}</span>
+            </div>
+            <br><br>
 
-        <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
-        <div class="list">
-            <label for="ctAddress">ที่อยู่ :</label>
-            <span>{{ studentData.ct_address }}</span>
-        </div>
-        <div class="list">
-            <label for="ctTambol">ตำบล/แขวง :</label>
-            <span>{{ studentData.ct_tambol }}</span>
-        </div>
-        <div class="list">
-            <label for="ctAmpher">อำเภอ/เขต :</label>
-            <span>{{ studentData.ct_ampher }}</span>
-        </div>
-        <div class="list">
-            <label for="ctProvince">จังหวัด :</label>
-            <span>{{ studentData.ct_province }}</span>
-        </div>
-        <div class="list">
-            <label for="ctZipcode">รหัสไปรษณีย์ :</label>
-            <span>{{ studentData.ct_zipcode }}</span>
-        </div>
-        <div class="list">
-            <label for="ctTel">โทรศัพท์บ้าน :</label>
-            <span>{{ studentData.ct_tel }}</span>
-        </div>
-        <br><br>
+            <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
+            <div class="list">
+                <label for="ctAddress">ที่อยู่ :</label>
+                <span>{{ studentData.ct_address }}</span>
+            </div>
+            <div class="list">
+                <label for="ctTambol">ตำบล/แขวง :</label>
+                <span>{{ studentData.ct_tambol }}</span>
+            </div>
+            <div class="list">
+                <label for="ctAmpher">อำเภอ/เขต :</label>
+                <span>{{ studentData.ct_ampher }}</span>
+            </div>
+            <div class="list">
+                <label for="ctProvince">จังหวัด :</label>
+                <span>{{ studentData.ct_province }}</span>
+            </div>
+            <div class="list">
+                <label for="ctZipcode">รหัสไปรษณีย์ :</label>
+                <span>{{ studentData.ct_zipcode }}</span>
+            </div>
+            <div class="list">
+                <label for="ctTel">โทรศัพท์บ้าน :</label>
+                <span>{{ studentData.ct_tel }}</span>
+            </div>
+            <br><br>
 
-        <p>ข้อมูลสถานประกอบการ</p>
-        <div class="list">
-            <label for="company_name">ชื่อสถานประกอบการ :</label>
-            <span>{{ company.company_name }}</span>
-        </div>
-        <div class="list">
-            <label for="company_address">ที่ตั้งสถานประกอบการ :</label>
-            <span>{{ company.company_address}}</span>
-        </div>
-        <br><br><br>
+            <p>ข้อมูลสถานประกอบการ</p>
+            <div class="list">
+                <label for="company_name">ชื่อสถานประกอบการ :</label>
+                <span>{{ company.company_name }}</span>
+            </div>
+            <div class="list">
+                <label for="company_address">ที่ตั้งสถานประกอบการ :</label>
+                <span>{{ company.company_address}}</span>
+            </div>
+            <br><br><br>
 
-        <div class="button-container">
-            <button class="button" [routerLink]="['/home-student']"
-                style="background-color: white; color: #064469;">ย้อนกลับ</button>
-            <button class="button" [routerLink]="['/edit-profile']"
-                style="background-color: #064469; color: white;">แก้ไขข้อมูลพื้นฐาน</button>
+            <div class="button-container">
+                <button class="button" [routerLink]="['/home-student']"
+                    style="background-color: white; color: #064469;">ย้อนกลับ</button>
+                <button class="button" [routerLink]="['/edit-profile']"
+                    style="background-color: #064469; color: white;">แก้ไขข้อมูลพื้นฐาน</button>
+            </div>
         </div>
     </div>
 
