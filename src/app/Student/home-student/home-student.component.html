@@ -3,7 +3,7 @@
         <nav>
             <ul>
                 <li>{{ dateTime | date: 'fullDate' }}</li>
-                <button [routerLink]="['/app']">
+                <button [routerLink]="['/login-student']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
@@ -14,7 +14,7 @@
         <p>ข้อมูลทั่วไป</p>
         <ul class="nav-links" id="nav-links">
             <li *ngFor="let item of menuSidebar" #itemEl routerLinkActive="active">
-                <a [routerLink]="[item.link]">
+                <a [routerLink]="[item.link]" [queryParams]="{ username: this.username }">
                     <i [class]="item.icon"></i>
                     <span class="link_name">{{item.link_name}}</span>
                 </a>

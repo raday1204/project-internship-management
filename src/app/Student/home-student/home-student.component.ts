@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeStudentComponent implements OnInit {
   dateTime: Date | undefined
+  username: string | undefined;
+
 
   ngOnInit() {
     this.dateTime = new Date()}
@@ -36,7 +38,7 @@ export class HomeStudentComponent implements OnInit {
       link: "/profile-student",
       icon: "fa-solid fa-clipboard-user",
       sub_menu: []
-    },
+    },    
     {
       link_name: "ข้อมูลหน่วยงาน",
       link: "/company-student",
@@ -72,19 +74,13 @@ export class HomeStudentComponent implements OnInit {
       sub_menu: []
     },
     {
-      link_name: "02-หนังสือตอบรับนิสิตเข้าฝึกงาน",
-      link: "/acceptance-form-student",
-      icon: "fa-regular fa-file-pdf",
-      sub_menu: []
-    },
-    {
       link_name: "04-แบบบันทึกประจำวัน",
       link: "/diary-form-student",
       icon: "fa-regular fa-file-pdf",
       sub_menu: []
     },
     {
-      link_name: "06-แบบประเมินผลนิสิตฝึกงาน",
+      link_name: "06-สถานประกอบการในมุมมองของนิสิต",
       link: "/evaluation-form-student",
       icon: "fa-regular fa-file-pdf",
       sub_menu: []

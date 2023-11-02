@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search-company-officer',
@@ -7,16 +8,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-company-officer.component.css']
 })
 export class SearchCompanyOfficerComponent {
-  selectedOption1: string | undefined;
-  selectedOption2: string | undefined;
-  searchTerm: string = '';
+  selectedOption1: string = '';
+  selectedOption2: string = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient
+  ) { }
 
   submitForm() {
-    // Send data to service or perform any other actions here
-    this.router.navigate(['/student-information'], { 
-      queryParams: { option1: this.selectedOption1, option2: this.selectedOption2 } 
-    });
+    const formData = new FormData();
+    formData.append('year', this.selectedOption1);
+    formData.append('type_code', this.selectedOption2);
+
+    this.http.post('http://localhost/PJ/Backend/Officer/company-officer.php', formData)
+      .subscribe((response: any) => {
+        console.log('Backend Response:', response);
+        if (response.length > 0) {
+          this.router.navigate(['/company-information'], { queryParams: { CompanyInformation: JSON.stringify(response) } });
+        } else {
+        }
+      });
   }
 }
+
+
+
+
+

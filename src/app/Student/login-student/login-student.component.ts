@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login-student',
@@ -8,22 +9,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./login-student.component.css']
 })
 export class LoginStudentComponent {
-  username: string = '';
-  // errorMessage: string = '';
+  username: string | undefined;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient
+  ) { }
 
   onSubmit() {
-    // console.log(this.username);
-    this.http.post('http://localhost:8080/PJ/Backend/Student/login-student.php', {
+    this.http.post('http://localhost/PJ/Backend/Student/login-student.php', {
       username: this.username,
     }).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        if (res == 'login success') {
-          this.router.navigate(['/home-student']);
+      next: (response: any) => {
+        console.log('Login API Response:', response);
+        try {
+          if (response.success) {
+            if (response.user && response.user.username) { 
+              this.username = response.user.username;
+              console.log('Extracted username:', this.username);
+              this.router.navigate(['/profile-student'], 
+              { queryParams: { username: this.username } });
+            } else {
+              console.error('No username found in the response');
+            }
+          } else {
+            console.error('Login failed:', response.message);
+          }
+        } catch (error) {
+          console.error('Error parsing response:', error);
         }
       },
       error: (error) => {
@@ -31,4 +45,4 @@ export class LoginStudentComponent {
       }
     });
   }
-}
+}  

@@ -39,12 +39,12 @@ export class HomeOfficerComponent implements OnInit {
       },
   
       {
-        link_name: "หนังสือขอส่งนิสิตเข้าฝึกงาน",
+        link_name: "หนังสือแจ้งรายชื่อนิสิตเข้าฝึกงาน",
         link: "/search-send-form-officer",
         icon: "fa-regular fa-file-pdf",
       },
       {
-        link_name: "หนังสือขอยกเลิกการเข้าฝึกงาน",
+        link_name: "หนังสือรายงานตัวนิสิตเข้าฝึกงาน",
         link: "/search-cancel-form-officer",
         icon: "fa-regular fa-file-pdf",
       },
@@ -61,11 +61,6 @@ export class HomeOfficerComponent implements OnInit {
       {
         link_name: "หนังสือแบบประเมินการฝึกงาน",
         link: "/search-evaluation-form-officer",
-        icon: "fa-regular fa-file-pdf",
-      },
-      {
-        link_name: "หนังสืออนุมัติจากอาจารย์",
-        link: "/search-confirm-form-officer",
         icon: "fa-regular fa-file-pdf",
       },
     ]

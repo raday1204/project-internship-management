@@ -30,16 +30,16 @@
             </tr>
         </thead>
         <tbody style="font-size: 13px;">
-            <tr>
-                <td>{{ StudentProfileData.id }}</td>
-                <td>{{ StudentProfileData.student_citizen }}</td>
-                <td>{{ StudentProfileData.student_code }}</td>
-                <td>{{ StudentProfileData.student_name}} {{ StudentProfileData.student_lastname }}</td>
-                <td>{{ StudentProfileData.mobile }}</td>
-                <td>{{ StudentProfileData.email }}</td>
-                <td>{{ StudentProfileData.facebook }}</td>
-                <td>{{ StudentProfileData.line }}</td>
-                <td>{{ StudentProfileData.staddress }}</td>
+            <tr *ngFor="let student of StudentInformation; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ student.student_citizen }}</td>
+                <td>{{ student.student_code }}</td>
+                <td>{{ student.student_name}} {{ student.student_lastname }}</td>
+                <td>{{ student.mobile }}</td>
+                <td>{{ student.email }}</td>
+                <td>{{ student.facebook }}</td>
+                <td>{{ student.line }}</td>
+                <td>{{ student.staddress }}</td>
             </tr>
         </tbody>
     </table>

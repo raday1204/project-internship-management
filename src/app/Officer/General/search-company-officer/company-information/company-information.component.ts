@@ -1,21 +1,29 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-company-information',
   templateUrl: './company-information.component.html',
   styleUrls: ['./company-information.component.css']
 })
-export class CompanyInformationComponent {
-  CompanyInformation: any;
-  StudentProfileData: any;
-  constructor(private router: Router) {}
+export class CompanyInformationComponent implements OnInit {
+  CompanyInformation: any[] = [];
 
-  selectCompany(selectedCompany: any) {
-    console.log("Selected Company:", selectedCompany);
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient
+  ) { }
 
-    this.router.navigate(['/edit-company'], {
-      state: { companyData: this.CompanyInformation }
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['CompanyInformation']) {
+        this.CompanyInformation = JSON.parse(params['CompanyInformation']);
+      }
     });
+  }
+
+  selectCompany(companyInformation: any) {
+    // Implement any logic you need for selecting a company
   }
 }

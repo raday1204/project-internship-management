@@ -15,21 +15,22 @@ export class LoginOfficerComponent {
   username: string = '';
 
   onSubmit() {
-    // console.log(this.username);
-    this.http.post('http://localhost:8080/PJ/Backend/Officer/login-officer.php', {
-username: this.username,
-    }).subscribe({
-      next: (res) => {
-        console.log(res);
-        if (res == 'login success') {
-          this.router.navigate(['/home-officer'])
-        } 
-      },
-      error: (error) => {
-        console.error('Error:', error);
-      }
-    });
+    this.http.post('http://localhost:80/PJ/Backend/Officer/login-officer.php', {
+  username: this.username,
+}).subscribe({
+  next: (res: any) => {
+    console.log(res);
+    if (res.success) {
+      // Login was successful
+      this.router.navigate(['/home-officer']);
+    } else {
+      // Login failed
+      console.error('Login failed:', res.message);
+    }
+  },
+  error: (error) => {
+    console.error('Error:', error);
+  }
+});
   }
 }
-
-

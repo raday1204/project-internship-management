@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile-student',
@@ -8,31 +8,42 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./profile-student.component.css']
 })
 export class ProfileStudentComponent implements OnInit {
-  studentData: any = {};
-  company: any = {};
+  username: string | undefined;
+  studentData: any;
   errorMessage: string | undefined;
 
   constructor(
-    private route: ActivatedRoute,
-    private http: HttpClient
-  ) {}
-
-  ngOnInit() {
-    const student_code = this.route.snapshot.paramMap.get('student_code'); // Change 'username' to 'student_code'
-  
-    this.http.get(`http://localhost:8080/PJ/Backend/Student/profile-student.php?student_code=${student_code}`)
-      .subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res && res.student_code) {
-            this.studentData = res;
-          } else {
-            this.errorMessage = 'Student not found';
-          }
-        },
-        (error) => {
-          this.errorMessage = 'Error querying the server';
+    private route: ActivatedRoute, 
+    private http: HttpClient,
+    private router: Router) { }
+    
+    ngOnInit(): void {
+      this.route.queryParams.subscribe(params => {
+        this.username = params['username'];
+        console.log('Extracted username:', this.username);
+        console.log('URL Params:', params);
+    
+        if (this.username) {
+          console.log('Username:', this.username);
+          this.http.get(`http://localhost/PJ/Backend/Student/profile-student.php?username=${this.username}`)
+            .subscribe(
+              (response: any) => {
+                if (!response.error) {
+                  this.studentData = response;
+                  if (this.studentData['username'] !== this.studentData['student_code']) {
+                    this.errorMessage = 'Username does not match student_code.';
+                  }
+                } else {
+                  this.errorMessage = response.error;
+                }
+              },
+              (error) => {
+                this.errorMessage = 'An error occurred while fetching student data.';
+              }
+            );
+        } else {
+          this.errorMessage = 'No username provided.';
         }
-      );
-  }
-}  
+      });
+    }    
+  }    

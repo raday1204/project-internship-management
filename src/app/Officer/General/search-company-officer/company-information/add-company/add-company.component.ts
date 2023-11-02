@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-add-company',
@@ -8,16 +9,44 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-company.component.css']
 })
 export class AddCompanyComponent {
-  company: any = {
+  CompanyInformation: any[] = [];
+  company: any = {  
+    company_id: '',
     company_name: '',
     send_name: '',
     send_coordinator: '',
     send_position: '',
     send_tel: '',
     send_email: '',
-    send_mobile: '',
+    send_mobile: ''
   };
-  constructor(private router: Router, private http: HttpClient) { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private router: Router
+  ) { }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['CompanyInformation']) {
+        this.CompanyInformation = JSON.parse(params['CompanyInformation']);
+      }
+    });
+  }
+
+  selectCompany(companyInformation: any) {
+    this.company = {
+      company_id: companyInformation.company_id,
+      company_name: companyInformation.company_name,
+      send_name: companyInformation.send_name,
+      send_coordinator: companyInformation.send_coordinator,
+      send_position: companyInformation.send_position,
+      send_tel: companyInformation.send_tel,
+      send_email: companyInformation.send_email,
+      send_mobile: companyInformation.send_mobile
+    };
+  }
 
   saveData() {
     const formData = {
@@ -29,16 +58,18 @@ export class AddCompanyComponent {
       send_email: this.company.send_email,
       send_mobile: this.company.send_mobile
     };
-  
-    this.http.post('http://localhost:3000/saveDataToMySQL', formData)
+
+    const companyId = this.company.company_id; 
+    this.http.put(`http://localhost/PJ/Backend/Officer/student-officer.php/${companyId}`, formData)
+
       .subscribe((response: any) => {
         if (response.success) {
-          console.log('Company data saved successfully');
+          console.log('Company data updated successfully');
         } else {
-          console.error('Error saving company data');
+          console.error('Error updating company data');
         }
       });
-  
+
     this.router.navigate(['/add-internal-company']);
   }
-}  
+}
