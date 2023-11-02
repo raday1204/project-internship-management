@@ -1,9 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Request-Method: *");
-
+header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,17 +22,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $request['username'];
 
     $username = mysqli_real_escape_string($conn, $username);
-    
-    $sql = "SELECT COUNT(*) FROM users WHERE username = '$username'";
+
+    $sql = "SELECT * FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
-    
-    if ($result) {
-        if ($result->num_rows == 1) {
-            echo json_encode('login success');
-        } else {
-            echo json_encode('login failed');
-        }
+
+    if ($result->num_rows > 0) {
+        $response = array("success" => true, "message" => "Login success");
     } else {
-        echo json_encode('error query: ' . $conn->error);
+        $response = array("success" => false, "message" => "Login failed");
     }
+
+    // Send a JSON response back to the Angular application
+    header('Content-Type: application/json');
+    echo json_encode($response);
+
+    $conn->close(); // Close the connection using $conn
 }
+?>

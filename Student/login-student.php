@@ -1,10 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Request-Method: *");
-
+header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
+
+$response = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postdata = file_get_contents("php://input");
@@ -18,23 +18,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = new mysqli($hostAuth, $userAuth, $passAuth, $dbname);
 
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $username = $request['username'];
-
-    $username = mysqli_real_escape_string($conn, $username);
-    
-    $sql = "SELECT COUNT(*) FROM users WHERE username = '$username'";
-    $result = $conn->query($sql);
-    
-    if ($result) {
-        if ($result->num_rows == 1) {
-            echo json_encode('login success');
-        } else {
-            echo json_encode('login failed');
-        }
+        $response = array("success" => false, "message" => "Connection failed: " . $conn->connect_error);
     } else {
-        echo json_encode('error query: ' . $conn->error);
+        $username = $request['username'];
+        $username = mysqli_real_escape_string($conn, $username);
+
+        $sql = "SELECT * FROM users WHERE username = '$username'";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
+            session_start();
+            $_SESSION['username'] = $user['username'];
+
+            $response = array("success" => true, "message" => "Login success", "user" => $user);
+        } else {
+            $response = array("success" => false, "error" => "User not logged in.");
+        }
     }
 }
+echo json_encode($response);
+?>
