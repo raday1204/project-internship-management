@@ -15,7 +15,7 @@ export class LoginOfficerComponent {
   username: string = '';
 
   onSubmit() {
-    this.http.post('http://localhost:80/PJ/Backend/Officer/login-officer.php', {
+    this.http.post('http://localhost/PJ/Backend/Officer/login-officer.php', {
   username: this.username,
 }).subscribe({
   next: (res: any) => {

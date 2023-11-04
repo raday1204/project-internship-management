@@ -43,6 +43,7 @@ import { RelationOfficerComponent } from './Officer/Relation/relation-officer/re
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
+import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
 import { CancelFormComponent } from './Officer/Form/search-cancel-form-officer/cancel-form/cancel-form.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
@@ -94,8 +95,9 @@ const routes: Routes = [
   { path: 'home-officer', component: HomeOfficerComponent },
   { path: 'relation-officer', component: RelationOfficerComponent },
   { path: 'add-company', component: AddCompanyComponent },
-  { path: 'edit-company', component: EditCompanyComponent },
-  { path: 'add-internal-company', component: AddInternalCompanyComponent },
+  { path: 'edit-company/:company_id', component: EditCompanyComponent },
+  { path: 'add-internal-company/:company_id', component: AddInternalCompanyComponent },
+  { path: 'dialog', component: DialogComponent },
   { path: 'status-information', component: StatusInformationComponent },
   { path: 'cancel-form', component: CancelFormComponent },
   { path: 'confirm-form', component: ConfirmFormComponent },

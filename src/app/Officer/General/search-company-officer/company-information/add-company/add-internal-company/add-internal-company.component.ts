@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -7,33 +8,36 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-internal-company.component.css']
 })
 export class AddInternalCompanyComponent {
-  company: any = {
-    company_building: '',
-    company_job: '',
-    company_period: '',
-  };
-  need_student: any = {
-    number_student_train: '',
-  };
+  company: any = {};
+  need_student: any = {};
+  company_id = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute
+  ) { }
 
-  saveData() {
+  saveInternal() {
     const formData = {
       company_building: this.company.company_building,
       company_job: this.company.company_job,
-      company_period: this.company.company_period,
+      date_addtraining: this.need_student.date_addtraining,
       number_student_train: this.need_student.number_student_train,
     };
 
-    this.http.post('http://localhost:4200/api/saveDataToMySQL', formData)
-    .subscribe(
-      response => {
-        console.log('Success', response);
-      },
-      error => {
-        console.error('Error', error);
-      }
-    );
-}
+    this.http.post('http://localhost/PJ/Backend/Officer/add-internal-company.php', formData)
+      .subscribe((response: any) => {
+        if (response.success) {
+          console.log(response.message);
+          // Handle successful save
+        } else {
+          console.error(response.message);
+          // Handle error
+        }
+      }, (error) => {
+        console.error('HTTP Error:', error);
+        // Handle HTTP error
+      });
+  }
 }

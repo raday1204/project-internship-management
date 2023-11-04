@@ -59,6 +59,7 @@ import { SendFormComponent } from './Officer/Form/search-send-form-officer/send-
 import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/thanks-form/thanks-form.component';
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
+import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -112,6 +113,7 @@ import { StatusInformationComponent } from './Officer/General/status-officer/sta
     ThanksFormComponent,
     AddInternalCompanyComponent,
     StatusInformationComponent,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,

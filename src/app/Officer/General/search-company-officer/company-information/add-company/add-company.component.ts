@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 
@@ -9,9 +9,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./add-company.component.css']
 })
 export class AddCompanyComponent {
-  CompanyInformation: any[] = [];
-  company: any = {  
-    company_id: '',
+  company: any = {
     company_name: '',
     send_name: '',
     send_coordinator: '',
@@ -20,35 +18,16 @@ export class AddCompanyComponent {
     send_email: '',
     send_mobile: ''
   };
+  company_id: any = null;
+  need_student: any;
 
   constructor(
-    private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['CompanyInformation']) {
-        this.CompanyInformation = JSON.parse(params['CompanyInformation']);
-      }
-    });
-  }
-
-  selectCompany(companyInformation: any) {
-    this.company = {
-      company_id: companyInformation.company_id,
-      company_name: companyInformation.company_name,
-      send_name: companyInformation.send_name,
-      send_coordinator: companyInformation.send_coordinator,
-      send_position: companyInformation.send_position,
-      send_tel: companyInformation.send_tel,
-      send_email: companyInformation.send_email,
-      send_mobile: companyInformation.send_mobile
-    };
-  }
-
-  saveData() {
+  saveCompany() {
     const formData = {
       company_name: this.company.company_name,
       send_name: this.company.send_name,
@@ -56,20 +35,24 @@ export class AddCompanyComponent {
       send_position: this.company.send_position,
       send_tel: this.company.send_tel,
       send_email: this.company.send_email,
-      send_mobile: this.company.send_mobile
+      send_mobile: this.company.send_mobile,
     };
 
-    const companyId = this.company.company_id; 
-    this.http.put(`http://localhost/PJ/Backend/Officer/student-officer.php/${companyId}`, formData)
-
+    this.http.post('http://localhost/PJ/Backend/Officer/add-company.php', formData)
       .subscribe((response: any) => {
         if (response.success) {
-          console.log('Company data updated successfully');
+          console.log(response.message);
+          this.router.navigate(['/add-internal-company']);
         } else {
-          console.error('Error updating company data');
+          console.error(response.message);
         }
+      }, (error) => {
+        console.error('HTTP Error:', error);
       });
-
-    this.router.navigate(['/add-internal-company']);
   }
+
+  saveInternal(company: any) {
+    console.log(company.company_id);
+    this.router.navigate(['/add-internal-company', company.company_id]);
+  } 
 }

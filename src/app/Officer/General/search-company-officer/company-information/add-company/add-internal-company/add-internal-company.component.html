@@ -20,29 +20,29 @@
 
     <div class="main-container">
         <p>ข้อมูลหน่วยงานภายใน</p>
-        <form (ngSubmit)="saveData()">
+        <form (ngSubmit)="saveInternal()">
             <div class="list">
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <input type="text" id="company_building" [(ngModel)]="company.company_building">
+                <input type="text" id="company_building" [(ngModel)]="company.company_building" name="company_building">
             </div>
 
             <div class="list">
                 <label for="company_job">ลักษณะงาน</label>
-                <input type="text" id="company_job" [(ngModel)]="company.company_job">
+                <input type="text" id="company_job" [(ngModel)]="company.company_job" name="company_job">
             </div>
 
             <div class="list">
                 <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
-                <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train">
+                <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train" name="number_student_train">
             </div>
 
             <div class="list">
-                <label for="company_period">ระยะเวลาฝึกงาน</label>
-                <input type="text" id="company_period" [(ngModel)]="company.company_period">
+                <label for="date_addtraining">ระยะเวลาฝึกงาน</label>
+                <input type="text" id="date_addtraining" [(ngModel)]="need_student.date_addtraining" name="date_addtraining">
             </div>
 
             <div class="button-container">
-                <button class="button" type="submit"
+                <button class="button" type="submit" 
                     style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
             </div>
         </form>
