@@ -25,12 +25,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $username = mysqli_real_escape_string($conn, $username);
     
-    $sql = "SELECT COUNT(*) FROM users WHERE username = '$username'";
+    $sql = "SELECT username FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
     
     if ($result) {
         if ($result->num_rows == 1) {
-            echo json_encode('login success');
+            echo json_encode(['success' => true, 'user' => ['username' => $username]]);
         } else {
             echo json_encode('login failed');
         }

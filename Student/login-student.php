@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($result) {
         if ($result->num_rows == 1) {
-            echo json_encode('login success');
+            echo json_encode(['success' => true, 'user' => ['username' => $username]]);
         } else {
             echo json_encode('login failed');
         }
