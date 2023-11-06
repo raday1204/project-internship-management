@@ -22,7 +22,9 @@
         <form (ngSubmit)="saveCompany()">
             <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                <input type="text" id="company_name" [(ngModel)]="company.company_name" name="company_name">
+                <select [(ngModel)]="selectedOption3" name="selectedOption1">
+                    <option *ngFor="let option of selectedOption3" [value]="option">{{ option }}</option>
+                </select>
             </div>
 
             <div class="list">

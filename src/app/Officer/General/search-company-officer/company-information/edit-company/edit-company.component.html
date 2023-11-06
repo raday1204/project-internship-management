@@ -22,7 +22,7 @@
         <form (ngSubmit)="updateCompany()">
             <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                <input type="text" id="company_name" [(ngModel)]="company.company_name" name="company_name">
+                <span>{{ company.company_name }}</span>
             </div>
 
             <div class="list">
@@ -67,7 +67,7 @@
             <p>3. ข้อมูลหน่วยงานภายใน</p>
             <div>
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <input type="text" id="company_building" [(ngModel)]="company.company_building" name="company_building">
+                <span>{{ company.company_building }}</span>
             </div>
 
             <div class="list">

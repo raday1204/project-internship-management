@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -7,13 +7,16 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './edit-company.component.html',
   styleUrls: ['./edit-company.component.css']
 })
-export class EditCompanyComponent {
+
+export class EditCompanyComponent implements OnInit {
   company: any = {};
   need_student: any = {};
   company_id: any = {};
   CompanyInformation: any = {};
-  selectedOption1: any = {};
-  selectedOption2: any = {};
+  selectedOption1 = [];
+  selectedOption2 = [];
+  options: any = {};
+
 
   constructor(
     private router: Router,
@@ -38,6 +41,8 @@ export class EditCompanyComponent {
         if (response.success) {
           this.company = response.data; // Assuming response.data contains the company details
           this.need_student = response.need_student; // Assuming response.need_student contains need_student details
+          this.selectedOption1 = response.selectedOption1;
+          this.selectedOption2 = response.selectedOption2;
         } else {
           console.error(response.message);
         }
@@ -47,7 +52,7 @@ export class EditCompanyComponent {
   }
 
   updateCompany() {
-    const formDataCompany  = {
+    const formDataCompany = {
       company_id: this.company.company_id,
       company_name: this.company.company_name,
       send_name: this.company.send_name,
@@ -62,37 +67,19 @@ export class EditCompanyComponent {
       date_addtraining: this.need_student.date_addtraining
     };
 
-    this.http.post('http://localhost/PJ/Backend/Officer/edit-company.php', formDataCompany )
+    this.http.post('http://localhost/PJ/Backend/Officer/edit-company.php', formDataCompany)
       .subscribe((responseCompany: any) => {
-        if (responseCompany.success) {
+        if (responseCompany.success > 0) {
           console.log(responseCompany.message);
-          
-          const formData = new FormData();
-          formData.append('year', this.selectedOption1);
-          formData.append('type_code', this.selectedOption2);
-
-          this.http.post('http://localhost/PJ/Backend/Officer/company-officer.php', formData)
-            .subscribe((responseForm: any) => {
-              console.log('Backend Response:', responseForm);
-              if (responseForm.length > 0) {
-                // Update the company and need_student properties with the received data
-                this.company = responseForm[0].company;
-                this.need_student = responseForm[0].need_student;
-
-                this.router.navigate(['/company-information'], { queryParams: { CompanyInformation: JSON.stringify(responseForm) } });
-              }
-            });
+          this.router.navigate(['/company-information'], {
+            relativeTo: this.route,
+            queryParams: { CompanyInformation: JSON.stringify(this.CompanyInformation) }
+          });
         } else {
           console.error(responseCompany.message);
         }
       }, (error) => {
         console.error('HTTP Error:', error);
-        if (error.error instanceof ErrorEvent) {
-          console.error('An error occurred:', error.error.message);
-        } else {
-          console.error('Backend returned code ${error.status}, body was: ', error.error);
-        }
       });
   }
 }
-

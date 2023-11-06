@@ -11,12 +11,17 @@ export class AddInternalCompanyComponent {
   company: any = {};
   need_student: any = {};
   company_id = null;
+  selectedOption4: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) { }
+
+  ngOnInit() {
+    this.getOptions();
+  }
 
   saveInternal() {
     const formData = {
@@ -39,5 +44,11 @@ export class AddInternalCompanyComponent {
         console.error('HTTP Error:', error);
         // Handle HTTP error
       });
+  }
+
+  getOptions() {
+    this.http.get('http://localhost/PJ/Backend/Officer/get-company.php').subscribe((data: any) => {
+      this.selectedOption4 = data.map((item: { company_building: any; }) => item.company_building);
+    });
   }
 }

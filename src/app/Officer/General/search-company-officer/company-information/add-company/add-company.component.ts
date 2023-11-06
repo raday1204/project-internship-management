@@ -20,12 +20,17 @@ export class AddCompanyComponent {
   };
   company_id: any = null;
   need_student: any;
+  selectedOption3: any;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute
   ) { }
+
+  ngOnInit() {
+    this.getOptions();
+  }
 
   saveCompany() {
     const formData = {
@@ -55,4 +60,10 @@ export class AddCompanyComponent {
     console.log(company.company_id);
     this.router.navigate(['/add-internal-company', company.company_id]);
   } 
+
+  getOptions() {
+    this.http.get('http://localhost/PJ/Backend/Officer/get-company.php').subscribe((data: any) => {
+      this.selectedOption3 = data.map((item: { company_name: any; }) => item.company_name);
+    });
+  }
 }
