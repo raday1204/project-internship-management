@@ -1,10 +1,10 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Request-Method: *");
-
+header("Access-Control-Allow-Methods: POST");
 header("Content-Type: application/json");
+
+$response = array();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postdata = file_get_contents("php://input");
@@ -30,11 +30,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($result) {
         if ($result->num_rows == 1) {
-            echo json_encode(['success' => true, 'user' => ['username' => $username]]);
+            echo json_encode('login success');
         } else {
-            echo json_encode('login failed');
+            $response = array("success" => false, "error" => "User not logged in.");
         }
-    } else {
-        echo json_encode('error query: ' . $conn->error);
     }
 }
+echo json_encode($response);
+?>
