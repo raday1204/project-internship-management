@@ -8,13 +8,32 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./search-student-officer.component.css']
 })
 export class SearchStudentOfficerComponent {
-  selectedOption3: string = '';
-  selectedOption4: string = '';
+  selectedOption3: any;
+  selectedOption4: any;
 
   constructor(
     private router: Router,
     private http: HttpClient
   ) { }
+
+  ngOnInit() {
+    this.getOptions();
+  }
+
+  getOptions() {
+    this.http.get('http://localhost/PJ/Backend/Officer/get-student-officer.php').subscribe((data: any) => {
+      if (Array.isArray(data)) {
+        // Create a Set to store unique values for selectedOption1 and selectedOption2
+        const uniqueYears = new Set(data.map((item: any) => item.year));
+        const uniqueTypeCodes = new Set(data.map((item: any) => item.type_code));
+  
+        this.selectedOption3 = Array.from(uniqueYears);
+        this.selectedOption4 = Array.from(uniqueTypeCodes);
+      } else if (typeof data === 'number') {
+        console.error('Invalid data structure in the API response.');
+      }
+    });
+  }
 
   submitForm() {
     const formData = new FormData();
@@ -22,19 +41,20 @@ export class SearchStudentOfficerComponent {
     formData.append('type_code', this.selectedOption4);
   
     this.http.post('http://localhost/PJ/Backend/Officer/student-officer.php', formData)
-      .subscribe(
-        (response: any) => {
-          console.log('Backend Response:', response);
-          if (response.length > 0) {
-            this.router.navigate(['/student-information'], { queryParams: { StudentInformation: JSON.stringify(response) } });
-          } else {
-            // Handle empty response
-          }
-        },
-        (error) => {
-          console.error('Error:', error);
-          // Handle error (e.g., display an error message to the user)
+      .subscribe((response: any) => {
+        console.log('Backend Response:', response);
+        if (Array.isArray(response) && response.length > 0) {
+          // Assuming the response contains necessary data
+          const queryParams = {
+            StudentInformation: JSON.stringify(response)
+          };
+  
+          this.router.navigate(['/student-information'], { queryParams: queryParams });
+        } else {
+          console.error('Invalid response from server.');
         }
-      );
+      }, (error) => {
+        console.error('HTTP Error:', error);
+      });
   }
 }  

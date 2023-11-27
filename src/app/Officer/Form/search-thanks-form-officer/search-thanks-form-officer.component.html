@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/thanks-form">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
                     <li class="list-item">หนังสือขอบคุณหน่วยงาน</li>
                 </div>
                 <button [routerLink]="['/app']">
@@ -20,17 +20,15 @@
         <form (ngSubmit)="submitForm()">
             <div class="form-group">
                 <label for="option1">ปีการศึกษา</label><br>
-                <select id="option1" [(ngModel)]="selectedOption1" name="option1">
-                    <option value="typenaem1">2565</option>
-                    <option value="value2">2566</option>
+                <select [(ngModel)]="selectedOption1" name="selectedOption1">
+                    <option value="">-- เลือกปีการศึกษา --</option> <!-- Add a default option -->
+                    <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
                 </select><br>
 
-                <label for="option2">ประเภท</label><br>
-                <select id="option2" [(ngModel)]="selectedOption2" name="option2">
-                    <option value="typecode1">ประเภทที่ 1</option>
-                    <option value="typecode2">ประเภทที่ 2</option>
-                    <option value="typecode3">ประเภทที่ 3</option>
-                    <option value="typecode4">ประเภทที่ 4</option>
+                <label for="type_code">ประเภท</label><br>
+                <select [(ngModel)]="selectedOption2" name="selectedOption2">
+                    <option value="">-- เลือกประเภท --</option>
+                    <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
                 </select>
             </div>
 

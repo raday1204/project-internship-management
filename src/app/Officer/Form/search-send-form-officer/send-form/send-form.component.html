@@ -5,7 +5,7 @@
             <ul>
                 <div class="header-list">
                     <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
-                    <li class="list-item">ข้อมูลหน่วยงาน</li>
+                    <li class="list-item">หนังสือขอส่งนิสิตเข้าฝึกงาน</li>
                 </div>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
@@ -13,7 +13,7 @@
             </ul>
         </nav>
     </header>
-    <p>ปีการศึกษา ประเภทที่</p>
+    <p>ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">
             <tr>

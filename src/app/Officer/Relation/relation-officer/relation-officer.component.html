@@ -32,13 +32,13 @@
             </tr>
         </thead>
         <tbody style="font-size: 13px;">
-            <tr>
-                <td>{{ relation.relation_date }}</td>
-                <td>{{ relation.relation_content }}</td>
+            <tr *ngFor="let relationItem of relations">
+                <td>{{ relationItem.relation_date }}</td>
+                <td>{{ relationItem.relation_content }}</td>
                 <td class="text-center">
-                    <button class="button" (click)="deleteRelation(relation.id)"
+                    <button class="button" (click)="deleteRelation(relationItem.id)"
                         style="background-color: #FF4545; color: #FDFDF6;">ลบ</button>
-                    <button class="button" [routerLink]="['/edit-relation']"
+                    <button class="button" (click)="editRelation(relationItem.id)"
                         style="background-color: #66B366; color: #FDFDF6;">แก้ไข</button>
                 </td>
             </tr>

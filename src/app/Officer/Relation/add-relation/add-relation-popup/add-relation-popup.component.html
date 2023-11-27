@@ -1,0 +1,12 @@
+<h2>ยืนยันการเพิ่มข่าวประชาสัมพันธ์</h2>
+<div>
+    <!-- Display the updated data as needed -->
+    <p> {{ data.relationDate | date:'yyyy-MM-dd' }}</p>
+
+    <p>{{ data.relationContent  }}</p>
+</div>
+
+<div>
+    <button (click)="onCancel()">ไม่ใช่</button>
+    <button (click)="onSubmit()">ใช่</button>
+</div>

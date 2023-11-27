@@ -1,0 +1,26 @@
+<h2>ข้อมูลหน่วยงาน</h2>
+<div>
+    <!-- Display the updated data as needed -->
+    <p>1. ชื่อหน่วยงาน(ภาษาไทย): {{ data.company_name }}</p>
+
+    <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
+    <p>เรียน: {{ data.send_name }}</p>
+    <h2>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h2>
+    <p>ชื่อผู้ประสานงาน: {{ data.send_coordinator }}</p>
+    <p>ตำแหน่ง: {{ data.send_position }}</p>
+    <p>เบอร์โทรศัพท์หน่วยงาน: {{ data.send_tel }}</p>
+    <p>Emile: {{ data.send_email }}</p>
+    <p>โทรศัพท์มือถือ: {{ data.send_mobile }}</p>
+
+    <h2>3. ข้อมูลหน่วยงานภายใน</h2>
+    <p>1. ชื่อหน่วยงานภายใน(ภาษาไทย): {{ data.company_building }}</p>
+    <p>ลักษณะงาน: {{ data.company_job }}</p>
+    <p>จำนวนนิสิตที่รับเข้า: {{ data.number_student_train }}</p>
+    <p>ระยะเวลาฝึกงาน: {{ data.date_addtraining }}</p>
+    <!-- Add more fields as needed -->
+</div>
+
+<div>
+    <button (click)="onCancel()">Cancel</button>
+    <button (click)="onSubmit()">Submit</button>
+</div>

@@ -28,7 +28,7 @@ import { StudentInformationComponent } from './Officer/General/search-student-of
 import { SearchCompanyOfficerComponent } from './Officer/General/search-company-officer/search-company-officer.component';
 import { CompanyInformationComponent } from './Officer/General/search-company-officer/company-information/company-information.component';
 import { StatusOfficerComponent } from './Officer/General/status-officer/status-officer.component';
-import { SearchCancelFormOfficerComponent } from './Officer/Form/search-cancel-form-officer/search-cancel-form-officer.component';
+import { SearchReportFormOfficerComponent } from './Officer/Form/search-report-form-officer/search-report-form-officer.component';
 import { SearchConfirmFormOfficerComponent } from './Officer/Form/search-confirm-form-officer/search-confirm-form-officer.component';
 import { SearchEvaluationFormOfficerComponent } from './Officer/Form/search-evaluation-form-officer/search-evaluation-form-officer.component';
 import { SearchNotifyingFormOfficerComponent } from './Officer/Form/search-notifying-form-officer/search-notifying-form-officer.component';
@@ -45,13 +45,13 @@ import { EditCompanyComponent } from './Officer/General/search-company-officer/c
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
 import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
-import { CancelFormComponent } from './Officer/Form/search-cancel-form-officer/cancel-form/cancel-form.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
 import { EvaluationFormComponent } from './Officer/Form/search-evaluation-form-officer/evaluation-form/evaluation-form.component';
 import { NotifyingFormComponent } from './Officer/Form/search-notifying-form-officer/notifying-form/notifying-form.component';
 import { PermissionFormComponent } from './Officer/Form/search-permission-form-officer/permission-form/permission-form.component';
 import { SendFormComponent } from './Officer/Form/search-send-form-officer/send-form/send-form.component';
 import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/thanks-form/thanks-form.component';
+import { ReportFormComponent } from './Officer/Form/search-report-form-officer/report-form/report-form.component';
 
 const routes: Routes = [
   { path: 'app', component: AppComponent },
@@ -82,7 +82,7 @@ const routes: Routes = [
   { path: 'search-company-officer', component: SearchCompanyOfficerComponent },
   { path: 'company-information', component: CompanyInformationComponent },
   { path: 'status-officer', component: StatusOfficerComponent },
-  { path: 'search-cancel-form-officer', component: SearchCancelFormOfficerComponent },
+  { path: 'search-report-form-officer', component: SearchReportFormOfficerComponent },
   { path: 'search-confirm-form-officer', component: SearchConfirmFormOfficerComponent },
   { path: 'search-evaluation-form-officer', component: SearchEvaluationFormOfficerComponent },
   { path: 'search-notifying-form-officer', component: SearchNotifyingFormOfficerComponent },
@@ -90,7 +90,7 @@ const routes: Routes = [
   { path: 'search-send-form-officer', component: SearchSendFormOfficerComponent },
   { path: 'search-thanks-form-officer', component: SearchThanksFormOfficerComponent },
   { path: 'add-relation', component: AddRelationComponent },
-  { path: 'edit-relation', component: EditRelationComponent },
+  { path: 'edit-relation/:id', component: EditRelationComponent },
   { path: 'login-officer', component: LoginOfficerComponent },
   { path: 'home-officer', component: HomeOfficerComponent },
   { path: 'relation-officer', component: RelationOfficerComponent },
@@ -99,13 +99,13 @@ const routes: Routes = [
   { path: 'add-internal-company/:company_id', component: AddInternalCompanyComponent },
   { path: 'dialog', component: DialogComponent },
   { path: 'status-information', component: StatusInformationComponent },
-  { path: 'cancel-form', component: CancelFormComponent },
   { path: 'confirm-form', component: ConfirmFormComponent },
   { path: 'evaluation-form', component: EvaluationFormComponent },
   { path: 'notifying-form', component: NotifyingFormComponent },
   { path: 'permission-form', component: PermissionFormComponent },
   { path: 'send-form', component: SendFormComponent },
   { path: 'thanks-form', component: ThanksFormComponent },
+  { path: 'report-form', component: ReportFormComponent },
 ];
 
 @NgModule({

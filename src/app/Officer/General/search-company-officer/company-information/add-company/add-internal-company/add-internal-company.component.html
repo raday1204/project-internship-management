@@ -23,7 +23,7 @@
         <form (ngSubmit)="saveInternal()">
             <div>
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <select [(ngModel)]="selectedOption4" name="selectedOption2">
+                <select [(ngModel)]="company.company_building" name="selectedOption4">
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>
             </div>

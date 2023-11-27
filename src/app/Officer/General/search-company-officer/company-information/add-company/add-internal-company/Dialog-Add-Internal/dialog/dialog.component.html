@@ -1,10 +1,18 @@
-<h2 mat-dialog-title>Entered Data</h2>
+<h2 mat-dialog-title>ยืนยันการเพิ่มข้อมููลหน่วยงาน</h2>
 <div mat-dialog-content>
-    <p>Company Building: {{ data.company_building }}</p>
-    <p>Company Job: {{ data.company_job }}</p>
-    <p>Number of Student Trainees: {{ data.number_student_train }}</p>
-    <p>Company Period: {{ data.company_period }}</p>
+
+    <p>ชื่อหน่วยงาน: {{ data.company.company_name | json}}</p>
+    <p>ชื่อผู้ประสานงาน: {{ data.company.company_job | json}}</p>
+    <p>ตำแหน่ง: {{ data.company.company_job | json}}</p>
+    <p>เบอร์โทรศัพท์หน่วยงาน: {{ data.company.company_job | json}}</p>
+    <p>E-mail: {{ data.company.company_job | json}}</p>
+    <p>เบอร์โทรศัพท์มือถือ: {{ data.company.company_job| json }}</p>
+    <p>ชื่อหน่วยงานภายใน: {{ data.company.company_building| json }}</p>
+    <p>ลักษณะงาน: {{ data.company.company_job| json }}</p>
+    <p>จำนวนนิสิตที่รับเข้า: {{ data.need_student.number_student_train | json}}</p>
+    <p>ระยะเวลาฝึกงาน: {{ data.need_student.company_job | json}}</p>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Close</button>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-button color="primary" (click)="onSubmit()">Submit</button>
 </div>

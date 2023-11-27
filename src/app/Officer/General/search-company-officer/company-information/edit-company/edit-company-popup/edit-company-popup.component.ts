@@ -1,0 +1,102 @@
+// edit-company-popup.component.ts
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
+
+@Component({
+  selector: 'app-edit-company-popup',
+  templateUrl: './edit-company-popup.component.html',
+  styleUrls: ['./edit-company-popup.component.css']
+})
+export class EditCompanyPopupComponent implements OnInit {
+
+  companyName: string = '';
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<EditCompanyPopupComponent>,
+    private dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient,
+    private dataStorageService: DataStorageService
+  ) {}
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      if (params['CompanyInformation']) {
+        const parsedData = JSON.parse(params['CompanyInformation']);
+        this.companyName = parsedData.company_name;
+      }
+    });
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+  onSubmit() {
+    // Assuming your form submission logic is here
+    // Example: const formData = { /* your form data */ };
+
+    // Mock response after successful form submission
+    const response = {
+      company_name: 'Updated Company Name', // Replace with actual updated data
+      // Add other updated fields as needed
+    };
+
+    // Save the updated data to the data storage service
+    this.dataStorageService.updateCompanyInformation(response);
+
+    // Call the shared submitForm logic
+    this.submitForm();
+  }
+
+  private navigateBackToCompanyInformation(updatedData: any) {
+    // Close the current dialog before navigating
+    this.dialogRef.close();
+
+    // Navigate back to company-information with the updated data
+    const queryParams = {
+      CompanyInformation: JSON.stringify(updatedData)
+    };
+
+    this.router.navigate(['/company-information'], { queryParams: queryParams });
+  }
+
+  // Add other methods as needed
+
+  private submitForm() {
+    // Get the latest data from DataStorageService
+    const formData = {
+      year: this.dataStorageService.getCompanyInformation().year,
+      type_code: this.dataStorageService.getCompanyInformation().type_code
+    };
+  
+    this.http.post('http://localhost/PJ/Backend/Officer/company-officer.php', formData)
+      .subscribe(
+        (response: any) => {
+          console.log('Backend Response:', response);
+  
+          if (response.hasOwnProperty('company') && response.hasOwnProperty('need_student')) {
+            const updatedData = {
+              year: formData.year,
+              type_code: formData.type_code,
+              company: response.company,
+              need_student: response.need_student,
+            };
+  
+            this.dataStorageService.updateCompanyInformation(updatedData);
+  
+          } else {
+            console.error('Invalid response from server.');
+          }
+        },
+        (error) => {
+          console.error('HTTP Error:', error);
+        }
+      );
+  }
+}

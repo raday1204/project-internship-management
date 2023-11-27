@@ -19,7 +19,7 @@ export class StudentInformationComponent {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['StudentInformation']) {
-        this.StudentInformation = JSON.parse(params['StudentInformation']);
+        this.StudentInformation = Object.values(JSON.parse(params['StudentInformation']));
       }
     });
   }

@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
 @Component({
   selector: 'app-thanks-form',
@@ -12,11 +14,23 @@ export class ThanksFormComponent {
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
 
-  constructor(private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.selectedOption1 = params['option1'];
-      this.selectedOption2 = params['option2'];
-    });
+  constructor(
+    private router: Router,
+    private dataStorageService: DataStorageService
+  ) { }
+  
+  ngOnInit() {
+    // Get the latest company information from DataStorageService
+    const companyInformation = this.dataStorageService.getCompanyInformation();
+  
+    if (companyInformation) {
+      this.CompanyInformation = companyInformation;
+      this.selectedOption1 = companyInformation.year;
+      this.selectedOption2 = companyInformation.type_code;
+    } else {
+      // If no information found, handle accordingly
+      console.error('No company information found.');
+    }
   }
 
   selectCompany(selectedCompany: any) {

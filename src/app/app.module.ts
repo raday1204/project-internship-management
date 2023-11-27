@@ -3,6 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +39,7 @@ import { StudentInformationComponent } from './Officer/General/search-student-of
 import { SearchCompanyOfficerComponent } from './Officer/General/search-company-officer/search-company-officer.component';
 import { CompanyInformationComponent } from './Officer/General/search-company-officer/company-information/company-information.component';
 import { StatusOfficerComponent } from './Officer/General/status-officer/status-officer.component';
-import { SearchCancelFormOfficerComponent } from './Officer/Form/search-cancel-form-officer/search-cancel-form-officer.component';
+import { SearchReportFormOfficerComponent } from './Officer/Form/search-report-form-officer/search-report-form-officer.component';
 import { SearchConfirmFormOfficerComponent } from './Officer/Form/search-confirm-form-officer/search-confirm-form-officer.component';
 import { SearchEvaluationFormOfficerComponent } from './Officer/Form/search-evaluation-form-officer/search-evaluation-form-officer.component';
 import { SearchNotifyingFormOfficerComponent } from './Officer/Form/search-notifying-form-officer/search-notifying-form-officer.component';
@@ -50,7 +56,6 @@ import { ProfileUploadService } from './Student/General/profile-student/profile-
 import { EnterCompanyService } from './Student/Form/company-form-student/enter-company-form/enter-company.service';
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
-import { CancelFormComponent } from './Officer/Form/search-cancel-form-officer/cancel-form/cancel-form.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
 import { EvaluationFormComponent } from './Officer/Form/search-evaluation-form-officer/evaluation-form/evaluation-form.component';
 import { NotifyingFormComponent } from './Officer/Form/search-notifying-form-officer/notifying-form/notifying-form.component';
@@ -60,6 +65,11 @@ import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/t
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
 import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
+import { EditCompanyPopupComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component';
+import { DataStorageService } from './Officer/General/search-company-officer/company-information/data-storage.service';
+import { ReportFormComponent } from './Officer/Form/search-report-form-officer/report-form/report-form.component';
+import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-relation-popup/add-relation-popup.component';
+import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +93,7 @@ import { DialogComponent } from './Officer/General/search-company-officer/compan
     SearchCompanyOfficerComponent,
     CompanyInformationComponent,
     StatusOfficerComponent,
-    SearchCancelFormOfficerComponent,
+    SearchReportFormOfficerComponent,
     SearchConfirmFormOfficerComponent,
     SearchEvaluationFormOfficerComponent,
     SearchNotifyingFormOfficerComponent,
@@ -104,7 +114,6 @@ import { DialogComponent } from './Officer/General/search-company-officer/compan
     RelationOfficerComponent,
     AddCompanyComponent,
     EditCompanyComponent,
-    CancelFormComponent,
     ConfirmFormComponent,
     EvaluationFormComponent,
     NotifyingFormComponent,
@@ -114,6 +123,10 @@ import { DialogComponent } from './Officer/General/search-company-officer/compan
     AddInternalCompanyComponent,
     StatusInformationComponent,
     DialogComponent,
+    EditCompanyPopupComponent,
+    ReportFormComponent,
+    AddRelationPopupComponent,
+    EditRelationPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -122,12 +135,20 @@ import { DialogComponent } from './Officer/General/search-company-officer/compan
     ReactiveFormsModule,
     RouterModule.forRoot([]),
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatSnackBarModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule,
   ],
 
   providers: [
     EditProfileService,
     ProfileUploadService,
     EnterCompanyService,
+    MatDialog,
+    DataStorageService
 
   ],
   bootstrap: [AppComponent]

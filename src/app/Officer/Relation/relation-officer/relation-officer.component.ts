@@ -1,22 +1,68 @@
-import { Component } from '@angular/core';
+// relation-officer.component.ts
+
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+interface Relation {
+  id: number;
+  relation_date: string;
+  relation_content: string;
+}
 
 @Component({
   selector: 'app-relation-officer',
   templateUrl: './relation-officer.component.html',
   styleUrls: ['./relation-officer.component.css']
 })
-export class RelationOfficerComponent {
-  relation: any = {
-    relation_date: '',  // Initialize relation_date with a default value
-    relation_content: '',
-    relation_pic: ''
-  };
+export class RelationOfficerComponent implements OnInit {
+  relations: Relation[] = [];
 
-  selectCompany(selectedCompany: any) {
-    console.log("Selected Company:", selectedCompany);
-}
+  constructor(
+    private http: HttpClient, 
+    private router: Router
+    ) {}
 
-deleteRelation(id: number) {
-  this.relation = this.relation.filter((relation: { id: number; }) => relation.id !== id);
-}
+  ngOnInit(): void {
+    this.fetchRelations();
+  }
+
+  fetchRelations() {
+    const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
+
+    this.http.get<{ data: Relation[] }>(serverUrl).subscribe(
+      (response) => {
+        this.relations = response.data;
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+        // Handle error here
+      }
+    );
+  }
+
+  deleteRelation(relationId  : number) {
+    const serverUrl = `http://localhost/PJ/Backend/Officer/Relation/delete-relation.php?id=${relationId}`;
+    this.http.delete(serverUrl).subscribe(
+      (response: any) => {
+        console.log('Delete Response:', response);
+        if (response.success) {
+          // Update the relations array by filtering out the deleted relation
+          this.relations = this.relations.filter(relation => relation.id !== relationId  );
+        } else {
+          console.error('Delete Error:', response.message);
+          // Handle delete error here
+        }
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+        // Handle HTTP error here
+      }
+    );
+  }
+
+  editRelation(relationId: number) {
+    // Navigate to the edit page with the relation ID
+    this.router.navigate(['/edit-relation', relationId]);
+  }
 }

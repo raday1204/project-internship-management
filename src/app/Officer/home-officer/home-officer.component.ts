@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home-officer.component.css']
 })
 export class HomeOfficerComponent implements OnInit {
+item: any;
     dateTime: Date | undefined
   
     ngOnInit() {
@@ -17,17 +18,26 @@ export class HomeOfficerComponent implements OnInit {
         link_name: "ข้อมูลนิสิตวิศวกรรมคอมพิวเตอร์",
         link: "/search-student-officer",
         icon: "fa-solid fa-users",
+        sub_menu: []
       },
   
       {
         link_name: "ข้อมูลหน่วยงาน",
         link: "/search-company-officer",
         icon: "fa-solid fa-address-book",
+        sub_menu: [
+          {
+            link_name: "เพิ่มข้อมูลหน่วยงาน",
+            link: "/add-company",
+          }
+        ]
       },
+
       {
         link_name: "ยืนยันสถานะการฝึกงาน",
         link: "/status-officer",
         icon: "fa-solid fa-user-check",
+        sub_menu: []
       },
     ]
   
@@ -45,7 +55,7 @@ export class HomeOfficerComponent implements OnInit {
       },
       {
         link_name: "หนังสือรายงานตัวนิสิตเข้าฝึกงาน",
-        link: "/search-cancel-form-officer",
+        link: "/search-report-form-officer",
         icon: "fa-regular fa-file-pdf",
       },
       {

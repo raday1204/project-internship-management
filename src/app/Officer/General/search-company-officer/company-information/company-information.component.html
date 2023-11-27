@@ -14,13 +14,7 @@
         </nav>
     </header>
 
-    <p>ปีกาารศึกษา ประเภทที่</p>
-
-    <div class="add-container">
-        <button class="add-button" [routerLink]="['/add-company']" style="background-color: #3699FF; color: white;">
-            <i class="fa-solid fa-plus p-2"></i>เพิ่มข้อมูลหน่วยงาน
-        </button>
-    </div>
+    <p>ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
 
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">
@@ -33,18 +27,24 @@
                 <th>ชื่อนิสิตที่ลงทะเบียน</th>
             </tr>
         </thead>
-        
+
         <tbody style="font-size: 13px;">
-            <tr *ngFor="let company of CompanyInformation; let i = index">
+            <tr *ngFor="let company of CompanyInformation.company; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ company.company_name }}</td>
                 <td>{{ company.company_building }}</td>
-                <td>{{ company.number_student_train }}</td>
+
+                <td *ngIf="CompanyInformation.need_student && CompanyInformation.need_student[i]">
+                    {{ CompanyInformation.need_student[i].number_student_train }}
+                </td>
+                <td *ngIf="!CompanyInformation.need_student || !CompanyInformation.need_student[i]">N/A</td>
+
                 <td>{{ company.student_code }}</td>
                 <td>{{ company.student_name }}</td>
                 <td class="text-center">
                     <button (click)="editCompany(company)"
-                    style="background-color: #66B366; color: #FDFDF6;">แก้ไขข้อมูลหน่วยงาน</button></td>
+                        style="background-color: #66B366; color: #FDFDF6;">แก้ไขข้อมูลหน่วยงาน</button>
+                </td>
             </tr>
         </tbody>
     </table>

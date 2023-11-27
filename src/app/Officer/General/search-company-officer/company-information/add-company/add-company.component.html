@@ -22,7 +22,7 @@
         <form (ngSubmit)="saveCompany()">
             <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                <select [(ngModel)]="selectedOption3" name="selectedOption1">
+                <select [(ngModel)]="company.company_name" name="selectedOption3">
                     <option *ngFor="let option of selectedOption3" [value]="option">{{ option }}</option>
                 </select>
             </div>
@@ -67,7 +67,7 @@
             </div>
 
             <div class="button-container">
-                <button class="button" type="submit" (click)="saveInternal(company)"
+                <button class="button" type="submit"
                     style="background-color: #064469; color: #FDFDF6;">เพิ่มหน่วยงานภายใน</button>
             </div>
         </form>

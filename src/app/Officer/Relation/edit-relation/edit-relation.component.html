@@ -17,26 +17,27 @@
 
     <div class="main-container">
         <p>แก้ไขข่าวประชาสัมพันธ์</p>
-        <form (ngSubmit)="saveRelation()">
+        <form [formGroup]="relationForm" (ngSubmit)="editRelation()">
             <div class="list">
                 <label for="relation_date">วัน-เดือน-ปี</label>
-                <input type="text" id="relation_date" [(ngModel)]="relation.relation_date">
+                <input type="text" id="relation_date" formControlName="relation_date" (click)="openDatePicker()"
+                    [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </div>
             <div class="list">
                 <label for="relation_content">เนื้อหา</label>
-                <textarea class="textarea" id="relation_content" rows="10" [(ngModel)]="relation.relation_content"
+                <textarea class="textarea" id="relation_content" rows="10" formControlName="relation_content"
                     style="margin-left: 55px;"></textarea>
             </div>
+
             <div class="list">
                 <label for="relation_pic">แนบรูป</label>
             </div>
 
             <div class="list p-3" style="justify-content: center;">
-                <input type="file" (change)="onFileSelected($event)">
-                <button type="button" (click)="onUpload()"
-                    style="border-radius: 10px; padding: 5px 10px;">Upload</button>
+                <input type="file" (change)="onFileSelected($event)" formControlName="relation_pic">
             </div>
-
             <div class="button-container">
                 <button class="button" style="background-color: #FDFDF6; color: #072D44;"
                     [routerLink]="['/relation-officer']">ย้อนกลับ</button>
