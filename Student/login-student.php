@@ -1,4 +1,5 @@
 <?php
+session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: POST");
@@ -22,19 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $username = $request['username'];
-
     $username = mysqli_real_escape_string($conn, $username);
-    
-    $sql = "SELECT COUNT(*) FROM users WHERE username = '$username'";
+
+    $sql = "SELECT * FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
-    
-    if ($result) {
-        if ($result->num_rows == 1) {
-            echo json_encode('login success');
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $permission = $row['permission'];
+
+        if ($permission === 'depart') {
+            $_SESSION["username"] = $username;
+            $response = array("success" => true, "message" => "Login successful");
+            $response["loggedInUsername"] = $_SESSION['username'];
         } else {
-            $response = array("success" => false, "error" => "User not logged in.");
+            $response = array("success" => false, "message" => "Login failed: Insufficient permission");
         }
+    } else {
+        $response = array("success" => false, "message" => "Login failed: User not found");
     }
+
+    header('Content-Type: application/json');
+    echo json_encode($response);
 }
-echo json_encode($response);
-?>
