@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item"><a routerLink="/home-officer">หนังสือต่างๆ </a> > </li>
                     <li class="list-item">หนังสือขอความอนุเคราะห์รับนิสิตเข้าฝึกงาน</li>
                 </div>
                 <button [routerLink]="['/app']">
@@ -27,14 +27,14 @@
             </tr>
         </thead>
         <tbody style="font-size: 13px;">
-            <tr>
-                <td>{{ CompanyInformation.company_id }}</td>
-                <td>{{ CompanyInformation.company_name }}</td>
-                <td>{{ CompanyInformation.company_building }}</td>
-                <td>{{ CompanyInformation.number_student_train }}</td>
-                <td>{{ StudentProfileData.student_code }}</td>
-                <td>{{ StudentProfileData.student_name }}</td>
-                <td class="text-center"><button (click)="selectCompany(CompanyInformation)"
+            <tr *ngFor="let form of StudentInformation; let i = index">
+                <td>{{ form.company_id }}</td>
+                <td>{{ form.company_name }}</td>
+                <td>{{ form.company_building }}</td>
+                <td>{{ form.number_student_train }}</td>
+                <td>{{ form.student_code }}</td>
+                <td>{{ form.student_name }}</td>
+                <td class="text-center"><button (click)="selectForm(CompanyInformation)"
                         style="background-color: #66B366;"><i class="fa-solid fa-print"
                             style="color: #FDFDF6; font-size: 16px;"></i></button>
                 </td>

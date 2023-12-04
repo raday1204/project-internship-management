@@ -75,7 +75,7 @@ export class EditCompanyPopupComponent implements OnInit {
       type_code: this.dataStorageService.getCompanyInformation().type_code
     };
   
-    this.http.post('http://localhost/PJ/Backend/Officer/company-officer.php', formData)
+    this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe(
         (response: any) => {
           console.log('Backend Response:', response);

@@ -3,14 +3,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
+interface Company {
+  company_id: number;
+  company_name: string;
+  company_building: string;
+  number_student_train: string;
+}
+
 @Component({
   selector: 'app-company-information',
   templateUrl: './company-information.component.html',
   styleUrls: ['./company-information.component.css']
 })
 export class CompanyInformationComponent implements OnInit {
+  company: Company[] = [];
   CompanyInformation: any;
-  company: any = {};
   companyName: any = {};
   need_student: any = {};
   selectedOption1: any;
@@ -26,9 +33,9 @@ export class CompanyInformationComponent implements OnInit {
   ngOnInit() {
     // Get the latest company information from DataStorageService
     const companyInformation = this.dataStorageService.getCompanyInformation();
-  
+
     if (companyInformation) {
-      this.CompanyInformation = companyInformation;
+      this.CompanyInformation = companyInformation.company;
       this.selectedOption1 = companyInformation.year;
       this.selectedOption2 = companyInformation.type_code;
       this.companyName = companyInformation.company_name;
@@ -37,6 +44,17 @@ export class CompanyInformationComponent implements OnInit {
       // If no information found, handle accordingly
       console.error('No company information found.');
     }
+    const serverUrl = 'http://localhost/PJ/Backend/Officer/Company/get-company-officer.php';
+
+    this.http.get<{ data: Company[] }>(serverUrl).subscribe(
+      (response) => {
+        this.company = response.data;
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+        // Handle error here
+      }
+    );
   }
 
   editCompany(company: any) {
@@ -50,7 +68,7 @@ export class CompanyInformationComponent implements OnInit {
           need_student: this.need_student
         })
       };
-  
+
       // Navigate to the edit-company page with the company_id and queryParams
       this.router.navigate(['/edit-company', company.company_id], { queryParams: queryParams });
     } else {

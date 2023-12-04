@@ -10,7 +10,7 @@ import { DataStorageService } from 'src/app/Officer/General/search-company-offic
 })
 export class EvaluationFormComponent {
   CompanyInformation: any = {};
-  StudentProfileData: any = {};
+  StudentInformation: any = {};
   selectedOption1: any;
   selectedOption2: any;
 
@@ -33,7 +33,7 @@ ngOnInit() {
   }
 }
 
-  selectCompany(selectedCompany: any) {
+selectForm(selectedCompany: any) {
     console.log("Selected Company:", selectedCompany);
 
     window.print();

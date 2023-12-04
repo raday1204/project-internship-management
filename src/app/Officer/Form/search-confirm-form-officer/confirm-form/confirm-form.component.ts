@@ -10,7 +10,7 @@ import { DataStorageService } from 'src/app/Officer/General/search-company-offic
 })
 export class ConfirmFormComponent {
   CompanyInformation: any = {};
-  StudentProfileData: any = {};
+  StudentInformation: any = {};
   selectedOption1: any;
   selectedOption2: any;
 
@@ -32,7 +32,7 @@ ngOnInit() {
     console.error('No company information found.');
   }
 }
-  selectCompany(selectedCompany: any) {
+selectForm(selectedCompany: any) {
     console.log("Selected Company:", selectedCompany);
 
     window.print();

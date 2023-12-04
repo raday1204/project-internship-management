@@ -70,6 +70,7 @@ import { DataStorageService } from './Officer/General/search-company-officer/com
 import { ReportFormComponent } from './Officer/Form/search-report-form-officer/report-form/report-form.component';
 import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-relation-popup/add-relation-popup.component';
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
+import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edi
     EditCompanyPopupComponent,
     ReportFormComponent,
     AddRelationPopupComponent,
-    EditRelationPopupComponent
+    EditRelationPopupComponent,
+    DeleteRelationPopupComponent
   ],
   imports: [
     BrowserModule,

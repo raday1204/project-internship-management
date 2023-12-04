@@ -29,7 +29,7 @@
         </thead>
 
         <tbody style="font-size: 13px;">
-            <tr *ngFor="let company of CompanyInformation.company; let i = index">
+            <tr *ngFor="let company of CompanyInformation; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ company.company_name }}</td>
                 <td>{{ company.company_building }}</td>
@@ -42,7 +42,7 @@
                 <td>{{ company.student_code }}</td>
                 <td>{{ company.student_name }}</td>
                 <td class="text-center">
-                    <button (click)="editCompany(company)"
+                    <button (click)="editCompany(company.company_id)"
                         style="background-color: #66B366; color: #FDFDF6;">แก้ไขข้อมูลหน่วยงาน</button>
                 </td>
             </tr>

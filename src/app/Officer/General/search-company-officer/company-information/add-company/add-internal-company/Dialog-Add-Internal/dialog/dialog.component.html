@@ -1,18 +1,9 @@
-<h2 mat-dialog-title>ยืนยันการเพิ่มข้อมููลหน่วยงาน</h2>
-<div mat-dialog-content>
-
-    <p>ชื่อหน่วยงาน: {{ data.company.company_name | json}}</p>
-    <p>ชื่อผู้ประสานงาน: {{ data.company.company_job | json}}</p>
-    <p>ตำแหน่ง: {{ data.company.company_job | json}}</p>
-    <p>เบอร์โทรศัพท์หน่วยงาน: {{ data.company.company_job | json}}</p>
-    <p>E-mail: {{ data.company.company_job | json}}</p>
-    <p>เบอร์โทรศัพท์มือถือ: {{ data.company.company_job| json }}</p>
-    <p>ชื่อหน่วยงานภายใน: {{ data.company.company_building| json }}</p>
-    <p>ลักษณะงาน: {{ data.company.company_job| json }}</p>
-    <p>จำนวนนิสิตที่รับเข้า: {{ data.need_student.number_student_train | json}}</p>
-    <p>ระยะเวลาฝึกงาน: {{ data.need_student.company_job | json}}</p>
-</div>
-<div mat-dialog-actions>
-    <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-button color="primary" (click)="onSubmit()">Submit</button>
-</div>
+<!-- dialog.component.html -->
+<h2 mat-dialog-title>Confirmation</h2>
+<mat-dialog-content>
+    <p>Do you want to save the data?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="{saveData: true}" cdkFocusInitial>Yes</button>
+    <button mat-button [mat-dialog-close]="{saveData: false}">No</button>
+</mat-dialog-actions>

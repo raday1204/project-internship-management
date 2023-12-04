@@ -1,4 +1,3 @@
-// data-storage.service.ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -7,22 +6,34 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataStorageService {
     private companyInformationSubject = new BehaviorSubject<any>(null);
+    private studentInformationSubject = new BehaviorSubject<any>(null);
+
     companyInformation$ = this.companyInformationSubject.asObservable();
+    studentInformation$ = this.studentInformationSubject.asObservable();
 
     constructor() { }
 
     updateCompanyInformation(updatedData: any): void {
-        // You can perform additional logic here if needed
-        // For simplicity, this example only updates the BehaviorSubject
         this.companyInformationSubject.next(updatedData);
     }
 
+    updateStudentInformation(updatedData: any): void {
+        this.studentInformationSubject.next(updatedData);
+    }
+
     getCompanyInformation(): any {
-        // Get the latest company information
         return this.companyInformationSubject.value;
     }
+
+    getStudentInformation(): any {
+        return this.studentInformationSubject.value;
+    }
+
     setCompanyInformation(data: any): void {
-        // Set the company information
         this.companyInformationSubject.next(data);
+    }
+    
+    setStudentInformation(data: any): void {
+        this.studentInformationSubject.next(data);
     }
 }

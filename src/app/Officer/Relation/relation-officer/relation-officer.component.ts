@@ -1,8 +1,8 @@
-// relation-officer.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteRelationPopupComponent } from './delete-relation-popup/delete-relation-popup.component';
 
 interface Relation {
   id: number;
@@ -20,14 +20,11 @@ export class RelationOfficerComponent implements OnInit {
 
   constructor(
     private http: HttpClient, 
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
     ) {}
 
   ngOnInit(): void {
-    this.fetchRelations();
-  }
-
-  fetchRelations() {
     const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
 
     this.http.get<{ data: Relation[] }>(serverUrl).subscribe(
@@ -41,14 +38,24 @@ export class RelationOfficerComponent implements OnInit {
     );
   }
 
-  deleteRelation(relationId  : number) {
+  deleteRelation(relationId: number) {
+    const dialogRef = this.dialog.open(DeleteRelationPopupComponent);
+  
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.confirmDelete(relationId);
+      }
+    });
+  }
+  
+  confirmDelete(relationId: number) {
     const serverUrl = `http://localhost/PJ/Backend/Officer/Relation/delete-relation.php?id=${relationId}`;
     this.http.delete(serverUrl).subscribe(
       (response: any) => {
         console.log('Delete Response:', response);
         if (response.success) {
           // Update the relations array by filtering out the deleted relation
-          this.relations = this.relations.filter(relation => relation.id !== relationId  );
+          this.relations = this.relations.filter((relation) => relation.id !== relationId);
         } else {
           console.error('Delete Error:', response.message);
           // Handle delete error here

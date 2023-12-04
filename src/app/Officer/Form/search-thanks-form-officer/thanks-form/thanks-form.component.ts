@@ -10,7 +10,7 @@ import { DataStorageService } from 'src/app/Officer/General/search-company-offic
 })
 export class ThanksFormComponent {
   CompanyInformation: any = {};
-  StudentProfileData: any = {};
+  StudentInformation: any = {};
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
 
@@ -33,7 +33,7 @@ export class ThanksFormComponent {
     }
   }
 
-  selectCompany(selectedCompany: any) {
+  selectForm(selectedCompany: any) {
     console.log("Selected Company:", selectedCompany);
 
     window.print();

@@ -1,9 +1,7 @@
 <h2>ยืนยันการเพิ่มข่าวประชาสัมพันธ์</h2>
 <div>
-    <!-- Display the updated data as needed -->
-    <p> {{ data.relationDate | date:'yyyy-MM-dd' }}</p>
-
-    <p>{{ data.relationContent  }}</p>
+    <p>{{ data.relation.relation_date | date:'yyyy-MM-dd' }}</p>
+    <p>{{ data.relation.relation_content }}</p>
 </div>
 
 <div>

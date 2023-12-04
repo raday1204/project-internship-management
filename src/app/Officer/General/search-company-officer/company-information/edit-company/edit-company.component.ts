@@ -41,7 +41,7 @@ export class EditCompanyComponent implements OnInit {
 
 
   getCompanyData(company_id: any) {
-    this.http.get(`http://localhost/PJ/Backend/Officer/company.php?company_id=${company_id}`)
+    this.http.get(`http://localhost/PJ/Backend/Officer/Company/company.php?company_id=${company_id}`)
       .subscribe((response: any) => {
         if (response.success) {
           this.company = response.data;
@@ -72,7 +72,7 @@ export class EditCompanyComponent implements OnInit {
       type_code: this.selectedOption2
     };
 
-    this.http.post('http://localhost/PJ/Backend/Officer/edit-company.php', formDataCompany)
+    this.http.post('http://localhost/PJ/Backend/Officer/Company/edit-company.php', formDataCompany)
       .subscribe((responseCompany: any) => {
         if (responseCompany.success) {
           console.log(responseCompany.message);

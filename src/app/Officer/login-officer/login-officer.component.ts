@@ -16,21 +16,21 @@ export class LoginOfficerComponent {
 
   onSubmit() {
     this.http.post('http://localhost/PJ/Backend/Officer/login-officer.php', {
-  username: this.username,
-}).subscribe({
-  next: (res: any) => {
-    console.log(res);
-    if (res.success) {
-      // Login was successful
-      this.router.navigate(['/home-officer']);
-    } else {
-      // Login failed
-      console.error('Login failed:', res.message);
-    }
-  },
-  error: (error) => {
-    console.error('Error:', error);
-  }
-});
+      username: this.username,
+    }).subscribe({
+      next: (res: any) => {
+        // console.log(res);
+        if (res.success) {
+          // Login was successful
+          this.router.navigate(['/home-officer']);
+        } else {
+          // Login failed
+          // console.error('Login failed:', res.message);
+        }
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

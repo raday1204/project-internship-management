@@ -20,32 +20,31 @@
 
     <div class="main-container">
         <p>ข้อมูลหน่วยงานภายใน</p>
-        <form (ngSubmit)="saveInternal()">
+        <form [formGroup]="companyForm" (ngSubmit)="saveInternal()">
             <div>
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <select [(ngModel)]="company.company_building" name="selectedOption4">
+                <select formControlName="company_building">
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>
             </div>
-
+    
             <div class="list">
                 <label for="company_job">ลักษณะงาน</label>
-                <input type="text" id="company_job" [(ngModel)]="company.company_job" name="company_job">
+                <input type="text" id="company_job" formControlName="company_job">
             </div>
-
+    
             <div class="list">
                 <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
-                <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train" name="number_student_train">
+                <input type="text" id="number_student_train" formControlName="number_student_train">
             </div>
-
+    
             <div class="list">
                 <label for="date_addtraining">ระยะเวลาฝึกงาน</label>
-                <input type="text" id="date_addtraining" [(ngModel)]="need_student.date_addtraining" name="date_addtraining">
+                <input type="text" id="date_addtraining" formControlName="date_addtraining">
             </div>
-
+    
             <div class="button-container">
-                <button class="button" type="submit" 
-                    style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+                <button class="button" type="submit" style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
             </div>
         </form>
     </div>

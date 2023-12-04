@@ -1,1 +1,10 @@
-<p>edit-relation-popup works!</p>
+<h2>ยืนยันการแก้ไขข่าวประชาสัมพันธ์</h2>
+<div>
+    <p>{{ data.relation.relation_date | date:'yyyy-MM-dd' }}</p>
+    <p>{{ data.relation.relation_content }}</p>
+</div>
+
+<div>
+    <button (click)="onCancel()">ไม่ใช่</button>
+    <button (click)="onSubmit()">ใช่</button>
+</div>

@@ -23,7 +23,7 @@ export class SearchConfirmFormOfficerComponent {
     }
   
     getOptions() {
-      this.http.get('http://localhost/PJ/Backend/Officer/get-company-officer.php').subscribe((data: any) => {
+      this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {
         if (Array.isArray(data)) {
           // Create a Set to store unique values for selectedOption1 and selectedOption2
           const uniqueYears = new Set(data.map((item: any) => item.year));
@@ -42,7 +42,7 @@ export class SearchConfirmFormOfficerComponent {
       formData.append('year', this.selectedOption1);
       formData.append('type_code', this.selectedOption2);
   
-      this.http.post('http://localhost/PJ/Backend/Officer/company-officer.php', formData)
+      this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
         .subscribe((response: any) => {
           console.log('Backend Response:', response);
   

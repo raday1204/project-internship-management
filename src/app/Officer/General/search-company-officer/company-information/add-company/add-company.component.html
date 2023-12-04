@@ -19,10 +19,31 @@
 
     <div class="main-container">
         <p>ข้อมูลหน่วยงาน</p>
-        <form (ngSubmit)="saveCompany()">
+        <form [formGroup]="companyForm" (ngSubmit)="saveCompany()">
+            <div class="list">
+                <label for="year">ปีการศึกษา</label><br>
+                <select formControlName="year">
+                    <option value="">-- เลือกปีการศึกษา --</option>
+                    <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
+                </select><br>
+
+                <label for="type_code">ประเภท</label><br>
+                <select formControlName="type_code">
+                    <option value="">-- เลือกประเภท --</option>
+                    <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
+                </select>
+            </div>
+
+            <div class="list">
+                <label for="term">ภาคเรียน</label>
+                <select formControlName="term">
+                    <option *ngFor="let option of selectedOption5" [value]="option">{{ option }}</option>
+                </select>
+            </div>
+
             <div class="list">
                 <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                <select [(ngModel)]="company.company_name" name="selectedOption3">
+                <select formControlName="company_name">
                     <option *ngFor="let option of selectedOption3" [value]="option">{{ option }}</option>
                 </select>
             </div>
@@ -34,7 +55,7 @@
 
             <div class="list">
                 <label for="send_name">เรียน</label>
-                <input type="text" id="send_name" [(ngModel)]="company.send_name" name="send_name">
+                <input type="text" id="send_name" formControlName="send_name">
             </div>
 
             <div class="list">
@@ -43,27 +64,27 @@
 
             <div class="list">
                 <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
-                <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator" name="send_coordinator">
+                <input type="text" id="send_coordinator" formControlName="send_coordinator">
             </div>
 
             <div class="list">
                 <label for="send_position">ตำแหน่ง</label>
-                <input type="text" id="send_position" [(ngModel)]="company.send_position" name="send_position">
+                <input type="text" id="send_position" formControlName="send_position">
             </div>
 
             <div class="list">
                 <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
-                <input type="text" id="send_tel" [(ngModel)]="company.send_tel" name="send_tel">
+                <input type="text" id="send_tel" formControlName="send_tel">
             </div>
 
             <div class="list">
                 <label for="send_email">Emile</label>
-                <input type="text" id="send_email" [(ngModel)]="company.send_email" name="send_email">
+                <input type="text" id="send_email" formControlName="send_email">
             </div>
 
             <div class="list">
                 <label for="send_mobile">โทรศัพท์มือถือ</label>
-                <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile" name="send_mobile">
+                <input type="text" id="send_mobile" formControlName="send_mobile">
             </div>
 
             <div class="button-container">
@@ -73,4 +94,3 @@
         </form>
     </div>
 </body>
-

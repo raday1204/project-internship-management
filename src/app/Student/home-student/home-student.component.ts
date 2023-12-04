@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,11 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeStudentComponent implements OnInit {
   dateTime: Date | undefined
-  username: string | undefined;
+  username: string = '';
+  loggedInUsername: string = '';
 
+  constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.dateTime = new Date()}
+    this.dateTime = new Date();
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
+    this.checkLoginStatus();
+  }
 
   menuSidebar = [
     {
@@ -35,7 +42,7 @@ export class HomeStudentComponent implements OnInit {
     },
     {
       link_name: "ข้อมูลประวัติส่วนตัว",
-      link: "/profile-student",
+      link: '/profile-student', 
       icon: "fa-solid fa-clipboard-user",
       sub_menu: []
     },    
@@ -89,5 +96,21 @@ export class HomeStudentComponent implements OnInit {
   showSubmenu(itemEl: HTMLElement) {
     itemEl.classList.toggle("showMenu");
   }
-}
 
+  checkLoginStatus() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/home-student.php', { username: this.username })
+      .subscribe(
+        (response: any) => {
+          if (response.loggedIn) {
+            this.loggedInUsername = response.username;
+            console.log(`Welcome, ${this.loggedInUsername}, to the home-student page!`);
+          } else {
+            console.log('User not logged in.');
+          }
+        },
+        (error) => {
+          console.error('An error occurred:', error);
+        }
+      );
+  }
+}

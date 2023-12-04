@@ -4,11 +4,11 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item"><a routerLink="/home-officer">แจ้งข่าวประชาสัมพันธ์ </a> > </li>
                     <li class="list-item"><a routerLink="/relation-officer">เพิ่ม-ลบ-แก้ไขประชาสัมพันธ์ </a> > </li>
                     <li class="list-item">แก้ไขข่าวประชาสัมพันธ์</li>
                 </div>
-                <button [routerLink]="['/app']">
+                <button [routerLink]="['/login-officer']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
@@ -17,7 +17,7 @@
 
     <div class="main-container">
         <p>แก้ไขข่าวประชาสัมพันธ์</p>
-        <form [formGroup]="relationForm" (ngSubmit)="editRelation()">
+        <form [formGroup]="relationForm" (ngSubmit)="openPopup()">
             <div class="list">
                 <label for="relation_date">วัน-เดือน-ปี</label>
                 <input type="text" id="relation_date" formControlName="relation_date" (click)="openDatePicker()"
@@ -36,14 +36,22 @@
             </div>
 
             <div class="list p-3" style="justify-content: center;">
-                <input type="file" (change)="onFileSelected($event)" formControlName="relation_pic">
-            </div>
-            <div class="button-container">
-                <button class="button" style="background-color: #FDFDF6; color: #072D44;"
-                    [routerLink]="['/relation-officer']">ย้อนกลับ</button>
-                <button class="button" style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+                <img *ngIf="displayedFilePath" [src]="displayedFilePath" alt="Selected Photo" style="max-width: 100%;">
+                <input type="file" (change)="onFileSelected($event)" #fileInput>
+                <div *ngIf="fileInput.files && fileInput.files.length > 0">
+                    Selected File: {{ fileInput.files[0].name }}
+                </div>
             </div>
 
+            <div class="button-container">
+                <button class="button" style="background-color: #064469; color: #FDFDF6;"
+                type="submit">บันทึกข้อมูล</button>
+            </div>
         </form>
+
+        <div class="button-container">
+            <button class="button" style="background-color: #FDFDF6; color: #072D44;"
+                [routerLink]="['/relation-officer']">ย้อนกลับ</button>
+        </div>
     </div>
 </body>

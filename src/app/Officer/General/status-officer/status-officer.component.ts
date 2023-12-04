@@ -23,7 +23,7 @@ export class StatusOfficerComponent {
     }
   
     getOptions() {
-      this.http.get('http://localhost/PJ/Backend/Officer/get-company-officer.php').subscribe((data: any) => {
+      this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {
         if (Array.isArray(data)) {
           // Create a Set to store unique values for selectedOption1 and selectedOption2
           const uniqueYears = new Set(data.map((item: any) => item.year));

@@ -20,13 +20,13 @@
         <form (ngSubmit)="submitForm()" method="post">
             <div class="form-group">
                 <label for="year">ปีการศึกษา</label><br>
-                <select [(ngModel)]="selectedOption3" name="selectedOption1">
+                <select [(ngModel)]="selectedOption3" name="selectedOption3">
                     <option value="">-- เลือกปีการศึกษา --</option>
                     <option *ngFor="let option of selectedOption3" [value]="option">{{ option }}</option>
                 </select><br>
 
                 <label for="type_code">ประเภท</label><br>
-                <select [(ngModel)]="selectedOption4" name="selectedOption2">
+                <select [(ngModel)]="selectedOption4" name="selectedOption4">
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>
