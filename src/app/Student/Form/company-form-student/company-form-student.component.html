@@ -5,8 +5,10 @@
             <ul>
                 <div class="header-list">
                     <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
-                    <li class="list-item"><a routerLink="/enter-company-form">ข้อมูลหน่วยงาน</a></li>
+                    <li class="list-item">01-ข้อมูลหน่วยงาน </li>
+                    <li class="list-item">ประเภทที่ นิสิตที่ออกฝึกงานในภาคเรียนที่ </li>
                 </div>
+                <!-- <h6>สวัสดีนิสิต{{ StudentProfileData.student_name }} รหัสนิสิต {{ StudentProfileData.student_code }}</h6> -->
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
@@ -14,32 +16,141 @@
         </nav>
     </header>
 
-    <div class="form-container">
-        <p>กรุณากรอกข้อมูล</p>
+    <div class="main-container">
+        <!-- <li>ประเภทที่  นิสิตที่ออกฝึกงานในภาคเรียนที่ </li> แถบข้าง -->
+        <div class="head-list">
+            <li>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</li>
+            <li>ภาคเรียนที่ ประจำปีการศึกษา </li>
+        </div>
 
-        <form (ngSubmit)="submitForm()">
-            <div class="form-group">
-                <label for="option1">ปีการศึกษา</label><br>
-                <select id="option1" [(ngModel)]="selectedOption1" name="option1">
-                    <option value="typenaem1">2565</option>
-                    <option value="value2">2566</option>
-                </select><br>
-
-                <label for="option2">ประเภท</label><br>
-                <select id="option2" [(ngModel)]="selectedOption2" name="option2">
-                    <option value="typecode1">ประเภทที่ 1</option>
-                    <option value="typecode2">ประเภทที่ 2</option>
-                    <option value="typecode3">ประเภทที่ 3</option>
-                    <option value="typecode4">ประเภทที่ 4</option>
-                </select>
+        <p>ข้อมูลนิสิต</p>
+        <form [formGroup]="companyForm" (ngSubmit)="updateData()">
+            <div class="list" *ngIf="studentData">
+                <label for="studentname">ชื่อ-นามสกุล</label>
+                <span>{{ studentData.student_name }} {{ studentData.student_lastname }}</span>
+                <input type="text" id="student_name" formControlName="student_name">
+    <input type="text" id="student_lastname" formControlName="student_lastname">
             </div>
 
-            <div class="button-container">
-                <button class="button" style="background-color: #FDFDF6; color: #072D44;"
-                    [routerLink]="['/home-student']">ย้อนกลับ</button>
-                <button class="button" style="background-color: #064469; color: #FDFDF6;"
-                    >ยืนยัน</button>
+            <div class="list">
+                <label for="year">ปีการศึกษา</label>
+                <input type="text" id="	year" formControlName="year">
             </div>
+
+            <div class="list">
+                <label for="type_code">ประเภทที่</label>
+                <input type="text" id="	type_code" formControlName="type_code">
+            </div>
+
+            <!-- <div class="list">
+                <label for="term">ภาคเรียนที่</label>
+                <input type="text" id="	term" formControlName="term">
+            </div> -->
+
+            <div class="list">
+                <label for="depart_code">สาขาวิศวกรรม</label>
+                <input type="text" id="	depart_code" formControlName="depart_code">
+            </div>
+
+            <div class="list">
+                <label for="student_pak">ภาควิชาวิศวกรรม</label>
+                <input type="text" id="student_pak" formControlName="student_pak">
+            </div>
+
+            <div class="list">
+                <label for="student_mobile">เบอร์โทรศัพท์ที่สามารถติดต่อได้</label>
+                <input type="text" id="student_mobile" formControlName="student_mobile">
+            </div>
+
+            <div class="list">
+                <label for="student_facebook">Facebook</label>
+                <input type="text" id="student_facebook" formControlName="student_facebook">
+            </div>
+
+            <p>ข้อมูลหน่วยงาน</p>
+            <form [formGroup]="companyForm" (ngSubmit)="saveData()">
+                <div class="list">
+                    <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+                    <input type="text" id="company_name" formControlName="company_name">
+                </div>
+
+                <div class="list">
+                    <li>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน
+                        ว่าให้ทำหนังสือถึงใคร
+                    </li>
+                </div>
+
+                <div class="list">
+                    <label for="send_name">เรียน</label>
+                    <input type="text" id="send_name" formControlName="send_name">
+                </div>
+
+                <div class="list">
+                    <li>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</li>
+                </div>
+
+                <div class="list">
+                    <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
+                    <input type="text" id="send_coordinator" formControlName="send_coordinator">
+                </div>
+
+                <div class="list">
+                    <label for="send_position">ตำแหน่ง</label>
+                    <input type="text" id="send_position" formControlName="send_position">
+                </div>
+
+                <div class="list">
+                    <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
+                    <input type="text" id="send_tel" formControlName="send_tel">
+                </div>
+
+                <div class="list">
+                    <label for="send_email">Emile</label>
+                    <input type="text" id="send_email" formControlName="send_email">
+                </div>
+
+                <div class="list">
+                    <label for="send_mobile">โทรศัพท์มือถือ</label>
+                    <input type="text" id="send_mobile" formControlName="send_mobile">
+                </div>
+
+                <div class="list">
+                    <label for="type_position">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
+                    <input type="text" id="type_position" formControlName="type_position">
+                </div>
+
+                <div class="list">
+                    <label for="type_special">4. คุณสมบัติ/ความสามารถ/ความรู้เพิ่มเติม
+                        ของนิสิตที่บริษัทต้องการ(ถ้ามี)</label>
+                    <input type="text" id="type_special" formControlName="type_special">
+                </div>
+
+                <div class="list">
+                    <label for="date_addtraining">5. วันที่ออกฝึกงาน</label>
+                    <input type="text" id="date_addtraining" formControlName="date_addtraining"
+                        (click)="openDatePicker()" [matDatepicker]="picker" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </div>
+
+                <div class="text">
+                    <li>หมายเหตุ&nbsp;&nbsp;ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</li>
+                    <li style="margin-left: 77px;">กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</li>
+                    <li style="margin-left: 77px;">ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ &nbsp;คณะวิศวกรรมศาสตร์&nbsp;
+                        เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</li>
+                </div>
+
+                <div class="button-container">
+                    <button class="button" type="submit"
+                        style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+                </div>
+            </form>
         </form>
+    </div>
+
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
     </div>
 </body>

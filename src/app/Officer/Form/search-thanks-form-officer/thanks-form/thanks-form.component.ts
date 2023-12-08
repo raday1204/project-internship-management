@@ -21,16 +21,21 @@ export class ThanksFormComponent {
   
   ngOnInit() {
     // Get the latest company information from DataStorageService
-    const companyInformation = this.dataStorageService.getCompanyInformation();
-  
-    if (companyInformation) {
-      this.CompanyInformation = companyInformation;
-      this.selectedOption1 = companyInformation.year;
-      this.selectedOption2 = companyInformation.type_code;
-    } else {
-      // If no information found, handle accordingly
-      console.error('No company information found.');
-    }
+    this.dataStorageService.getCompanyInformation().subscribe(
+      (companyInformation: any) => {
+        if (companyInformation) {
+          this.CompanyInformation = companyInformation;
+          this.selectedOption1 = companyInformation.year;
+          this.selectedOption2 = companyInformation.type_code;
+        } else {
+          console.error('No company information found.');
+        }
+      },
+      (error) => {
+        // Handle the error if any occurs during the subscription
+        console.error('Error fetching company information:', error);
+      }
+    );
   }
 
   selectForm(selectedCompany: any) {

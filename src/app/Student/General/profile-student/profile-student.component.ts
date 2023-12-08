@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -14,6 +14,7 @@ export class ProfileStudentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient
   ) {}
 
@@ -46,4 +47,18 @@ export class ProfileStudentComponent implements OnInit {
       }
     });
   }
+  
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-student']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
+  }
+
 }

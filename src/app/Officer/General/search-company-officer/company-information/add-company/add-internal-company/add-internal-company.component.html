@@ -20,31 +20,35 @@
 
     <div class="main-container">
         <p>ข้อมูลหน่วยงานภายใน</p>
-        <form [formGroup]="companyForm" (ngSubmit)="saveInternal()">
+        <form [formGroup]="internalCompanyForm" (ngSubmit)="openAddInternalPopup()">
             <div>
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
                 <select formControlName="company_building">
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>
             </div>
-    
+
             <div class="list">
                 <label for="company_job">ลักษณะงาน</label>
                 <input type="text" id="company_job" formControlName="company_job">
             </div>
-    
+
             <div class="list">
                 <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
                 <input type="text" id="number_student_train" formControlName="number_student_train">
             </div>
-    
+
             <div class="list">
-                <label for="date_addtraining">ระยะเวลาฝึกงาน</label>
-                <input type="text" id="date_addtraining" formControlName="date_addtraining">
+                <label for="date_addtraining">วันที่ออกฝึกงาน</label>
+                <input type="text" id="date_addtraining" formControlName="date_addtraining"(click)="openDatePicker()"
+                [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </div>
-    
+
             <div class="button-container">
-                <button class="button" type="submit" style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
+                <button class="button" type="submit"
+                    style="background-color: #064469; color: #FDFDF6;">บันทึกข้อมูล</button>
             </div>
         </form>
     </div>

@@ -1,6 +1,11 @@
-<h1 mat-dialog-title>ยืนยันการลบข่าวประชาสัมพันธ์</h1>
-<!-- <div mat-dialog-content>คุณต้องการที่จะลบใช่หรือไม่?</div> -->
-<div mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="false">ไม่ใช่</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>ใช่</button>
+<div class="main-container">
+
+    <h4 class="text-center">ยืนยันการลบข่าวประชาสัมพันธ์</h4>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" mat-button
+            [mat-dialog-close]="false">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" mat-button [mat-dialog-close]="true"
+            cdkFocusInitial>ใช่</button>
+    </div>
 </div>

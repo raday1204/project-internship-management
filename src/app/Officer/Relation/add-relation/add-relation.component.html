@@ -36,11 +36,14 @@
                 <label for="relation_pic">แนบรูป</label>
             </div>
 
+            <div class="list p-3" style="justify-content: center; text-align: center;">
+                <img *ngIf="displayedFilePath" [src]="displayedFilePath" alt="Selected Photo"
+                    style="max-width: 100%; display: inline-block;">
+            </div>
+            
             <div class="list p-3" style="justify-content: center;">
-                <img *ngIf="displayedFilePath" [src]="displayedFilePath" alt="Selected Photo" style="max-width: 100%;">
-                <input type="file" (change)="onFileSelected($event)" #fileInput>
-                <div *ngIf="fileInput.files && fileInput.files.length > 0">
-                    Selected File: {{ fileInput.files[0].name }}
+                <input type="file" (change)="onFileSelected($event)" #fileInput style="margin-bottom: 10px;">
+                <div *ngIf="fileInput.files && fileInput.files.length > 0" style="text-align: center;">
                 </div>
             </div>
 

@@ -17,11 +17,9 @@ import { ProfileStudentComponent } from './Student/General/profile-student/profi
 import { EditProfileComponent } from './Student/General/profile-student/edit-profile/edit-profile.component';
 import { AcceptanceFormStudentComponent } from './Student/Form/acceptance-form-student/acceptance-form-student.component';
 import { CompanyFormStudentComponent } from './Student/Form/company-form-student/company-form-student.component';
-import { EnterCompanyFormComponent } from './Student/Form/company-form-student/enter-company-form/enter-company-form.component';
 import { DiaryFormStudentComponent } from './Student/Form/diary-form-student/diary-form-student.component';
 import { EvaluationFormStudentComponent } from './Student/Form/evaluation-form-student/evaluation-form-student.component';
 import { ManualFormStudentComponent } from './Student/Form/manual-form-student/manual-form-student.component';
-import { PrintCompanyComponent } from './Student/Form/company-form-student/enter-company-form/print-company/print-company.component';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
 import { StudentInformationComponent } from './Officer/General/search-student-officer/student-information/student-information.component';
@@ -71,11 +69,9 @@ const routes: Routes = [
   { path: 'edit-profile', component: EditProfileComponent },
   { path: 'acceptance-form-student', component: AcceptanceFormStudentComponent },
   { path: 'company-form-student', component: CompanyFormStudentComponent },
-  { path: 'enter-company-form', component: EnterCompanyFormComponent },
   { path: 'diary-form-student', component: DiaryFormStudentComponent },
   { path: 'evaluation-form-student', component: EvaluationFormStudentComponent },
   { path: 'manual-form-student', component: ManualFormStudentComponent },
-  { path: 'print-company', component: PrintCompanyComponent },
 
   { path: 'search-student-officer', component: SearchStudentOfficerComponent },
   { path: 'student-information', component: StudentInformationComponent },

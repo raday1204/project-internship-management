@@ -1,7 +1,7 @@
 body {
     background-color: white;
     background-position: top;
-    height: 100%; 
+    height: auto; 
     overflow: auto;
  }
 
@@ -53,7 +53,7 @@ body {
 /* content part */
 
 .profile {
-    background-color: #D0D7E1;
+    background-color: #DFEBF6;
     margin:  50px 50px 30px 50px;
     padding: 40px 60px 30px 60px;
     border-radius: 8px;
@@ -62,19 +62,31 @@ body {
 p {
     font-size: 18px;
     font-weight: 700;
+    padding-top: 15px;
 }
 
 .profile .list {
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     padding: 5px;
     display: inline-block;
     justify-content: flex-start;
 }
 
 label {
+    padding-right: 15px;
+}
+
+span {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 400;
+    padding: 2px 12px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-right: 40px;
+    min-width: 150px;
+    display: inline-block;
 }
 
 /* text-box part */
@@ -101,6 +113,7 @@ label {
     grid-template-columns: repeat(2, auto);
     justify-content: center; 
     gap: 80px;
+    padding-top: 20px;
 }
 
 .button {

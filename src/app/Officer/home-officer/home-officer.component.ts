@@ -23,10 +23,13 @@ item: any;
   
       {
         link_name: "ข้อมูลหน่วยงาน",
-        link: "/search-company-officer",
+        link: null,
         icon: "fa-solid fa-address-book",
         sub_menu: [
           {
+            link_name: "ข้อมูลหน่วยงาน",
+            link: "//search-company-officer",
+          }, {
             link_name: "เพิ่มข้อมูลหน่วยงาน",
             link: "/add-company",
           }

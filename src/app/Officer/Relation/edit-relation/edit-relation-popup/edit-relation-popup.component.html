@@ -1,10 +1,18 @@
-<h2>ยืนยันการแก้ไขข่าวประชาสัมพันธ์</h2>
-<div>
-    <p>{{ data.relation.relation_date | date:'yyyy-MM-dd' }}</p>
-    <p>{{ data.relation.relation_content }}</p>
-</div>
+<body style="width: 600px;">
 
-<div>
-    <button (click)="onCancel()">ไม่ใช่</button>
-    <button (click)="onSubmit()">ใช่</button>
-</div>
+    <i class="fa-regular fa-circle-check"></i>
+
+    <div class="text-box text-center">
+        <h4>ยืนยันการแก้ไขข่าวประชาสัมพันธ์</h4>
+    </div>    
+
+    <div class="main-container">
+        <p class="text-center">{{ data.relation.relation_date | date:'yyyy-MM-dd' }}</p>
+        <p class="text-center" style="word-break: break-all;">{{ data.relation.relation_content }}</p>
+    </div>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" (click)="onCancel()">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" (click)="onSubmit()">ใช่</button>
+    </div>
+</body>

@@ -11,29 +11,29 @@
     </header>
 
     <div class="sidebar">
-        <p>ข้อมูลทั่วไป</p>
-        <ul class="nav-links" id="nav-links">
+        <div class="nav-links" id="nav-links">
+
+            <p>ข้อมูลทั่วไป</p>
             <li *ngFor="let item of menuSidebar" #itemEl routerLinkActive="active">
-                <div class="dropdown-title" *ngIf="!item.sub_menu || item.sub_menu.length === 0">
+                <div *ngIf="item.sub_menu.length == 0" class="dropdown-title">
                     <a [routerLink]="[item.link]">
                         <i [class]="item.icon"></i>
                         <span class="link_name">{{item.link_name}}</span>
                     </a>
                 </div>
                 <div *ngIf="item.sub_menu.length > 0" class="dropdown-title" (click)="showSubmenu(itemEl)">
-                    <a [routerLink]="[item.link]">
+                    <a>
                         <i [class]="item.icon"></i>
                         <span class="link_name">{{item.link_name}}</span>
                     </a>
+                    <i class="fa-solid fa-chevron-down arrow"></i>
                 </div>
-
-                <ul class="sub-menu" [class.blank]="!item.sub_menu || item.sub_menu.length === 0">
+                <div class="sub-menu" [class.blank]="item.sub_menu.length == 0">
+                    <!-- <li><a class="link_name">{{item.link_name}}</a></li> -->
                     <li *ngFor="let item_sub of item.sub_menu" routerLinkActive="active">
-                        <a [routerLink]="[item_sub.link]">
-                            <i class="fa-regular fa-circle"></i>{{item_sub.link_name}}
-                        </a>
+                        <a [routerLink]="[item_sub.link]"><i class="fa-regular fa-circle"></i>{{item_sub.link_name}}</a>
                     </li>
-                </ul>
+                </div>
             </li><br>
 
             <hr style="border-width: 3px; border-color: white;">
@@ -55,6 +55,6 @@
                     <span class="link_name">{{item.link_name}}</span>
                 </a>
             </li>
-        </ul>
+        </div>
     </div>
 </body>

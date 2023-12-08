@@ -80,6 +80,12 @@ table td {
     border: 2px solid #064469;
 }
 
+td {
+    /* word-wrap: break-word; */
+    word-break: break-all;
+}
+
+
 .button {
     border-radius: 10px;
     width: 50px;

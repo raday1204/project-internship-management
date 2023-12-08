@@ -1,8 +1,7 @@
 body {
     background-color: white;
     background-position: top;
-    height: 100%;
-    overflow: auto;
+    height: auto;
 }
 
 .header {
@@ -39,7 +38,7 @@ body {
     background: #4F92B3;
     z-index: 100;
     border-radius: 5px;
-    overflow: auto;
+    overflow: fit-content;
     /* transition: all 0.5s ease; */
 }
 
@@ -62,15 +61,16 @@ body {
 
 .sidebar .nav-links li {
     list-style: none;
-    overflow: hidden;
+    padding-left: 30px;
+    overflow: fit-content;
 }
 
 .sidebar .nav-links>li {
     position: relative;
-    width: 258.5px;
+    width: 290;
 }
 
-.sidebar .nav-links li:hover {
+.sidebar .nav-links li :hover {
     background: #44779F;
 }
 
@@ -95,9 +95,9 @@ body {
     width: 100%;
 }
 
-.sidebar .nav-links li a:hover {
+.sidebar .nav-links li:hover {
     background: #44779F;
-    border-right: solid aqua;
+    border-left: solid aqua;
 }
 
 .sidebar .nav-links li a .link_name {

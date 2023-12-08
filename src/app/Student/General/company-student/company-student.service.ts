@@ -1,18 +1,21 @@
+// company-student.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CompanyStudentService {
+  private username: string = '';
 
-  getSelectedCompany(): any {
-    throw new Error('Method not implemented.');
-  }
-  constructor(private http: HttpClient) { }
-
-  getCompanyInformation(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/company-information');
-  }
+  constructor(
+    private route: ActivatedRoute
+    ) {}
+    setUsername(username: string): void {
+      this.username = username;
+    }
+  
+    getUsername(): string {
+      return this.username;
+    }
 }

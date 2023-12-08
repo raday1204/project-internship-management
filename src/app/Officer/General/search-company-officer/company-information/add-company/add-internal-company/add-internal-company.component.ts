@@ -4,16 +4,18 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { formatDate } from '@angular/common';
 import { DialogComponent } from './Dialog-Add-Internal/dialog/dialog.component';
+import { DataStorageService } from '../../data-storage.service';
 
 @Component({
   selector: 'app-add-internal-company',
   templateUrl: './add-internal-company.component.html',
-  styleUrls: ['./add-internal-company.component.css']
+  styleUrls: ['./add-internal-company.component.css'],
 })
 export class AddInternalCompanyComponent implements OnInit {
   company: any = {
-    company_id: null,
+    company_id: '',
     company_name: '',
     company_building: '',
     company_job: ''
@@ -23,7 +25,7 @@ export class AddInternalCompanyComponent implements OnInit {
     date_addtraining: ''
   };
   CompanyInformation: any = {};
-  companyForm: FormGroup;
+  internalCompanyForm: FormGroup;
   selectedOption4: any;
 
   constructor(
@@ -31,25 +33,22 @@ export class AddInternalCompanyComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private DataStorageService: DataStorageService
   ) {
-    this.companyForm = this.fb.group({
+    this.internalCompanyForm = this.fb.group({
       company_building: ['', Validators.required],
       company_job: ['', Validators.required],
       number_student_train: ['', Validators.required],
-      date_addtraining: ['', Validators.required]
+      date_addtraining: ['', [Validators.required]]
     });
   }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      const companyId = params['companyId'];
-      if (companyId) {
-        // You can use the companyId to fetch and display the relevant company information
-        console.log('Company ID:', companyId);
-        this.fetchCompanyData(companyId);
-      } else if (params['CompanyInformation']) {
-        this.CompanyInformation = Object.values(JSON.parse(params['CompanyInformation']));
+      if (params['companyInformation']) {
+        this.CompanyInformation = JSON.parse(params['companyInformation']);
+        this.populateFormWithData();
       }
     });
   
@@ -71,6 +70,15 @@ export class AddInternalCompanyComponent implements OnInit {
     this.getOptions();
   }
   
+  populateFormWithData() {
+    // Populate the form fields with existing company data
+    this.internalCompanyForm.patchValue({
+      company_building: this.CompanyInformation.company_building,
+      company_job: this.CompanyInformation.company_job,
+      // Populate other fields if available in CompanyInformation
+    });
+  }
+  
   fetchCompanyData(companyId: string) {
     // Fetch existing company data using companyId
     this.http.get(`http://localhost/PJ/Backend/Officer/Company/get-company-officer.php?company_id=${companyId}`)
@@ -88,20 +96,38 @@ export class AddInternalCompanyComponent implements OnInit {
   }
 
   openAddInternalPopup(): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      data: {
-        company: {
-          company_id: this.companyForm.value.company_id,
-          company_building: this.companyForm.value.company_building,
-          company_job: this.companyForm.value.company_job,
-        }
-      }
-    });
+    this.DataStorageService.getCompanyInformation().subscribe((companyData: any) => {
+      if (this.internalCompanyForm.valid && companyData) {
+        const formattedDate = this.internalCompanyForm.value.date_addtraining ?
+          formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
   
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result && result.saveData) {
-        this.saveInternal();
+        const dialogRef = this.dialog.open(DialogComponent, {
+          data: {
+            company: {
+              company_id: companyData.company_id,
+              company_name: companyData.company_name,
+              send_name: companyData.send_name,
+              send_coordinator: companyData.send_coordinator,
+              send_position: companyData.send_position,
+              send_tel: companyData.send_tel,
+              send_email: companyData.send_email,
+              send_mobile: companyData.send_mobile,
+              company_building: this.internalCompanyForm.value.company_building,
+              company_job: this.internalCompanyForm.value.company_job,
+            },
+            need_student: {
+              number_student_train: this.internalCompanyForm.value.number_student_train,
+              date_addtraining: formattedDate,
+            }
+          }
+        });
+  
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          if (result && result.saveData) {
+            this.saveInternal();
+          }
+        });
       }
     });
   }
@@ -110,20 +136,23 @@ export class AddInternalCompanyComponent implements OnInit {
     // Step 1: Update company data
     const formDataCompany = new FormData();
     formDataCompany.append('company_id', this.company.company_id); // Use this.company instead of this.companyForm.value
-    formDataCompany.append('company_building', this.companyForm.value.company_building);
-    formDataCompany.append('company_job', this.companyForm.value.company_job);
-  
+    formDataCompany.append('company_building', this.internalCompanyForm.value.company_building);
+    formDataCompany.append('company_job', this.internalCompanyForm.value.company_job);
+
     this.http.post('http://localhost/PJ/Backend/Officer/Company/update-company.php', formDataCompany)
       .subscribe((companyResponse: any) => {
         if (companyResponse.success) {
           console.log(companyResponse.message);
-  
+
           // Step 2: Insert need_student data
+          const formattedDate = this.internalCompanyForm.value.date_addtraining ?
+          formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
           const formDataNeedStudent = new FormData();
-          formDataNeedStudent.append('company_id', this.companyForm.value.company_id);
-          formDataNeedStudent.append('date_addtraining', this.companyForm.value.date_addtraining);
-          formDataNeedStudent.append('number_student_train', this.companyForm.value.number_student_train);
-  
+          formDataNeedStudent.append('company_id', this.company.company_id);
+          formDataNeedStudent.append('number_student_train', this.internalCompanyForm.value.number_student_train);
+          formDataNeedStudent.append('date_addtraining', formattedDate);
+
           this.http.post('http://localhost/PJ/Backend/Officer/Company/add-internal-company.php', formDataNeedStudent)
             .subscribe((needStudentResponse: any) => {
               if (needStudentResponse.success) {
@@ -146,34 +175,14 @@ export class AddInternalCompanyComponent implements OnInit {
         // Handle HTTP error in updating company data
       });
   }
-  
-
-  // openAddInternalPopup(): void {
-  //   // if (this.companyForm.valid) {
-  //     const dialogRef = this.dialog.open(DialogComponent, {
-  //       data: {
-  //         company: {
-  //           company_id: this.companyForm.value.company_id,
-  //           company_building: this.companyForm.value.company_building,
-  //           company_job: this.companyForm.value.company_job,
-  //           number_student_train: this.companyForm.value.number_student_train,
-  //           date_addtraining: this.companyForm.value.date_addtraining,
-  //         }
-  //       }
-  //     });
-
-  //     dialogRef.afterClosed().subscribe(result => {
-  //       console.log('The dialog was closed');
-  //       if (result && result.saveData) {
-  //         this.saveInternal(); // Pass the data received from the dialog
-  //       }
-  //     });
-  //   }
-  // }
 
   getOptions() {
     this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {
       this.selectedOption4 = data.map((item: { company_building: any; }) => item.company_building);
     });
+  }
+
+  openDatePicker() {
+    // You can perform any additional logic here if needed
   }
 }

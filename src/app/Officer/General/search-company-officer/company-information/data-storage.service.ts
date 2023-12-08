@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DataStorageService {
-    private companyInformationSubject = new BehaviorSubject<any>(null);
-    private studentInformationSubject = new BehaviorSubject<any>(null);
+    private companyInformationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null)
+    private studentInformationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null)
 
-    companyInformation$ = this.companyInformationSubject.asObservable();
-    studentInformation$ = this.studentInformationSubject.asObservable();
+    // companyInformation$ = this.companyInformationSubject.asObservable();
+    // studentInformation$ = this.studentInformationSubject.asObservable();
 
     constructor() { }
 
@@ -21,8 +21,8 @@ export class DataStorageService {
         this.studentInformationSubject.next(updatedData);
     }
 
-    getCompanyInformation(): any {
-        return this.companyInformationSubject.value;
+    getCompanyInformation(): Observable<any> {
+        return this.companyInformationSubject.asObservable();
     }
 
     getStudentInformation(): any {

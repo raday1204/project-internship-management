@@ -31,7 +31,7 @@
         </thead>
         <tbody style="font-size: 13px;">
             <tr *ngFor="let student of StudentInformation; let i = index">
-                <td>{{ i + 1 }}</td>
+                <td class="text-center">{{ i + 1 }}</td>
                 <td>{{ student.student_citizen }}</td>
                 <td>{{ student.student_code }}</td>
                 <td>{{ student.student_name }} {{ student.student_lastname }}</td>
@@ -39,7 +39,7 @@
                 <td>{{ student.student_email }}</td>
                 <td>{{ student.student_facebook }}</td>
                 <td>{{ student.student_line }}</td>
-                <td>{{ student.st_address }}</td>
+                <td style="word-break: break-all;">{{ student.st_address }}</td>
             </tr>
         </tbody>
     </table>

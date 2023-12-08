@@ -1,7 +1,7 @@
 body {
     background-color: white;
     background-position: top;
-    height: 100%;
+    height: auto;
     overflow: auto;
 }
 
@@ -106,9 +106,9 @@ input {
 
 .button-container {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    /* grid-template-columns: repeat(2, auto); */
     justify-content: center; 
-    gap: 80px;
+    /* gap: 80px; */
 }
 
 .button {
@@ -119,4 +119,5 @@ input {
     font-size: 16px;
     font-weight: 600;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }

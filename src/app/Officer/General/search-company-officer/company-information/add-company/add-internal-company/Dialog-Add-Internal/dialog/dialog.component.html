@@ -1,9 +1,23 @@
-<!-- dialog.component.html -->
-<h2 mat-dialog-title>Confirmation</h2>
-<mat-dialog-content>
-    <p>Do you want to save the data?</p>
-</mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-button [mat-dialog-close]="{saveData: true}" cdkFocusInitial>Yes</button>
-    <button mat-button [mat-dialog-close]="{saveData: false}">No</button>
-</mat-dialog-actions>
+<h1>ยืนยันการเพิ่มข้อมูลหน่วยงาน</h1>
+
+<div>
+    <p><strong>ชื่อหน่วยงาน</strong> {{ data.company.company_name }}</p>
+    <p><strong>เรียน</strong> {{ data.company.send_name }}</p>
+    <p><strong>ชื่อผู้ประสานงาน</strong> {{ data.company.send_coordinator }}</p>
+    <p><strong>ตำแหน่ง</strong> {{ data.company.send_position }}</p>
+    <p><strong>เบอร์โทรศัพท์หน่วยงาน</strong> {{ data.company.send_tel }}</p>
+    <p><strong>E-mail</strong> {{ data.company.send_email }}</p>
+    <p><strong>เบอร์โทรศัพท์มือถือ</strong> {{ data.company.send_mobile }}</p>
+</div>
+
+<div>
+    <p><strong>ชื่อหน่วยงานภายใน</strong> {{ data.company.company_building }}</p>
+    <p><strong>ลักษณะงาน</strong> {{ data.company.company_job }}</p>
+    <p><strong>จำนวนนิสิตที่รับเข้า</strong> {{ data.need_student.number_student_train }}</p>
+    <p><strong>วันที่ออกฝึกงาน</strong> {{ data.need_student.date_addtraining | date:'dd/MM/yyyy' }}</p>
+</div>
+
+<div class="buttons">
+    <button mat-button [mat-dialog-close]="{ saveData: false }">ไม่ใช่</button>
+    <button mat-button [mat-dialog-close]="{ saveData: true }">ใช่</button>
+</div>

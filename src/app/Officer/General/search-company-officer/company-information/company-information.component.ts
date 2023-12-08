@@ -32,8 +32,8 @@ export class CompanyInformationComponent implements OnInit {
 
   ngOnInit() {
     // Get the latest company information from DataStorageService
-    const companyInformation = this.dataStorageService.getCompanyInformation();
-
+    this.dataStorageService.getCompanyInformation().subscribe(
+      (companyInformation: any) => {
     if (companyInformation) {
       this.CompanyInformation = companyInformation.company;
       this.selectedOption1 = companyInformation.year;
@@ -41,9 +41,14 @@ export class CompanyInformationComponent implements OnInit {
       this.companyName = companyInformation.company_name;
       this.need_student = companyInformation.need_student;
     } else {
-      // If no information found, handle accordingly
       console.error('No company information found.');
     }
+  },
+  (error) => {
+    // Handle the error if any occurs during the subscription
+    console.error('Error fetching company information:', error);
+  }
+);
     const serverUrl = 'http://localhost/PJ/Backend/Officer/Company/get-company-officer.php';
 
     this.http.get<{ data: Company[] }>(serverUrl).subscribe(
@@ -51,8 +56,8 @@ export class CompanyInformationComponent implements OnInit {
         this.company = response.data;
       },
       (error) => {
-        console.error('HTTP Error:', error);
-        // Handle error here
+        // Handle the error if any occurs during the subscription
+        console.error('Error fetching company information:', error);
       }
     );
   }

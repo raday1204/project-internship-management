@@ -28,11 +28,9 @@ import { ProfileStudentComponent } from './Student/General/profile-student/profi
 import { EditProfileComponent } from './Student/General/profile-student/edit-profile/edit-profile.component';
 import { AcceptanceFormStudentComponent } from './Student/Form/acceptance-form-student/acceptance-form-student.component';
 import { CompanyFormStudentComponent } from './Student/Form/company-form-student/company-form-student.component';
-import { EnterCompanyFormComponent } from './Student/Form/company-form-student/enter-company-form/enter-company-form.component';
 import { DiaryFormStudentComponent } from './Student/Form/diary-form-student/diary-form-student.component';
 import { EvaluationFormStudentComponent } from './Student/Form/evaluation-form-student/evaluation-form-student.component';
 import { ManualFormStudentComponent } from './Student/Form/manual-form-student/manual-form-student.component';
-import { PrintCompanyComponent } from './Student/Form/company-form-student/enter-company-form/print-company/print-company.component';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
 import { StudentInformationComponent } from './Officer/General/search-student-officer/student-information/student-information.component';
@@ -53,7 +51,6 @@ import { HomeOfficerComponent } from './Officer/home-officer/home-officer.compon
 import { RelationOfficerComponent } from './Officer/Relation/relation-officer/relation-officer.component';
 import { EditProfileService } from './Student/General/profile-student/edit-profile/edit-profile.service';
 import { ProfileUploadService } from './Student/General/profile-student/profile-upload.service';
-import { EnterCompanyService } from './Student/Form/company-form-student/enter-company-form/enter-company.service';
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
@@ -71,6 +68,7 @@ import { ReportFormComponent } from './Officer/Form/search-report-form-officer/r
 import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-relation-popup/add-relation-popup.component';
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
+import { CompanyStudentPopupComponent } from './Student/General/company-student/company-student-popup/company-student-popup.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +101,6 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
     SearchThanksFormOfficerComponent,
     AcceptanceFormStudentComponent,
     CompanyFormStudentComponent,
-    EnterCompanyFormComponent,
     DiaryFormStudentComponent,
     EvaluationFormStudentComponent,
     ManualFormStudentComponent,
@@ -111,7 +108,6 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
     EditRelationComponent,
     LoginOfficerComponent,
     HomeOfficerComponent,
-    PrintCompanyComponent,
     RelationOfficerComponent,
     AddCompanyComponent,
     EditCompanyComponent,
@@ -128,7 +124,8 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
     ReportFormComponent,
     AddRelationPopupComponent,
     EditRelationPopupComponent,
-    DeleteRelationPopupComponent
+    DeleteRelationPopupComponent,
+    CompanyStudentPopupComponent
   ],
   imports: [
     BrowserModule,
@@ -148,11 +145,10 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
   providers: [
     EditProfileService,
     ProfileUploadService,
-    EnterCompanyService,
     MatDialog,
     DataStorageService
-
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

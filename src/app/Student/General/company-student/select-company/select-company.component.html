@@ -3,7 +3,7 @@
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
-                <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป  </a> > </li>
+                <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
                 <li class="list-item">ข้อมูลหน่วยงาน</li>
                 <button [routerLink]="['/app']">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
@@ -24,16 +24,20 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>{{ CompanyInformation.company_id }}</td>
-                <td>{{ CompanyInformation.company_name }}</td>
-                <td>{{ CompanyInformation.company_building }}</td>
-                <td>{{ CompanyInformation.number_student_train }}</td>
-                <td>{{ StudentProfileData.student_code }}</td>
-                <td>{{ StudentProfileData.student_name }}</td>
+            <tr *ngFor="let company of CompanyInformation;">
+                <td>{{ company.company_id }}</td>
+                <td>{{ company.company_name }}</td>
+                <td>{{ company.company_building }}</td>
+                <td *ngIf="need_student[company.company_id] && need_student[company.company_id].length > 0">
+                    {{ need_student[company.company_id][0].number_student_train }}
+                </td>
+                <td *ngIf="!need_student[company.company_id]">N/A</td>
+
+                <td>{{ company.student_code }}</td>
+                <td>{{ company.student_name }} {{ company.student_lastname }}</td>
             </tr>
         </tbody>
     </table>
-<h6>*นิสิตสามารถลงทะเบียนได้เพียง 1 หน่วยงาน เท่านั้น*</h6>
+    <h6>*นิสิตสามารถลงทะเบียนได้เพียง 1 หน่วยงาน เท่านั้น*</h6>
 
 </body>

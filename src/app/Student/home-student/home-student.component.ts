@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router'; 
+import { CompanyStudentService } from '../General/company-student/company-student.service';
 
 @Component({
   selector: 'app-home-student',
@@ -11,7 +13,12 @@ export class HomeStudentComponent implements OnInit {
   username: string = '';
   loggedInUsername: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private route: ActivatedRoute, 
+    private router: Router,
+    private companyStudentService: CompanyStudentService
+    ) {}
 
   ngOnInit() {
     this.dateTime = new Date();
@@ -102,14 +109,34 @@ export class HomeStudentComponent implements OnInit {
       .subscribe(
         (response: any) => {
           if (response.loggedIn) {
-            this.loggedInUsername = response.username;
-            console.log(`Welcome, ${this.loggedInUsername}, to the home-student page!`);
+            this.username = response.username;
+            console.log(`Welcome, ${this.username}, to the home-student page!`);
+            this.companyStudentService.setUsername(this.username);
+            // Navigate to company-information with the username as a query parameter
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { username: this.username },
+              queryParamsHandling: 'merge'
+            });
           } else {
-            console.log('User not logged in.');
+            this.router.navigate(['/login-student']);
           }
         },
         (error) => {
           console.error('An error occurred:', error);
+        }
+      );
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-student']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
         }
       );
   }

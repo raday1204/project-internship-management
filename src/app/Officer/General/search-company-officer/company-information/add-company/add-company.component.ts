@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataStorageService } from '../data-storage.service';
 
 @Component({
   selector: 'app-add-company',
@@ -32,7 +33,8 @@ export class AddCompanyComponent {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private DataStorageService: DataStorageService
   ) { 
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
@@ -64,28 +66,21 @@ export class AddCompanyComponent {
     formData.append('send_tel', this.companyForm.value.send_tel);
     formData.append('send_email', this.companyForm.value.send_email);
     formData.append('send_mobile', this.companyForm.value.send_mobile);
-
-    // {
-    //   year:  this.company.year,
-    //   type_code: this.company.type_code,
-    //   term: this.company.term,
-    //   company_name: this.company.company_name,
-    //   send_name: this.company.send_name,
-    //   send_coordinator: this.company.send_coordinator,
-    //   send_position: this.company.send_position,
-    //   send_tel: this.company.send_tel,
-    //   send_email: this.company.send_email,
-    //   send_mobile: this.company.send_mobile,
-    // };
+  
     console.log('formData:', formData);
+  
     this.http.post('http://localhost/PJ/Backend/Officer/Company/add-company.php', formData)
       .subscribe((response: any) => {
         console.log('Response:', response);
-
+  
         if (response.success) {
           console.log(response.message);
+          this.DataStorageService.setCompanyInformation(response);
           this.company.company_id = response.company_id;
-          this.router.navigate(['/add-internal-company', this.company.company_id]);
+          // Pass company information to the route using navigate method
+          this.router.navigate(['/add-internal-company'], {
+            queryParams: { companyInformation: JSON.stringify(response) }
+          });
         } else {
           console.error(response.message);
         }
@@ -93,6 +88,7 @@ export class AddCompanyComponent {
         console.error('HTTP Error:', error);
       });
   }
+  
 
   getOptions() {
     this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {

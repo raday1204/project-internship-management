@@ -3,7 +3,7 @@ body {
     background-position: top;
     /* margin: 0px 260px;
     padding: 0%; */
-    height: 100%; 
+    height: auto; 
     overflow: auto;
 }
 

@@ -3,7 +3,7 @@
         <nav>
             <ul>
                 <li>{{ dateTime | date: 'fullDate' }}</li>
-                <button [routerLink]="['/login-student']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
@@ -11,8 +11,8 @@
     </header>
 
     <div class="sidebar">
-        <p>ข้อมูลทั่วไป</p>
-        <ul class="nav-links" id="nav-links">
+        <p class="text-center">ข้อมูลทั่วไป</p>
+        <div class="nav-links" id="nav-links">
             <li *ngFor="let item of menuSidebar" #itemEl routerLinkActive="active">
                 <a [routerLink]="[item.link]" [queryParams]="{ username: this.username }">
                     <i [class]="item.icon"></i>
@@ -22,13 +22,13 @@
 
             <hr style="border-width: 3px; border-color: white;">
 
-            <p>แบบฟอร์ม</p>
+            <p class="text-center">แบบฟอร์ม</p>
             <li *ngFor="let item of formSidebar" #itemEl routerLinkActive="active">
                 <a [routerLink]="[item.link]">
                     <i [class]="item.icon"></i>
                     <span class="link_name">{{item.link_name}}</span>
                 </a>
             </li>
-        </ul>
+        </div>
     </div>
 </body>

@@ -13,11 +13,11 @@ export class DialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
-  onNoClick(): void {
-    this.dialogRef.close('no');
+  onCloseClick(): void {
+    this.dialogRef.close({ saveData: false });
   }
 
-  onYesClick(): void {
-    this.dialogRef.close('yes');
+  onSaveClick(): void {
+    this.dialogRef.close({ saveData: true });
   }
 }
