@@ -35,10 +35,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $send_tel = $_POST['send_tel'];
     $send_email = $_POST['send_email'];
     $send_mobile = $_POST['send_mobile'];
+    $type_position = $_POST['type_position'];
+    $type_special = $_POST['type_special'];
 
     // This is an insert operation
-    $sql_insert_company = "INSERT INTO company (year, type_code, term, company_name, send_name, send_coordinator, send_position, send_tel, send_email, send_mobile) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql_insert_company = "INSERT INTO company (year, type_code, term, company_name, 
+    send_name, send_coordinator, send_position, send_tel, send_email, send_mobile,
+    type_position, type_special) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt_insert_company = $conn->prepare($sql_insert_company);
 
     if ($stmt_insert_company === false) {
@@ -46,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $stmt_insert_company->bind_param(
-        "ssssssssss",
+        "ssssssssssss",
         $year,
         $type_code,
         $term,
@@ -56,7 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $send_position,
         $send_tel,
         $send_email,
-        $send_mobile
+        $send_mobile,
+        $type_position,
+        $type_special
     );
 
     if ($stmt_insert_company->execute()) {
