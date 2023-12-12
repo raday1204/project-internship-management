@@ -20,32 +20,20 @@
         <!-- <li>ประเภทที่  นิสิตที่ออกฝึกงานในภาคเรียนที่ </li> แถบข้าง -->
         <div class="head-list">
             <li>แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน</li>
-            <li>ภาคเรียนที่ ประจำปีการศึกษา </li>
         </div>
 
         <p>ข้อมูลนิสิต</p>
-        <form [formGroup]="companyForm" (ngSubmit)="updateData()">
-            <div class="list" *ngIf="studentData">
-                <label for="studentname">ชื่อ-นามสกุล</label>
-                <span>{{ studentData.student_name }} {{ studentData.student_lastname }}</span>
+        <form [formGroup]="studentyForm" (ngSubmit)="openPopup()">
+            <div class="list">
+                <label for="student_name">ชื่อ-นามสกุล</label>
                 <input type="text" id="student_name" formControlName="student_name">
-    <input type="text" id="student_lastname" formControlName="student_lastname">
+                <input type="text" id="student_lastname" formControlName="student_lastname">
             </div>
 
             <div class="list">
-                <label for="year">ปีการศึกษา</label>
-                <input type="text" id="	year" formControlName="year">
+                <label for="student_code">รหัสนิสิต</label>
+                <input type="text" id="	student_code" formControlName="student_code">
             </div>
-
-            <div class="list">
-                <label for="type_code">ประเภทที่</label>
-                <input type="text" id="	type_code" formControlName="type_code">
-            </div>
-
-            <!-- <div class="list">
-                <label for="term">ภาคเรียนที่</label>
-                <input type="text" id="	term" formControlName="term">
-            </div> -->
 
             <div class="list">
                 <label for="depart_code">สาขาวิศวกรรม</label>
@@ -67,8 +55,24 @@
                 <input type="text" id="student_facebook" formControlName="student_facebook">
             </div>
 
-            <p>ข้อมูลหน่วยงาน</p>
-            <form [formGroup]="companyForm" (ngSubmit)="saveData()">
+            <form [formGroup]="companyForm" (ngSubmit)="openPopup()">
+                <div class="list">
+                    <label for="year">ปีการศึกษา</label>
+                    <input type="text" id="	year" formControlName="year">
+                </div>
+
+                <div class="list">
+                    <label for="type_code">ประเภทที่</label>
+                    <input type="text" id="	type_code" formControlName="type_code">
+                </div>
+
+                <div class="list">
+                    <label for="term">ภาคเรียนที่</label>
+                    <input type="text" id="	term" formControlName="term">
+                </div>
+
+                <p>ข้อมูลหน่วยงาน</p>
+
                 <div class="list">
                     <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
                     <input type="text" id="company_name" formControlName="company_name">
@@ -105,7 +109,7 @@
                 </div>
 
                 <div class="list">
-                    <label for="send_email">Emile</label>
+                    <label for="send_email">Email</label>
                     <input type="text" id="send_email" formControlName="send_email">
                 </div>
 

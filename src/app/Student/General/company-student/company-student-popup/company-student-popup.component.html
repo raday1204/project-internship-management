@@ -1,9 +1,18 @@
-<div class="popup-container">
-    <p>ยืนยันการยื่นขอเข้าฝึกงาน</p>
-    <div>
-        <p><strong>ชื่อหน่วยงาน</strong> {{ data.companyInformation.company_name}}</p>
-        <p><strong>ชื่อหน่วยงาน</strong> {{ data.companyInformation.company_building}}</p>
-</div>
-    <button (click)="onNoClick()">ไม่ใช่</button>
-    <button (click)="onYesClick()">ใช่</button>
-</div>
+<body style="width: 600px;">
+
+    <i class="fa-regular fa-circle-check"></i>
+
+    <div class="text-box text-center">
+        <h4>ยืนยันการยื่นขอเข้าฝึกงาน</h4>
+    </div>
+
+    <div class="main-container text-center">
+        <p><strong>ชื่อหน่วยงาน: </strong><br>{{ data.companyInformation.company_name}}</p>
+        <p><strong>ชื่อหน่วยงานภายใน: </strong><br>{{ data.companyInformation.company_building}}</p>
+    </div>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" (click)="onNoClick()">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" (click)="onYesClick()">ใช่</button>
+    </div>
+</body>

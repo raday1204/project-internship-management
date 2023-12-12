@@ -7,7 +7,7 @@
                     <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
                     <li class="list-item">ข้อมูลหน่วยงาน</li>
                 </div>
-                <button [routerLink]="['/app']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>
@@ -16,7 +16,7 @@
 
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">
-            <tr>
+            <tr style="font-size: 13px;">
                 <th>ลำดับ</th>
                 <th>ชื่อหน่วยงาน</th>
                 <th>หน่วยงานภายใน</th>
@@ -30,16 +30,16 @@
             <ng-container *ngFor="let company of CompanyInformation; let i = index">
                 <ng-container *ngIf="company && company.company_id">
                     <tr *ngIf="i === 0 || company.company_id !== CompanyInformation[i - 1]?.company_id">
-                        <td>{{ company.company_id }}</td>
-                        <td>{{ company.company_name }}</td>
-                        <td>{{ company.company_building }}</td>
+                        <td class="text-center">{{ company.company_id }}</td>
+                        <td style="word-break: break-all;">{{ company.company_name }}</td>
+                        <td style="word-break: break-all;">{{ company.company_building }}</td>
     
-                        <td *ngIf="need_student[company.company_id] && need_student[company.company_id].length > 0">
+                        <td class="text-center" *ngIf="need_student[company.company_id] && need_student[company.company_id].length > 0">
                             {{ need_student[company.company_id][0].number_student_train }}
                         </td>
                         <td *ngIf="!need_student[company.company_id]">N/A</td>
     
-                        <td>{{ company.student_code }}</td>
+                        <td class="text-center">{{ company.student_code }}</td>
                         <td>{{ company.student_name }}</td>
                         <td class="text-center">
                             <button (click)="selectCompany(company)"

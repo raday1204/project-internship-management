@@ -1,11 +1,11 @@
 body {
     background-color: white;
     background-position: top;
-    height: 100%; 
+    height: auto;
     overflow: auto;
- }
+}
 
- .header {
+.header {
     background-color: #44779F;
     border-radius: 8px;
 }
@@ -54,11 +54,38 @@ body {
 
 table {
     border: 2px solid #064469;
-    margin: 50px 40px 10px 40px ;
+    margin: 20px 40px 10px 40px;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .table-container {
     border-radius: 10px;
+}
+
+td {
+    word-wrap: break-word;
+    /* word-break: break-all; */
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+    width: 6%;
+}
+
+th:nth-child(4),
+td:nth-child(4) {
+    width: 11%;
+}
+
+th:nth-child(5),
+td:nth-child(5) {
+    width: 9%;
+}
+
+th:nth-child(7),
+td:nth-child(7) {
+    width: 14%;
 }
 
 table th {
@@ -87,8 +114,8 @@ h6 {
 /* text-box part */
 
 .text-box {
-    border: 4px solid #064469; 
-    padding: 15px 50px 15px 50px; 
+    border: 4px solid #064469;
+    padding: 15px 50px 15px 50px;
     width: 880px;
     margin: 0px 50px 30px 50px;
     border-radius: 8px;

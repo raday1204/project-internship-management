@@ -1,26 +1,24 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 import { CompanyStudentService } from '../../General/company-student/company-student.service';
+import { CompanyFormStudentPopupComponent } from './company-form-student-popup/company-form-student-popup.component';
 
 @Component({
   selector: 'app-company-form-student',
   templateUrl: './company-form-student.component.html',
   styleUrls: ['./company-form-student.component.css']
 })
-export class CompanyFormStudentComponent {
+export class CompanyFormStudentComponent implements OnInit {
   company: any = {
-    company_id: null,
+    company_id: '',
     year: '',
     type_code: '',
     term: '',
-    depart_code: '',
-    student_pak: '',
-    student_mobile: '',
-    student_facebook: '',
     company_name: '',
     send_name: '',
     send_coordinator: '',
@@ -34,29 +32,42 @@ export class CompanyFormStudentComponent {
   need_student: any = {
     date_addtraining: ''
   };
+  student: any = {
+    student_code: '',
+    student_name: '',
+    student_lastname: '',
+    depart_code: '',
+    student_pak: '',
+    student_mobile: '',
+    student_facebook: '',
+  };
   companyForm: FormGroup;
+  studentyForm: FormGroup;
   studentData: any;
   username: string | undefined;
-  student: any;
   errorMessage: string | undefined;
 
   constructor(
-    private route: ActivatedRoute,
+    public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
     private DataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
 
   ) {
+    this.studentyForm = this.fb.group({
+      student_code: ['', Validators.required],
+      student_name: ['', Validators.required],
+      student_lastname: ['', Validators.required],
+      depart_code: ['', Validators.required],
+      student_pak: ['', Validators.required],
+      student_mobile: ['', Validators.required],
+      student_facebook: ['', Validators.required],
+    });
     this.companyForm = this.fb.group({
-      year: [''],
-      type_code: [''],
-      student_name: [''],
-      student_lastname: [''],
-      depart_code: [''],
-      student_pak: [''],
-      student_mobile: [''],
-      student_facebook: [''],
+      year: ['', Validators.required],
+      type_code: ['', Validators.required],
+      term: ['', Validators.required],
       company_name: ['', Validators.required],
       send_name: ['', Validators.required],
       send_coordinator: ['', Validators.required],
@@ -69,6 +80,7 @@ export class CompanyFormStudentComponent {
       date_addtraining: ['', Validators.required]
     });
   }
+
   //ทำให้เรียกชื่อstudent
   ngOnInit(): void {
     this.username = this.companyStudentService.getUsername();
@@ -79,26 +91,16 @@ export class CompanyFormStudentComponent {
         .get(`http://localhost/PJ/Backend/Student/profile-student.php?username=${this.username}`)
         .subscribe(
           (response: any) => {
-            if (!response.error) {
-              this.studentData = response;
-              console.log(response)
-              // Set default values for the form
-              this.companyForm.setValue({
-                year: this.studentData.year,
-                type_code: this.studentData.type_code,
-                student_name: this.studentData.student_name,
-                student_lastname: this.studentData.student_lastname,
-                depart_code: this.studentData.depart_code,
-                student_pak: this.studentData.student_pak,
-                student_mobile: this.studentData.student_mobile,
-                student_facebook: this.studentData.student_facebook,
-              });
+            if (response && response.username) {
+              this.studentyForm.patchValue(response);
             } else {
-              this.errorMessage = response.error;
+              this.errorMessage = response.error || 'An error occurred while fetching student data.';
+              console.error('API Error:', this.errorMessage);
             }
           },
           (error) => {
-            this.errorMessage = 'An error occurred while fetching student data.';
+            this.errorMessage = 'An error occurred while fetching student data. Please check your internet connection or try again later.';
+            console.error('HTTP Error:', error);
           }
         );
     } else {
@@ -107,107 +109,165 @@ export class CompanyFormStudentComponent {
   }
 
   updateData() {
-    const formDataStudent = this.companyForm.value;
+    if (this.username) {
+      const formDataStudent = new FormData();
+      formDataStudent.append('type_code', this.companyForm.value.type_code);
+      formDataStudent.append('student_code', this.studentyForm.value.student_code);
+      formDataStudent.append('student_name', this.studentyForm.value.student_name);
+      formDataStudent.append('student_lastname', this.studentyForm.value.student_lastname);
+      formDataStudent.append('depart_code', this.studentyForm.value.depart_code);
+      formDataStudent.append('student_pak', this.studentyForm.value.student_pak);
+      formDataStudent.append('student_mobile', this.studentyForm.value.student_mobile);
+      formDataStudent.append('student_facebook', this.studentyForm.value.student_facebook);
+      formDataStudent.append('username', this.username);
 
-    this.http
-      .post('http://localhost/PJ/Backend/Student/edit-profile.php', formDataStudent)
-      .subscribe(
-        (responseCompany: any) => {
-          if (responseCompany.success) {
-            console.log(responseCompany.message);
+      this.http.post('http://localhost/PJ/Backend/Student/update-company-form-student.php', formDataStudent)
+        .subscribe(
+          (responseStudent: any) => {
+            if (responseStudent.success) {
+              console.log(responseStudent.message);
 
-            // Update this.studentData with formDataStudent
-            this.studentData = formDataStudent;
+              // Optionally, you can update the form with the latest data
+              this.studentyForm.patchValue(responseStudent.data);
 
-            // Optionally reset the form
-            this.companyForm.reset();
+              // Proceed with company form data only if student data is successfully updated
+              const formattedDate = this.companyForm.value.date_addtraining ?
+                formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+              const formDataCompany = new FormData();
+              formDataCompany.append('year', this.companyForm.value.year);
+              formDataCompany.append('type_code', this.companyForm.value.type_code);
+              formDataCompany.append('term', this.companyForm.value.term);
+              formDataCompany.append('company_name', this.companyForm.value.company_name);
+              formDataCompany.append('send_name', this.companyForm.value.send_name);
+              formDataCompany.append('send_coordinator', this.companyForm.value.send_coordinator);
+              formDataCompany.append('send_position', this.companyForm.value.send_position);
+              formDataCompany.append('send_tel', this.companyForm.value.send_tel);
+              formDataCompany.append('send_email', this.companyForm.value.send_email);
+              formDataCompany.append('send_mobile', this.companyForm.value.send_mobile);
+              formDataCompany.append('type_position', this.companyForm.value.type_position);
+              formDataCompany.append('type_special', this.companyForm.value.type_special);
+              formDataCompany.append('date_addtraining', formattedDate);
+
+              console.log('formDataCompany:', formDataCompany);
+
+              this.http.post('http://localhost/PJ/Backend/Student/add-company-form-student.php', formDataCompany)
+                .subscribe(
+                  (responseCompany: any) => {
+                    console.log('Response:', responseCompany);
+                    if (responseCompany.success) {
+                      console.log(responseCompany.message);
+
+                      if (responseCompany.data) {
+                        console.log(responseCompany.data);
+
+                        this.companyForm.patchValue(responseCompany.data);
+                      } else {
+                        console.error('Data from the server is undefined.');
+                      }
+                      const typeCode = responseCompany.type_code;
+                      const updatedCompanyId = responseCompany.company_id;
+
+                      const formDataUpdateStudent = new FormData();
+                      if (this.username) {
+                        formDataUpdateStudent.append('type_code', typeCode);
+                        formDataUpdateStudent.append('company_id', updatedCompanyId);
+
+                        formDataUpdateStudent.append('username', this.username ?? '');
+                      } else {
+                        // Handle the case where username is undefined.
+                        console.error('Error: Username is undefined.');
+                      }
+
+                      this.http.post('http://localhost/PJ/Backend/Student/update-student-company-id.php', formDataUpdateStudent)
+                        .subscribe(
+                          (responseUpdateStudent: any) => {
+                            if (responseUpdateStudent.success) {
+                              console.log(responseUpdateStudent.message);
+                              this.printDocument();
+                            } else {
+                              console.error(responseUpdateStudent.message);
+                            }
+                          },
+                          (errorUpdateStudent) => {
+                            console.error('HTTP Error:', errorUpdateStudent);
+                          }
+                        );
+
+                    } else {
+                      console.error(responseCompany.message);
+                    }
+                  },
+                  (errorCompany) => {
+                    console.error('HTTP Error:', errorCompany);
+                  }
+                );
+            } else {
+              console.error(responseStudent.message);
+            }
+          },
+          (errorStudent) => {
+            console.error('HTTP Error:', errorStudent);
           }
-        },
-        (error) => {
-          console.error('HTTP Error:', error);
-        }
-      );
+        );
+    }
   }
 
+  openPopup(): void {
+    if (this.areFormsValid()) {
+      const formattedDate = this.companyForm.value.date_addtraining ?
+        formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
 
-saveData() {
-  const formattedDate = this.companyForm.value.date_addtraining ?
-    formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+      const dialogRef = this.dialog.open(CompanyFormStudentPopupComponent, {
+        data: {
+          company: {
+            year: this.companyForm.value.year,
+            type_code: this.companyForm.value.type_code,
+            term: this.companyForm.value.term,
+            company_name: this.companyForm.value.company_name,
+            send_name: this.companyForm.value.send_name,
+            send_coordinator: this.companyForm.value.send_coordinator,
+            send_position: this.companyForm.value.send_position,
+            send_tel: this.companyForm.value.send_tel,
+            send_email: this.companyForm.value.send_email,
+            send_mobile: this.companyForm.value.send_mobile,
+            type_position: this.companyForm.value.type_position,
+            type_special: this.companyForm.value.type_special
+          },
+          need_student: {
+            date_addtraining: formattedDate,
+          },
+          student: {
+            student_code: this.studentyForm.value.student_code,
+            student_name: this.studentyForm.value.student_name,
+            student_lastname: this.studentyForm.value.student_lastname,
+            depart_code: this.studentyForm.value.depart_code,
+            student_pa: this.studentyForm.value.student_pak,
+            student_mobile: this.studentyForm.value.student_mobile,
+            student_facebook: this.studentyForm.value.student_facebook,
+          }
+        }
+      });
 
-  const formData = new FormData();
-  // formData.append('year', this.companyForm.value.year);
-  // formData.append('type_code', this.companyForm.value.type_code);
-  // formData.append('term', this.companyForm.value.term);
-  // formData.append('student_depart', this.companyForm.value.student_depart);
-  // formData.append('student_pak', this.companyForm.value.student_pak);
-  // formData.append('student_mobile', this.companyForm.value.student_mobile);
-  // formData.append('student_facebook', this.companyForm.value.student_facebook);
-  formData.append('company_name', this.companyForm.value.company_name);
-  formData.append('send_name', this.companyForm.value.send_name);
-  formData.append('send_coordinator', this.companyForm.value.send_coordinator);
-  formData.append('send_position', this.companyForm.value.send_position);
-  formData.append('send_tel', this.companyForm.value.send_tel);
-  formData.append('send_email', this.companyForm.value.send_email);
-  formData.append('send_mobile', this.companyForm.value.send_mobile);
-  formData.append('type_position', this.companyForm.value.type_position);
-  formData.append('type_special', this.companyForm.value.type_special);
-  formData.append('date_addtraining', formattedDate);
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if (result && result.saveData) {
+          this.updateData();
+        }
+      });
+    }
+  }
 
-  console.log('formData:', formData);
-  this.http.post('http://localhost/PJ/Backend/Officer/Company/add-company.php', formData)
-    .subscribe((response: any) => {
-      console.log('Response:', response)
-      if (response.success) {
-        console.log(response.message);
-        this.DataStorageService.setCompanyInformation(response);
-      } else {
-        console.error(response.message);
-      }
-    }, (error) => {
-      console.error('HTTP Error:', error);
-    });
-}
+  areFormsValid(): boolean {
+    return this.studentyForm.valid && this.companyForm.valid;
+  }
 
-// updateData() {
-//   const formDataStudent= {
-//     student_name: this.student ? this.student.student_name : null,
-//     student_lastname: this.student ? this.student.student_lastname : null,
-//     student_depart: this.student ? this.student.student_depart : null,
-//     student_pak: this.student ? this.student.student_pak : null,
-//     student_mobile: this.student ? this.student.student_mobile : null,
-//     student_facebook: this.student ? this.student.student_facebook : null,
-//   };
+  printDocument() {
+    window.print();
+  }
 
-//   this.http.post('http://localhost/PJ/Backend/Officer/Company/edit-company.php', formDataStudent)
-//     .subscribe((responseCompany: any) => {
-//       if (responseCompany.success) {
-//         console.log(responseCompany.message);
-
-//         // Update this.company and this.need_student with formDataCompany
-//       this.company = {
-//         student_name: formDataStudent.student_name,
-//         student_lastname: formDataStudent.student_lastname,
-//         student_depart: formDataStudent.student_depart,
-//         student_pak: formDataStudent.student_pak,
-//         student_mobile: formDataStudent.student_mobile,
-//         student_facebook: formDataStudent.student_facebook,
-//       };
-
-//       // Use queryParams to send updated data to company-information component
-//       const queryParams = {
-//         CompanyInformation: JSON.stringify(formDataStudent)
-//       };
-
-//     }, (error) => {
-//       console.error('HTTP Error:', error);
-//     });
-// }
-
-printDocument() {
-  window.print();
-}
-
-openDatePicker() {
-}
+  openDatePicker() {
+    console.log('Date picker opened');
+  }
 }
 

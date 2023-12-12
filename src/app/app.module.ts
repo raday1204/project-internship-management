@@ -69,6 +69,8 @@ import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-r
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
 import { CompanyStudentPopupComponent } from './Student/General/company-student/company-student-popup/company-student-popup.component';
+import { CompanyFormStudentPopupComponent } from './Student/Form/company-form-student/company-form-student-popup/company-form-student-popup.component';
+import { EditProfilePopupComponent } from './Student/General/profile-student/edit-profile/edit-profile-popup/edit-profile-popup.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +127,9 @@ import { CompanyStudentPopupComponent } from './Student/General/company-student/
     AddRelationPopupComponent,
     EditRelationPopupComponent,
     DeleteRelationPopupComponent,
-    CompanyStudentPopupComponent
+    CompanyStudentPopupComponent,
+    CompanyFormStudentPopupComponent,
+    EditProfilePopupComponent
   ],
   imports: [
     BrowserModule,

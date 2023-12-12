@@ -4,7 +4,7 @@
             <ul>
                 <div class="header-list">
                     <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
-                    <li class="list-item"><a routerLink="/profile-student">ข้อมูลประวัติส่วนตัว</a> ></li>
+                    <li class="list-item"><a (click)="goBack()">ข้อมูลประวัติส่วนตัว</a> ></li>
                     <li class="list-item">แก้ไขข้อมูลพื้นฐาน</li>
                 </div>
                 <button [routerLink]="['/app']">
@@ -15,107 +15,121 @@
     </header>
 
     <div class="edit-profile">
-        <form (ngSubmit)="updateStudent()">
-            <input type="file" (change)="onFileSelected($event)">
-            <button type="button" (click)="onUpload()">Upload</button>
-            <br><br>
+        <form [formGroup]="studentyForm" (ngSubmit)="openPopup()">
+
+            <div class="list p-3" style="justify-content: center;">
+                <input type="file" (change)="onFileSelected($event)" #fileInput style="margin-bottom: 10px;">
+                <div *ngIf="fileInput.files && fileInput.files.length > 0" style="text-align: center;">
+                </div>
+            </div>
 
             <p>รายละเอียดส่วนตัว</p>
             <div class="list">
-                <label for="typeCode">ประเภท : </label>
-                <select id="typeCode"  [(ngModel)]="studentData.type_code" name="typeCode" required>
-                    <option value="option1">ประเภทที่ 1</option>
-                    <option value="option2">ประเภทที่ 2</option>
-                    <option value="option3">ประเภทที่ 3</option>
-                    <option value="option4">ประเภทที่ 4</option>
-                    <!-- Add more options as needed -->
-                </select>
+                <label for="type_code">ประเภทที่</label>
+                <input type="text" id="	type_code" formControlName="type_code">
+            </div>
+
+            <div class="list">
+                <label for="student_name">ชื่อ :</label>
+                <input type="text" id="student_name" formControlName="student_name">
             </div>
             <div class="list">
-                <label for="studentCitizen">หมายเลขประจำวันประชาชน :</label>
-                <input type="text" id="studentCitizen"  [(ngModel)]="studentData.student_citizen" name="studentCitizen">
+                <label for="student_lastname">นามสกุล :</label>
+                <input type="text" id="student_lastname" formControlName="student_lastname">
             </div>
+
             <div class="list">
-                <label for="studentNickname">ชื่อเล่น :</label>
-                <input type="text" id="studentNickname"  [(ngModel)]="studentData.student_nickname" name="studentNickname" >
+                <label for="student_nickname">ชื่อเล่น :</label>
+                <input type="text" id="student_nickname" formControlName="student_nickname">
             </div>
+
             <div class="list">
-                <label for="studentMobile">โทรศัพท์มือถือ :</label>
-                <input type="text" id="studentMobile"  [(ngModel)]="studentData.student_mobile" name="studentMobile">
+                <label for="student_citizen">หมายเลขประจำวันประชาชน :</label>
+                <input type="text" id="student_citizen" formControlName="student_citizen">
             </div>
+
             <div class="list">
-                <label for="studentEmail">Email :</label>
-                <input type="email" id="studentEmail"  [(ngModel)]="studentData.student_email" name="studentEmail">
+                <label for="student_email">Email :</label>
+                <input type="email" id="student_email" formControlName="student_email">
             </div>
+
             <div class="list">
-                <label for="studentFacebook">Fackbook URL :</label>
-                <input type="text" id="studentFacebook"  [(ngModel)]="studentData.student_facebook" name="studentFacebook">
+                <label for="student_mobile">โทรศัพท์มือถือ :</label>
+                <input type="text" id="student_mobile" formControlName="student_mobile">
             </div>
+
+
+
             <div class="list">
-                <label for="studentLine">Line ID :</label>
-                <input type="text" id="studentLine"  [(ngModel)]="studentData.student_line" name="studentLine">
+                <label for="student_facebook">Fackbook URL :</label>
+                <input type="text" id="student_facebook" formControlName="student_facebook">
+            </div>
+
+            <div class="list">
+                <label for="student_line">Line ID :</label>
+                <input type="text" id="student_line" formControlName="student_line">
             </div>
             <br><br>
 
             <p>ที่อยู่ตามภูมิลำเนา</p>
             <div class="list">
-                <label for="stAddress">ที่อยู่ :</label>
-                <input type="text" id="stAddress"  [(ngModel)]="studentData.st_address" name="stAddress">
+                <label for="st_address">ที่อยู่ :</label>
+                <input type="text" id="st_address" formControlName="st_address">
             </div>
             <div class="list">
-                <label for="stTambol">ตำบล/แขวง :</label>
-                <input type="text" id="stTambol"  [(ngModel)]="studentData.st_tambol" name="stTambol">
+                <label for="st_tambol">ตำบล/แขวง :</label>
+                <input type="text" id="st_tambol" formControlName="st_tambol">
             </div>
             <div class="list">
-                <label for="stAmpher">อำเภอ/เขต :</label>
-                <input type="text" id="stAmpher"  [(ngModel)]="studentData.st_ampher" name="stAmpher">
+                <label for="st_ampher">อำเภอ/เขต :</label>
+                <input type="text" id="st_ampher" formControlName="st_ampher">
             </div>
             <div class="list">
-                <label for="stProvince">จังหวัด :</label>
-                <input type="text" id="stProvince"  [(ngModel)]="studentData.st_province" name="stProvince">
+                <label for="st_province">จังหวัด :</label>
+                <input type="text" id="st_province" formControlName="st_province">
             </div>
             <div class="list">
-                <label for="stZipcode">รหัสไปรษณีย์ :</label>
-                <input type="text" id="stZipcode"  [(ngModel)]="studentData.st_zipcode" name="stZipcode">
+                <label for="st_zipcode">รหัสไปรษณีย์ :</label>
+                <input type="text" id="st_zipcode" formControlName="st_zipcode">
             </div>
             <div class="list">
-                <label for="stTel">โทรศัพท์บ้าน :</label>
-                <input type="text" id="stTel"  [(ngModel)]="studentData.st_tel" name="stTel">
+                <label for="st_tel">โทรศัพท์บ้าน :</label>
+                <input type="text" id="st_tel" formControlName="st_tel">
             </div>
             <div class="list">
-                <label for="stContact">บุคคลอ้างอิง :</label>
-                <input type="text" id="stContact"  [(ngModel)]="studentData.st_contact" name="stContact">
+                <label for="st_contact">บุคคลอ้างอิง :</label>
+                <input type="text" id="st_contact" formControlName="st_contact">
             </div>
             <div class="list">
-                <label for="stMobile">โทรศัพท์มือถือ :</label>
-                <input type="text" id="stMobile"  [(ngModel)]="studentData.st_mobile" name="stMobile">
+                <label for="st_mobile">โทรศัพท์มือถือ :</label>
+                <input type="text" id="st_mobile" formControlName="st_mobile">
             </div>
             <br><br>
 
             <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
             <div class="list">
-                <label for="ctAddress">ที่อยู่ :</label>
-                <input type="text" id="ctAddress"  [(ngModel)]="studentData.ct_address" name="ctAddress">
+                <label for="ct_address">ที่อยู่ :</label>
+                <input type="text" id="ct_address" formControlName="ct_address">
             </div>
             <div class="list">
-                <label for="ctTambol">ตำบล/แขวง :</label>
-                <input type="text" id="ctTambol"  [(ngModel)]="studentData.ct_tambol" name="ctTambol">
+                <label for="ct_tambol">ตำบล/แขวง :</label>
+                <input type="text" id="ct_tambol" formControlName="ct_tambol">
             </div>
             <div class="list">
-                <label for="ctAmpher">อำเภอ/เขต :</label>
-                <input type="text" id="ctAmpher"  [(ngModel)]="studentData.ct_ampher" name="ctAmpher">
+                <label for="ct_ampher">อำเภอ/เขต :</label>
+                <input type="text" id="ct_ampher" formControlName="ct_ampher">
             </div>
             <div class="list">
-                <label for="ctProvince">จังหวัด :</label>
-                <input type="text" id="ctProvince"  [(ngModel)]="studentData.ct_province" name="ctProvince">
+                <label for="ct_province">จังหวัด :</label>
+                <input type="text" id="ct_province" formControlName="ct_province">
             </div>
             <div class="list">
-                <label for="ctZipcode">รหัสไปรษณีย์ :</label>
-                <input type="text" id="ctZipcode"  [(ngModel)]="studentData.ct_zipcode" name="ctZipcode">
+                <label for="ct_zipcode">รหัสไปรษณีย์ :</label>
+                <input type="text" id="ct_zipcode" formControlName="ct_zipcode">
             </div>
             <div class="list">
-                <label for="ctTel">โทรศัพท์บ้าน :</label>
-                <input type="text" id="ctTel"  [(ngModel)]="studentData.ct_tel" name="ctTel">
+                <label for="ct_tel">โทรศัพท์บ้าน :</label>
+                <input type="text" id="ct_tel" formControlName="ct_tel">
             </div>
             <!-- <div class="list">
                 <label for="ct_tel">อื่นๆ :</label>
@@ -127,8 +141,8 @@
             <div class="button-container">
                 <button class="button" (click)="goBack()"
                     style="background-color: white; color: #064469;">ย้อนกลับ</button>
-                
-                    
+
+
                 <button class="button" type="submit"
                     style="background-color: #064469; color: white;">บันทึกข้อมูล</button>
             </div>
