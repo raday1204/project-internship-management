@@ -1,5 +1,11 @@
-<p>edit-profile-popup works!</p>
-<div class="buttons">
-    <button mat-button [mat-dialog-close]="{ saveData: false }">ย้อนกลับ</button>
-    <button mat-button [mat-dialog-close]="{ saveData: true }">พิมพ์เอกสาร</button>
+<div class="main-container">
+
+    <h4 class="text-center">ยืนยันการแก้ไขข้อมูลประวัติส่วนตัว</h4>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" mat-button
+            [mat-dialog-close]="{ saveData: false }">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" mat-button
+            [mat-dialog-close]="{ saveData: true }">ใช่</button>
+    </div>
 </div>

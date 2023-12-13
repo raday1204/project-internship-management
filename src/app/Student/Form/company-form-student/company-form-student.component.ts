@@ -33,6 +33,7 @@ export class CompanyFormStudentComponent implements OnInit {
     date_addtraining: ''
   };
   student: any = {
+    type_code: '',
     student_code: '',
     student_name: '',
     student_lastname: '',
@@ -56,6 +57,7 @@ export class CompanyFormStudentComponent implements OnInit {
 
   ) {
     this.studentyForm = this.fb.group({
+      type_code: ['', Validators.required],
       student_code: ['', Validators.required],
       student_name: ['', Validators.required],
       student_lastname: ['', Validators.required],
@@ -121,7 +123,7 @@ export class CompanyFormStudentComponent implements OnInit {
       formDataStudent.append('student_facebook', this.studentyForm.value.student_facebook);
       formDataStudent.append('username', this.username);
 
-      this.http.post('http://localhost/PJ/Backend/Student/update-company-form-student.php', formDataStudent)
+      this.http.post('http://localhost/PJ/Backend/Student/Company-Form/update-company-form-student.php', formDataStudent)
         .subscribe(
           (responseStudent: any) => {
             if (responseStudent.success) {
@@ -151,7 +153,7 @@ export class CompanyFormStudentComponent implements OnInit {
 
               console.log('formDataCompany:', formDataCompany);
 
-              this.http.post('http://localhost/PJ/Backend/Student/add-company-form-student.php', formDataCompany)
+              this.http.post('http://localhost/PJ/Backend/Student/Company-Form/add-company-form-student.php', formDataCompany)
                 .subscribe(
                   (responseCompany: any) => {
                     console.log('Response:', responseCompany);
@@ -179,7 +181,7 @@ export class CompanyFormStudentComponent implements OnInit {
                         console.error('Error: Username is undefined.');
                       }
 
-                      this.http.post('http://localhost/PJ/Backend/Student/update-student-company-id.php', formDataUpdateStudent)
+                      this.http.post('http://localhost/PJ/Backend/Student/Company-Form/update-student-company-id.php', formDataUpdateStudent)
                         .subscribe(
                           (responseUpdateStudent: any) => {
                             if (responseUpdateStudent.success) {

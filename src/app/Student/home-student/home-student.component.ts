@@ -55,7 +55,7 @@ export class HomeStudentComponent implements OnInit {
     },    
     {
       link_name: "ข้อมูลหน่วยงาน",
-      link: "/company-student",
+      link: "/search-company-student",
       icon: "fa-solid fa-list",
       sub_menu: []
     },

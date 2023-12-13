@@ -11,6 +11,7 @@ import { DataStorageService } from './company-information/data-storage.service';
 export class SearchCompanyOfficerComponent {
   selectedOption1: any;
   selectedOption2: any;
+  CompanyInformation: any[] = [];
 
   constructor(
     private router: Router,
@@ -48,6 +49,7 @@ export class SearchCompanyOfficerComponent {
 
         // Assuming the response contains both 'company' and 'need_student' arrays
         if (response.hasOwnProperty('company') && response.hasOwnProperty('need_student')) {
+          this.CompanyInformation = response.company;
           this.dataStorageService.setCompanyInformation({
             year: this.selectedOption1,
             type_code: this.selectedOption2,

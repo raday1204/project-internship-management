@@ -50,7 +50,6 @@ import { LoginOfficerComponent } from './Officer/login-officer/login-officer.com
 import { HomeOfficerComponent } from './Officer/home-officer/home-officer.component';
 import { RelationOfficerComponent } from './Officer/Relation/relation-officer/relation-officer.component';
 import { EditProfileService } from './Student/General/profile-student/edit-profile/edit-profile.service';
-import { ProfileUploadService } from './Student/General/profile-student/profile-upload.service';
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
@@ -71,6 +70,7 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
 import { CompanyStudentPopupComponent } from './Student/General/company-student/company-student-popup/company-student-popup.component';
 import { CompanyFormStudentPopupComponent } from './Student/Form/company-form-student/company-form-student-popup/company-form-student-popup.component';
 import { EditProfilePopupComponent } from './Student/General/profile-student/edit-profile/edit-profile-popup/edit-profile-popup.component';
+import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
 
 @NgModule({
   declarations: [
@@ -129,7 +129,8 @@ import { EditProfilePopupComponent } from './Student/General/profile-student/edi
     DeleteRelationPopupComponent,
     CompanyStudentPopupComponent,
     CompanyFormStudentPopupComponent,
-    EditProfilePopupComponent
+    EditProfilePopupComponent,
+    SearchCompanyStudentComponent
   ],
   imports: [
     BrowserModule,
@@ -148,7 +149,6 @@ import { EditProfilePopupComponent } from './Student/General/profile-student/edi
 
   providers: [
     EditProfileService,
-    ProfileUploadService,
     MatDialog,
     DataStorageService
   ],

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CompanyStudentPopupComponent } from './company-student-popup/company-student-popup.component';
 import { CompanyStudentService } from './company-student.service';
+import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
 interface NeedStudent {
   number_student_train: string;
@@ -36,21 +37,36 @@ export class CompanyStudentComponent implements OnInit {
   loggedInUsername: string = '';
   need_student: { [key: string]: NeedStudent[] } = {};
   company: Company[] = [];
+  companyName: any = {};
+  selectedOption5: any;
+  selectedOption6: any;
 
   constructor(
     private router: Router,
     private http: HttpClient,
     public dialog: MatDialog,
-    private companyStudentService: CompanyStudentService
+    private dataStorageService: DataStorageService
   ) { }
 
-  ngOnInit(): void {
-    this.username = this.companyStudentService.getUsername();
-    console.log('Username from service:', this.username);
-    this.getCompanyInformation();
+  ngOnInit() {
+    // Get the latest company information from DataStorageService
+    this.dataStorageService.getCompanyInformation().subscribe(
+      (companyInformation: any) => {
+    if (companyInformation) {
+      this.CompanyInformation = companyInformation.company;
+      this.selectedOption5 = companyInformation.year;
+      this.selectedOption6 = companyInformation.type_code;
+      this.companyName = companyInformation.company_name;
+      this.need_student = companyInformation.need_student;
+    } else {
+      console.error('No company information found.');
+    }
+  },
+  (error) => {
+    // Handle the error if any occurs during the subscription
+    console.error('Error fetching company information:', error);
   }
-
-  getCompanyInformation() {
+);
     const apiUrl = 'http://localhost/PJ/Backend/Student/Company/company-student.php';
 
     this.http.get<CompanyResponse>(apiUrl).subscribe(
@@ -112,6 +128,7 @@ export class CompanyStudentComponent implements OnInit {
     }).subscribe(
         (response) => {
           console.log('Company ID updated successfully:', response);
+          this.router.navigate(['/select-company']);
         },
         (error: HttpErrorResponse) => {
           console.error('HTTP error updating company ID:', error);

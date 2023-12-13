@@ -16,11 +16,12 @@ export class EditProfileComponent implements OnInit {
   selectedFile: File | undefined;
 
   studentData = {
-    student_id: '', 
+    student_id: '',
     type_code: '',
-    student_name: '', 
+    student_name: '',
     student_lastname: '',
     student_nickname: '',
+    student_pic: '',
     student_citizen: '',
     student_email: '',
     student_mobile: '',
@@ -43,7 +44,7 @@ export class EditProfileComponent implements OnInit {
     ct_zipcode: '',
     ct_tel: '',
   };
-  studentyForm: FormGroup;
+  studentForm: FormGroup;
   username: string | undefined;
   errorMessage: string | undefined;
   displayedFilePath: string | undefined;
@@ -55,14 +56,15 @@ export class EditProfileComponent implements OnInit {
     private fb: FormBuilder,
     public dialog: MatDialog,
     private companyStudentService: CompanyStudentService
-    
+
   ) {
-    this.studentyForm = this.fb.group({
+    this.studentForm = this.fb.group({
       student_id: ['', Validators.required],
       type_code: ['', Validators.required],
       student_name: ['', Validators.required],
       student_lastname: ['', Validators.required],
       student_nickname: ['', Validators.required],
+      student_pic: [null, Validators.required],
       student_citizen: ['', Validators.required],
       student_email: ['', Validators.required],
       student_mobile: ['', Validators.required],
@@ -88,14 +90,19 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
+    this.fetchStudentData();
+  }
 
+  private fetchStudentData(): void {
     if (this.username) {
-      this.http
-        .get(`http://localhost/PJ/Backend/Student/profile-student.php?username=${this.username}`)
+      this.http.get(`http://localhost/PJ/Backend/Student/Profile-Student/profile-student.php?username=${this.username}`)
         .subscribe(
           (response: any) => {
-            if (response && response.username) {
-              this.studentyForm.patchValue(response);
+            console.log('Full Response:', response); 
+  
+            if (response && response.success) {
+              this.studentForm.patchValue(response.data);
+              this.displayedFilePath = `http://localhost/${response.student_pic}`;
             } else {
               this.errorMessage = response.error || 'An error occurred while fetching student data.';
               console.error('API Error:', this.errorMessage);
@@ -118,57 +125,59 @@ export class EditProfileComponent implements OnInit {
   updateStudent() {
     if (this.username) {
       const formDataStudent = new FormData();
-      formDataStudent.append('type_code', this.studentyForm.value.type_code);
-      formDataStudent.append('student_name', this.studentyForm.value.student_name);
-      formDataStudent.append('student_lastname', this.studentyForm.value.student_lastname);
-      formDataStudent.append('student_nickname', this.studentyForm.value.student_nickname);
-      formDataStudent.append('student_citizen', this.studentyForm.value.student_citizen);
-      formDataStudent.append('student_email', this.studentyForm.value.student_email);
-      formDataStudent.append('student_mobile', this.studentyForm.value.student_mobile);
-      formDataStudent.append('student_facebook', this.studentyForm.value.student_facebook);
-      formDataStudent.append('student_line', this.studentyForm.value.student_line);
+      formDataStudent.append('type_code', this.studentForm.value.type_code);
+      formDataStudent.append('student_name', this.studentForm.value.student_name);
+      formDataStudent.append('student_lastname', this.studentForm.value.student_lastname);
+      formDataStudent.append('student_nickname', this.studentForm.value.student_nickname);
+      formDataStudent.append('student_citizen', this.studentForm.value.student_citizen);
+      formDataStudent.append('student_email', this.studentForm.value.student_email);
+      formDataStudent.append('student_mobile', this.studentForm.value.student_mobile);
+      formDataStudent.append('student_facebook', this.studentForm.value.student_facebook);
+      formDataStudent.append('student_line', this.studentForm.value.student_line);
 
-      formDataStudent.append('st_address', this.studentyForm.value.st_address);
-      formDataStudent.append('st_tambol', this.studentyForm.value.st_tambol);
-      formDataStudent.append('st_ampher', this.studentyForm.value.st_ampher);
-      formDataStudent.append('st_province', this.studentyForm.value.st_province);
-      formDataStudent.append('st_zipcode', this.studentyForm.value.st_zipcode);
-      formDataStudent.append('st_tel', this.studentyForm.value.st_tel);
-      formDataStudent.append('st_contact', this.studentyForm.value.st_contact);
-      formDataStudent.append('st_mobile', this.studentyForm.value.st_mobile);
-      
-      formDataStudent.append('ct_address', this.studentyForm.value.ct_address);
-      formDataStudent.append('ct_tambol', this.studentyForm.value.ct_tambol);
-      formDataStudent.append('ct_ampher', this.studentyForm.value.ct_ampher);
-      formDataStudent.append('ct_province', this.studentyForm.value.ct_province);
-      formDataStudent.append('ct_zipcode', this.studentyForm.value.ct_zipcode);
-      formDataStudent.append('ct_tel', this.studentyForm.value.ct_tel);
+      formDataStudent.append('st_address', this.studentForm.value.st_address);
+      formDataStudent.append('st_tambol', this.studentForm.value.st_tambol);
+      formDataStudent.append('st_ampher', this.studentForm.value.st_ampher);
+      formDataStudent.append('st_province', this.studentForm.value.st_province);
+      formDataStudent.append('st_zipcode', this.studentForm.value.st_zipcode);
+      formDataStudent.append('st_tel', this.studentForm.value.st_tel);
+      formDataStudent.append('st_contact', this.studentForm.value.st_contact);
+      formDataStudent.append('st_mobile', this.studentForm.value.st_mobile);
+
+      formDataStudent.append('ct_address', this.studentForm.value.ct_address);
+      formDataStudent.append('ct_tambol', this.studentForm.value.ct_tambol);
+      formDataStudent.append('ct_ampher', this.studentForm.value.ct_ampher);
+      formDataStudent.append('ct_province', this.studentForm.value.ct_province);
+      formDataStudent.append('ct_zipcode', this.studentForm.value.ct_zipcode);
+      formDataStudent.append('ct_tel', this.studentForm.value.ct_tel);
+      formDataStudent.append('file', this.studentForm.value.student_pic);
+
       formDataStudent.append('username', this.username);
-      
-    const url = 'http://localhost/PJ/Backend/Student/edit-profile.php';
 
-    this.http.post(url, formDataStudent)
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
-            this.router.navigate(['/profile-student', this.username]);
-          } else {
-            // Handle failure, show an error message
+      const url = 'http://localhost/PJ/Backend/Student/Profile-Student/edit-profile.php';
+
+      this.http.post(url, formDataStudent)
+        .subscribe(
+          (response: any) => {
+            console.log(response);
+            if (response.success) {
+              this.router.navigate(['/profile-student', this.username]);
+            } else {
+              // Handle failure, show an error message
+            }
+          },
+          (error) => {
+            console.error('Error:', error);
+            // Handle errors
           }
-        },
-        (error) => {
-          console.error('Error:', error);
-          // Handle errors
-        }
-      );
+        );
+    }
   }
-}
 
   onFileSelected(event: any) {
     if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
-      this.studentyForm.patchValue({ relation_pic: file });
+      this.studentForm.patchValue({ student_pic: file });
       this.displayedFilePath = URL.createObjectURL(file);
     }
   }
@@ -177,45 +186,20 @@ export class EditProfileComponent implements OnInit {
     return URL.createObjectURL(file);
   }
 
-openPopup(): void {
-  if (this.studentyForm.valid) {
-    const dialogRef = this.dialog.open(EditProfilePopupComponent, {
-      data: {
-        studentData: {
-          student_id: this.studentyForm.value.student_id,
-          type_code: this.studentyForm.value.type_code,
-          student_citizen: this.studentyForm.value.student_citizen,
-          student_nickname: this.studentyForm.value.student_nickname,
-          student_mobile: this.studentyForm.value.student_mobile,
-          student_email: this.studentyForm.value.student_email,
-          student_facebook: this.studentyForm.value.student_facebook,
-          student_line: this.studentyForm.value.student_line,
-
-          st_address: this.studentyForm.value.st_address,
-          st_tambol: this.studentyForm.value.st_tambol,
-          st_ampher: this.studentyForm.value.st_ampher,
-          st_province: this.studentyForm.value.st_province,
-          st_zipcode: this.studentyForm.value.st_zipcode,
-          st_tel: this.studentyForm.value.st_tel,
-          st_contact: this.studentyForm.value.st_contact,
-          st_mobile: this.studentyForm.value.st_mobile,
-
-          ct_address: this.studentyForm.value.ct_address,
-          ct_tambol: this.studentyForm.value.ct_tambol,
-          ct_ampher: this.studentyForm.value.ct_ampher,
-          ct_province: this.studentyForm.value.ct_province,
-          ct_zipcode: this.studentyForm.value.ct_zipcode,
-          ct_tel: this.studentyForm.value.ct_tel,
+  openPopup(): void {
+    if (this.studentForm.valid) {
+      const dialogRef = this.dialog.open(EditProfilePopupComponent, {
+        data: {
+          studentData: this.studentForm.value,
         },
-      },
-    });
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result && result.saveData) {
-        this.updateStudent();
-      }
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if (result && result.saveData) {
+          this.updateStudent();
+        }
+      });
+    }
   }
-}
 }

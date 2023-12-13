@@ -5,7 +5,6 @@
             <ul>
                 <div class="header-list">
                     <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
-                    <li class="list-item"><a routerLink="/company-information">ข้อมูลหน่วยงาน </a> > </li>
                     <li class="list-item">เพิ่มข้อมูลหน่วยงาน</li>
                 </div>
                 <button [routerLink]="['/app']">
@@ -15,19 +14,17 @@
         </nav>
     </header>
 
-    <p>ปีการศึกษา ประเภทที่</p>
-
     <div class="main-container">
         <p>ข้อมูลหน่วยงาน</p>
         <form [formGroup]="companyForm" (ngSubmit)="saveCompany()">
             <div class="list">
-                <label for="year">ปีการศึกษา</label><br>
+                <label for="year">ปีการศึกษา</label>
                 <select formControlName="year">
                     <option value="">-- เลือกปีการศึกษา --</option>
                     <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
                 </select><br>
 
-                <label for="type_code">ประเภท</label><br>
+                <label for="type_code">ประเภท</label>
                 <select formControlName="type_code">
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
@@ -37,6 +34,7 @@
             <div class="list">
                 <label for="term">ภาคเรียน</label>
                 <select formControlName="term">
+                    <option value="">-- เลือกภาคเรียน --</option>
                     <option *ngFor="let option of selectedOption5" [value]="option">{{ option }}</option>
                 </select>
             </div>
