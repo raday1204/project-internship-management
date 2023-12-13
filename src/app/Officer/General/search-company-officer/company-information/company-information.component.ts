@@ -3,11 +3,24 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
+interface NeedStudent {
+  number_student_train: string;
+}
+
 interface Company {
-  company_id: number;
+  company_id: string;
   company_name: string;
   company_building: string;
   number_student_train: string;
+  student_code: string;
+  student_name: string;
+  student_lastname: string;
+  selected: boolean;
+}
+
+interface CompanyResponse {
+  company: Company[];
+  need_student: { [key: string]: NeedStudent[] };
 }
 
 @Component({
@@ -16,10 +29,10 @@ interface Company {
   styleUrls: ['./company-information.component.css']
 })
 export class CompanyInformationComponent implements OnInit {
+  need_student: { [key: string]: NeedStudent[] } = {};
   company: Company[] = [];
   CompanyInformation: any;
   companyName: any = {};
-  need_student: any = {};
   selectedOption1: any;
   selectedOption2: any;
 
@@ -48,19 +61,24 @@ export class CompanyInformationComponent implements OnInit {
     // Handle the error if any occurs during the subscription
     console.error('Error fetching company information:', error);
   }
-);
-    const serverUrl = 'http://localhost/PJ/Backend/Officer/Company/get-company-officer.php';
-
-    this.http.get<{ data: Company[] }>(serverUrl).subscribe(
-      (response) => {
-        this.company = response.data;
-      },
-      (error) => {
-        // Handle the error if any occurs during the subscription
-        console.error('Error fetching company information:', error);
-      }
-    );
-  }
+  );
+      const apiUrl = 'http://localhost/PJ/Backend/Student/Company/company-student.php';
+  
+      this.http.get<CompanyResponse>(apiUrl).subscribe(
+        (companyInformation) => {
+          console.log(companyInformation);
+          if (companyInformation && companyInformation.company) {
+            this.CompanyInformation = companyInformation.company;
+            this.need_student = companyInformation.need_student;
+          } else {
+            console.error('No company information found.');
+          }
+        },
+        (error) => {
+          console.error('Error fetching company information:', error);
+        }
+      );
+    }
 
   editCompany(company: any) {
     if (company && company.company_id) {

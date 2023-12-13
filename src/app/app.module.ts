@@ -18,8 +18,9 @@ import { CalendarStudentComponent } from './Student/General/calendar-student/cal
 import { CancelStatusComponent } from './Student/General/status-studen/cancel-status/cancel-status.component';
 import { ConfirmStatusComponent } from './Student/General/status-studen/confirm-status/confirm-status.component';
 import { WaitStatusComponent } from './Student/General/status-studen/wait-status/wait-status.component';
-import { CompanyStudentComponent } from './Student/General/company-student/company-student.component';
-import { SelectCompanyComponent } from './Student/General/company-student/select-company/select-company.component';
+import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
+import { CompanyStudentComponent } from './Student/General/search-company-student/company-student/company-student.component';
+import { SelectCompanyComponent } from './Student/General/search-company-student/company-student/select-company/select-company.component';
 import { CoordinatorStudentComponent } from './Student/General/coordinator-student/coordinator-student.component';
 import { CourseStudentComponent } from './Student/General/course-student/course-student.component';
 import { HomeStudentComponent } from './Student/home-student/home-student.component';
@@ -31,6 +32,10 @@ import { CompanyFormStudentComponent } from './Student/Form/company-form-student
 import { DiaryFormStudentComponent } from './Student/Form/diary-form-student/diary-form-student.component';
 import { EvaluationFormStudentComponent } from './Student/Form/evaluation-form-student/evaluation-form-student.component';
 import { ManualFormStudentComponent } from './Student/Form/manual-form-student/manual-form-student.component';
+import { CompanyStudentPopupComponent } from './Student/General/search-company-student/company-student/company-student-popup/company-student-popup.component';
+import { CompanyFormStudentPopupComponent } from './Student/Form/company-form-student/company-form-student-popup/company-form-student-popup.component';
+import { EditProfilePopupComponent } from './Student/General/profile-student/edit-profile/edit-profile-popup/edit-profile-popup.component';
+import { CompanyStudentService} from './Student/General/search-company-student/company-student/company-student.service';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
 import { StudentInformationComponent } from './Officer/General/search-student-officer/student-information/student-information.component';
@@ -49,7 +54,6 @@ import { EditRelationComponent } from './Officer/Relation/edit-relation/edit-rel
 import { LoginOfficerComponent } from './Officer/login-officer/login-officer.component';
 import { HomeOfficerComponent } from './Officer/home-officer/home-officer.component';
 import { RelationOfficerComponent } from './Officer/Relation/relation-officer/relation-officer.component';
-import { EditProfileService } from './Student/General/profile-student/edit-profile/edit-profile.service';
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
@@ -67,10 +71,8 @@ import { ReportFormComponent } from './Officer/Form/search-report-form-officer/r
 import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-relation-popup/add-relation-popup.component';
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
-import { CompanyStudentPopupComponent } from './Student/General/company-student/company-student-popup/company-student-popup.component';
-import { CompanyFormStudentPopupComponent } from './Student/Form/company-form-student/company-form-student-popup/company-form-student-popup.component';
-import { EditProfilePopupComponent } from './Student/General/profile-student/edit-profile/edit-profile-popup/edit-profile-popup.component';
-import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
+
+
 
 @NgModule({
   declarations: [
@@ -148,9 +150,9 @@ import { SearchCompanyStudentComponent } from './Student/General/search-company-
   ],
 
   providers: [
-    EditProfileService,
     MatDialog,
-    DataStorageService
+    DataStorageService,
+    CompanyStudentService
   ],
 
   bootstrap: [AppComponent]

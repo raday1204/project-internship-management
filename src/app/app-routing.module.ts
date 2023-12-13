@@ -7,8 +7,8 @@ import { CalendarStudentComponent } from './Student/General/calendar-student/cal
 import { CancelStatusComponent } from './Student/General/status-studen/cancel-status/cancel-status.component';
 import { ConfirmStatusComponent } from './Student/General/status-studen/confirm-status/confirm-status.component';
 import { WaitStatusComponent } from './Student/General/status-studen/wait-status/wait-status.component';
-import { CompanyStudentComponent } from './Student/General/company-student/company-student.component';
-import { SelectCompanyComponent } from './Student/General/company-student/select-company/select-company.component';
+import { CompanyStudentComponent } from './Student/General/search-company-student/company-student/company-student.component';
+import { SelectCompanyComponent } from './Student/General/search-company-student/company-student/select-company/select-company.component';
 import { CoordinatorStudentComponent } from './Student/General/coordinator-student/coordinator-student.component';
 import { CourseStudentComponent } from './Student/General/course-student/course-student.component';
 import { HomeStudentComponent } from './Student/home-student/home-student.component';
@@ -21,6 +21,7 @@ import { DiaryFormStudentComponent } from './Student/Form/diary-form-student/dia
 import { EvaluationFormStudentComponent } from './Student/Form/evaluation-form-student/evaluation-form-student.component';
 import { ManualFormStudentComponent } from './Student/Form/manual-form-student/manual-form-student.component';
 import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
+import { CompanyStudentService} from './Student/General/search-company-student/company-student/company-student.service';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
 import { StudentInformationComponent } from './Officer/General/search-student-officer/student-information/student-information.component';

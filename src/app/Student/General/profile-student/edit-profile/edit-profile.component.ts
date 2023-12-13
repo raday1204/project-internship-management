@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CompanyStudentService } from '../../company-student/company-student.service';
+import { CompanyStudentService } from '../../search-company-student/company-student/company-student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfilePopupComponent } from './edit-profile-popup/edit-profile-popup.component';
 

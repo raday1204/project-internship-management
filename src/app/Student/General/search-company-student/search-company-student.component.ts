@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
-
+import { CompanyStudentService } from './company-student/company-student.service';
 @Component({
   selector: 'app-search-company-student',
   templateUrl: './search-company-student.component.html',
   styleUrls: ['./search-company-student.component.css']
 })
 export class SearchCompanyStudentComponent {
+  username: string = '';
   selectedOption5: any;
   selectedOption6: any;
   CompanyInformation: any[] = [];
@@ -16,10 +17,13 @@ export class SearchCompanyStudentComponent {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private dataStorageService: DataStorageService
+    private dataStorageService: DataStorageService,
+    private companyStudentService: CompanyStudentService
     ) {}
 
     ngOnInit() {
+      this.username = this.companyStudentService.getUsername();
+      console.log('Username from service:', this.username);
       this.getOptions();
     }
   

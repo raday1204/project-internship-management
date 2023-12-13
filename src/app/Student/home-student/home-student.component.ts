@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router'; 
-import { CompanyStudentService } from '../General/company-student/company-student.service';
+import { CompanyStudentService } from '../General/search-company-student/company-student/company-student.service';
 
 @Component({
   selector: 'app-home-student',

@@ -5,7 +5,7 @@ import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
-import { CompanyStudentService } from '../../General/company-student/company-student.service';
+import { CompanyStudentService } from '../../General/search-company-student/company-student/company-student.service';
 import { CompanyFormStudentPopupComponent } from './company-form-student-popup/company-form-student-popup.component';
 
 @Component({
@@ -68,7 +68,6 @@ export class CompanyFormStudentComponent implements OnInit {
     });
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
-      type_code: ['', Validators.required],
       term: ['', Validators.required],
       company_name: ['', Validators.required],
       send_name: ['', Validators.required],
@@ -90,11 +89,11 @@ export class CompanyFormStudentComponent implements OnInit {
 
     if (this.username) {
       this.http
-        .get(`http://localhost/PJ/Backend/Student/profile-student.php?username=${this.username}`)
+        .get(`http://localhost/PJ/Backend/Student/Company-Form/get-profile-student.php?username=${this.username}`)
         .subscribe(
           (response: any) => {
-            if (response && response.username) {
-              this.studentyForm.patchValue(response);
+            if (response && response.success) {
+              this.studentyForm.patchValue(response.data); // Assuming response.data is the correct field
             } else {
               this.errorMessage = response.error || 'An error occurred while fetching student data.';
               console.error('API Error:', this.errorMessage);
@@ -151,7 +150,7 @@ export class CompanyFormStudentComponent implements OnInit {
               formDataCompany.append('type_special', this.companyForm.value.type_special);
               formDataCompany.append('date_addtraining', formattedDate);
 
-              console.log('formDataCompany:', formDataCompany);
+              console.log('formDataCompany:', this.companyForm.value);
 
               this.http.post('http://localhost/PJ/Backend/Student/Company-Form/add-company-form-student.php', formDataCompany)
                 .subscribe(
@@ -167,12 +166,10 @@ export class CompanyFormStudentComponent implements OnInit {
                       } else {
                         console.error('Data from the server is undefined.');
                       }
-                      const typeCode = responseCompany.type_code;
                       const updatedCompanyId = responseCompany.company_id;
 
                       const formDataUpdateStudent = new FormData();
                       if (this.username) {
-                        formDataUpdateStudent.append('type_code', typeCode);
                         formDataUpdateStudent.append('company_id', updatedCompanyId);
 
                         formDataUpdateStudent.append('username', this.username ?? '');
