@@ -26,22 +26,25 @@ if (isset($_GET['company_id'])) {
 
     // Sanitize input to prevent SQL injection
     $company_id = mysqli_real_escape_string($conn, $_GET['company_id']);
-    $sql_get_company = "SELECT * FROM company WHERE company_id = ?";
+    $sql_get_company = "SELECT * FROM company WHERE year = ? AND type_code = ?";
     $stmt_get_company = $conn->prepare($sql_get_company);
 
     if ($stmt_get_company === false) {
         $response = array("success" => false, "message" => "Prepare failed: " . $conn->error);
     } else {
-        $stmt_get_company->bind_param("i", $company_id);
+        $stmt_get_company->bind_param("ss", $year, $type_code);
 
         if ($stmt_get_company->execute()) {
             $result = $stmt_get_company->get_result();
 
             if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $response = array("success" => true, "message" => "Company data retrieved successfully", "data" => $row);
+                $data = array();
+                while ($row = $result->fetch_assoc()) {
+                    $data[] = $row;
+                }
+                $response = array("success" => true, "message" => "Company data retrieved successfully", "company" => $data);
             } else {
-                $response = array("success" => false, "message" => "No data found for the specified company ID");
+                $response = array("success" => false, "message" => "No data found for the specified parameters");
             }
         } else {
             $response = array("success" => false, "message" => "Error fetching company data: " . $stmt_get_company->error);
@@ -51,13 +54,12 @@ if (isset($_GET['company_id'])) {
     }
 } else {
     // Fetch distinct values from the company table
-
     $sql = "SELECT DISTINCT year, type_code, term, company_name, company_building FROM company";
     $result = $conn->query($sql);
     $data = array();
 
     if ($result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) {
             $data[] = $row;
         }
     }

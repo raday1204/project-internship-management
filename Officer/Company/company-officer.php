@@ -16,37 +16,56 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Get form data
-    $year = $_POST['year'];
-    $type_code = $_POST['type_code'];
+    // Sanitize and validate input
+    $year = mysqli_real_escape_string($conn, $_POST['year']);
+    $type_code = mysqli_real_escape_string($conn, $_POST['type_code']);
+
+    // Initialize response array
+    $response = [];
 
     // Retrieve company information
-    $companyInformation = [];
+    $sqlCompany = "SELECT * FROM company WHERE year = ? AND type_code = ?";
+    $stmtCompany = $conn->prepare($sqlCompany);
+    $stmtCompany->bind_param("ss", $year, $type_code);
 
-    $sqlCompany = "SELECT * FROM company WHERE year = '$year' AND type_code = '$type_code'";
-    $resultCompany = $conn->query($sqlCompany);
+    if ($stmtCompany->execute()) {
+        $resultCompany = $stmtCompany->get_result();
 
-    if ($resultCompany) {
         if ($resultCompany->num_rows > 0) {
             while ($rowCompany = $resultCompany->fetch_assoc()) {
                 $companyInformation['company'][] = $rowCompany;
 
                 // Retrieve corresponding information from need_student table
                 $company_id = $rowCompany['company_id'];
-                $sqlNeedStudent = "SELECT * FROM need_student WHERE company_id = '$company_id'";
-                $resultNeedStudent = $conn->query($sqlNeedStudent);
+                $sqlNeedStudent = "SELECT * FROM need_student WHERE company_id = ?";
+                $stmtNeedStudent = $conn->prepare($sqlNeedStudent);
+                $stmtNeedStudent->bind_param("i", $company_id);
 
-                if ($resultNeedStudent && $resultNeedStudent->num_rows > 0) {
-                    while ($rowNeedStudent = $resultNeedStudent->fetch_assoc()) {
-                        $companyInformation['need_student'][] = $rowNeedStudent;
+                if ($stmtNeedStudent->execute()) {
+                    $resultNeedStudent = $stmtNeedStudent->get_result();
+
+                    if ($resultNeedStudent->num_rows > 0) {
+                        while ($rowNeedStudent = $resultNeedStudent->fetch_assoc()) {
+                            $companyInformation['need_student'][] = $rowNeedStudent;
+                        }
                     }
+                } else {
+                    $response['error'] = "Error fetching need_student data: " . $stmtNeedStudent->error;
                 }
             }
+        } else {
+            $response['error'] = "No data found for the specified parameters";
         }
+    } else {
+        $response['error'] = "Error fetching company data: " . $stmtCompany->error;
     }
+
+    $stmtCompany->close();
+    $stmtNeedStudent->close();
 
     $conn->close();
 
+    // Output the response
     echo json_encode($companyInformation);
 } else {
     echo json_encode(['error' => 'Invalid request method']);

@@ -32,11 +32,16 @@ if (isset($_SESSION["username"]) || isset($_GET["username"])) {
     if ($result && $result->num_rows === 1) {
         $studentData = $result->fetch_assoc();
 
-        if ($studentData['username'] === $studentData['student_code']) {
-            echo json_encode($studentData);
-        } else {
-            echo json_encode(array("error" => "Username does not match student_code."));
-        }
+        // Assuming 'student_pic' is a column in your table
+        $basePath = '/PJ/Backend/Student/uploads/';
+        $imagePath = $basePath . basename($studentData['student_pic']);
+
+        $response = [
+            'success' => true,
+            'data' => $studentData, // Include all student data here
+            'student_pic' => $imagePath,
+        ];
+        echo json_encode($response);
     } else {
         echo json_encode(array("error" => "No student data found for this user."));
     }
@@ -45,3 +50,4 @@ if (isset($_SESSION["username"]) || isset($_GET["username"])) {
 } else {
     echo json_encode(array("error" => "No username provided."));
 }
+?>
