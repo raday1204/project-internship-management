@@ -33,10 +33,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         if ($resultCompany->num_rows > 0) {
             while ($rowCompany = $resultCompany->fetch_assoc()) {
+                $company_id = $rowCompany['company_id'];
+
+                // Retrieve information from the company table
                 $companyInformation['company'][] = $rowCompany;
 
-                // Retrieve corresponding information from need_student table
-                $company_id = $rowCompany['company_id'];
+                // Retrieve information from the student table
+                $sqlStudent = "SELECT * FROM student WHERE company_id = ?";
+                $stmtStudent = $conn->prepare($sqlStudent);
+                $stmtStudent->bind_param("i", $company_id);
+
+                if ($stmtStudent->execute()) {
+                    $resultStudent = $stmtStudent->get_result();
+
+                    if ($resultStudent->num_rows > 0) {
+                        while ($rowStudent = $resultStudent->fetch_assoc()) {
+                            $companyInformation['student'][] = $rowStudent;
+                        }
+                    }
+                } else {
+                    $response['error'] = "Error fetching student data: " . $stmtStudent->error;
+                }
+
+                $stmtStudent->close();
+
+                // Retrieve information from the need_student table
                 $sqlNeedStudent = "SELECT * FROM need_student WHERE company_id = ?";
                 $stmtNeedStudent = $conn->prepare($sqlNeedStudent);
                 $stmtNeedStudent->bind_param("i", $company_id);
@@ -52,6 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 } else {
                     $response['error'] = "Error fetching need_student data: " . $stmtNeedStudent->error;
                 }
+
+                $stmtNeedStudent->close();
             }
         } else {
             $response['error'] = "No data found for the specified parameters";
@@ -61,7 +84,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $stmtCompany->close();
-    $stmtNeedStudent->close();
 
     $conn->close();
 

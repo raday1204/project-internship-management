@@ -26,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $year = $_POST['year'];
-    $type_code = $_POST['type_code'];
     $term = $_POST['term'];
     $company_name = $_POST['company_name'];
     $send_name = $_POST['send_name'];
@@ -37,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $send_mobile = $_POST['send_mobile'];
     $type_position = $_POST['type_position'];
     $type_special = $_POST['type_special'];
+    $studentData = json_decode($_POST['studentData'], true);
 
     // This is an insert operation
     $sql_insert_company = "INSERT INTO company (year, type_code, term, company_name, 
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if ($stmt_insert_company->execute()) {
-        $company_id = $conn->insert_id;
+        $company_id = $conn->insert_id; // Get the last inserted ID
 
         $response_company = array("success" => true, "company_id" => $company_id, "message" => "Company data inserted successfully");
     } else {
@@ -99,7 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Combine both responses into a final response
     $response = array_merge($response_company, $response_need_student);
 } else {
-    $response = array("success" => false, "message" => "Invalid request method");
+    $response_company = array("success" => true, "company_id" => $company_id, "message" => "Company data inserted successfully");
+
 }
 
 echo json_encode($response);
