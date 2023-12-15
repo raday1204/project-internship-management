@@ -17,14 +17,12 @@
     <div class="profile">
         <div [formGroup]="studentForm">
             <!-- <img [src]="imageUrl" alt="Uploaded Image"><br><br> -->
-
-            <p>รายละเอียดส่วนตัว</p>
-
-            <div class="list p-3" style="justify-content: center; text-align: center;">
+            <div class="list p-3" style="display: flex; justify-content: center; align-items: center; text-align: center;">
                 <img *ngIf="displayedFilePath" [src]="displayedFilePath"
-                    style="max-width: 100%; display: inline-block;">
+                    style="max-width: auto; max-height: 250px; display: inline-block;">
             </div>
 
+            <p>รายละเอียดส่วนตัว</p>
 
             <div class="list">
                 <label for="typeCode">ประเภท :</label>
@@ -32,13 +30,9 @@
             </div>
 
             <div class="list">
-                <label for="studentName">ชื่อ :</label>
-                <span>{{ studentForm.get('student_name')?.value }}</span>
-            </div>
-
-            <div class="list">
-                <label for="studentLastname">นามสกุล :</label>
-                <span>{{ studentForm.get('student_lastname')?.value }}</span>
+                <label for="studentName">ชื่อ-นามสกุล :</label>
+                <span>{{ studentForm.get('student_name')?.value }} {{ studentForm.get('student_lastname')?.value
+                    }}</span>
             </div>
 
             <div class="list">
@@ -65,7 +59,7 @@
                 <label for="studentFacebook">Fackbook URL :</label>
                 <span>{{ studentForm.get('student_facebook')?.value }}</span>
             </div>
-            
+
             <div class="list">
                 <label for="studentLine">Line ID :</label>
                 <span>{{ studentForm.get('student_line')?.value }}</span>

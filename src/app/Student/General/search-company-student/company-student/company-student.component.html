@@ -27,39 +27,34 @@
             </tr>
         </thead>
         <tbody style="font-size: 13px;">
-            <ng-container *ngFor="let company of CompanyInformation; let i = index">
-                <ng-container *ngIf="company && company.company_id">
-                    <tr *ngIf="i === 0 || company.company_id !== CompanyInformation[i - 1]?.company_id">
-                        <td class="text-center">{{ company.company_id }}</td>
-                        <td style="word-break: break-all;">{{ company.company_name }}</td>
-                        <td style="word-break: break-all;">{{ company.company_building }}</td>
-    
-                        <td class="text-center" *ngIf="need_student[company.company_id] && need_student[company.company_id].length > 0">
-                            {{ need_student[company.company_id][0].number_student_train }}
-                        </td>
-                        <td *ngIf="!need_student[company.company_id]">N/A</td>
-    
-                        <td class="text-center">{{ company.student_code }}</td>
-                        <td>{{ company.student_name }}</td>
-                        <td class="text-center">
-                            <button (click)="selectCompany(company)"
-                                style="background-color: #66B366; color: #FDFDF6;"
-                                [disabled]="company.selected">ยื่นขอเข้าฝึกงาน</button>
-                        </td>
-                    </tr>
-                    <tr *ngIf="i !== 0 && company.company_id === CompanyInformation[i - 1]?.company_id">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>{{ company.student_code }}</td>
-                        <td>{{ company.student_name }} {{ company.student_lastname }}</td>
-                        <td></td>
-                    </tr>
+            <tr *ngFor="let company of CompanyInformation; let i = index">
+                <td class="text-center">{{ i + 1 }}</td>
+                <td style="word-break: break-all;">{{ company.company.company_name }}</td>
+                <td style="word-break: break-all;">{{ company.company.company_building }}</td>
+
+                <td class="text-center"
+                    *ngIf="need_student[company.company.company_id] && need_student[company.company.company_id].length > 0">
+                    {{ need_student[company.company.company_id][0].number_student_train }}
+                </td>
+
+                <ng-container
+                    *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0; else noStudents">
+                    <td class="text-center">{{ student[company.company.company_id][0].student_code }}</td>
+                    <td>{{ student[company.company.company_id][0].student_name }} {{
+                        student[company.company.company_id][0].student_lastname }}</td>
                 </ng-container>
-            </ng-container>
+
+                <ng-template #noStudents>
+                    <td colspan="2" class="text-center">No students available</td>
+                </ng-template>
+
+                <td class="text-center">
+                    <button (click)="selectCompany(company.company)" style="background-color: #66B366; color: #FDFDF6;"
+                        [disabled]="company.selected">ยื่นขอเข้าฝึกงาน</button>
+                </td>
+            </tr>
         </tbody>
-    </table>   
+    </table>
 
     <h6 style="color: red;">*นิสิตสามารถลงทะเบียนได้เพียง 1 หน่วยงาน เท่านั้น</h6>
 

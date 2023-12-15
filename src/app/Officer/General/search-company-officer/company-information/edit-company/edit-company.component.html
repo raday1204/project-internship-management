@@ -19,20 +19,26 @@
 
     <div class="main-container">
         <p>ข้อมูลหน่วยงาน</p>
-        <form (ngSubmit)="updateCompany()">
-            <div class="list">
-                <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                <span>{{ company.company_name }}</span>
-            </div>
 
+        <div class="list">
+            <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+            <span>{{ companyForm.get('company_name')?.value }}</span>
+        </div>
+
+        <div>
+            <label for="company_building">2. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
+            <span>{{ companyForm.get('company_building')?.value }}</span>
+        </div>
+
+        <form [formGroup]="companyForm" (ngSubmit)="openUpdatePopup()">
             <div class="list">
-                <li>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร
+                <li>3. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร
                 </li>
             </div>
 
             <div class="list">
                 <label for="send_name">เรียน</label>
-                <input type="text" id="send_name" [(ngModel)]="company.send_name" name="send_name">
+                <input type="text" id="send_name" formControlName="send_name">
             </div>
 
             <div class="list">
@@ -41,51 +47,50 @@
 
             <div class="list">
                 <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
-                <input type="text" id="send_coordinator" [(ngModel)]="company.send_coordinator" name="send_coordinator">
+                <input type="text" id="send_coordinator" formControlName="send_coordinator">
             </div>
 
             <div class="list">
                 <label for="send_position">ตำแหน่ง</label>
-                <input type="text" id="send_position" [(ngModel)]="company.send_position" name="send_position">
+                <input type="text" id="send_position" formControlName="send_position">
             </div>
 
             <div class="list">
                 <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
-                <input type="text" id="send_tel" [(ngModel)]="company.send_tel" name="send_tel">
+                <input type="text" id="send_tel" formControlName="send_tel">
             </div>
 
             <div class="list">
                 <label for="send_email">Emile</label>
-                <input type="text" id="send_email" [(ngModel)]="company.send_email" name="send_email">
+                <input type="text" id="send_email" formControlName="send_email">
             </div>
 
             <div class="list">
                 <label for="send_mobile">โทรศัพท์มือถือ</label>
-                <input type="text" id="send_mobile" [(ngModel)]="company.send_mobile" name="send_mobile">
+                <input type="text" id="send_mobile" formControlName="send_mobile">
             </div>
 
             <p>3. ข้อมูลหน่วยงานภายใน</p>
-            <div>
-                <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <span>{{ company.company_building }}</span>
-            </div>
+
 
             <div class="list">
                 <label for="company_job">ลักษณะงาน</label>
-                <input type="text" id="company_job" [(ngModel)]="company.company_job" name="company_job">
+                <input type="text" id="company_job" formControlName="company_job">
             </div>
 
-            <div class="list">
-                <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
-                <input type="text" id="number_student_train" [(ngModel)]="need_student.number_student_train"
-                    name="number_student_train">
-            </div>
+                <div class="list">
+                    <label for="number_student_train">จำนวนนิสิตที่รับเข้า</label>
+                    <input type="text" id="number_student_train" formControlName="need_student.number_student_train">
+                </div>
 
             <div class="list">
-                <label for="date_addtraining">ระยะเวลาฝึกงาน</label>
-                <input type="text" id="date_addtraining" [(ngModel)]="need_student.date_addtraining"
-                    name="date_addtraining">
+                <label for="date_addtraining">วันที่ออกฝึกงาน</label>
+                <input type="text" id="date_addtraining" formControlName="date_addtraining" (click)="openDatePicker()"
+                    [matDatepicker]="picker" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
             </div>
+
 
             <div class="button-container">
                 <button class="button" type="submit"

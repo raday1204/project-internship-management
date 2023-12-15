@@ -2,7 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { formatDate } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditCompanyPopupComponent } from 'src/app/Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component'
+import { DataStorageService } from '../data-storage.service';
+
+interface Company {
+  company_id: string;
+  company_name: string;
+  company_building: string;
+  send_name: string;
+  send_coordinator: string;
+  send_position: string;
+  send_tel: string;
+  send_email: string;
+  send_mobile: string;
+  company_job: string;
+}
+
+interface NeedStudent {
+  number_student_train: string;
+  date_addtraining: string;
+}
+
+interface CompanyResponse {
+  success: boolean;
+  data: {
+    company: Company;
+    need_student: NeedStudent;
+  };
+}
 
 @Component({
   selector: 'app-edit-company',
@@ -11,118 +40,135 @@ import { EditCompanyPopupComponent } from 'src/app/Officer/General/search-compan
 })
 
 export class EditCompanyComponent implements OnInit {
-  company: any = {};
-  need_student: any = {};
+  companyForm: FormGroup;
   company_id: any = {};
   CompanyInformation: any = {};
   selectedOption1: any;
   selectedOption2: any;
+  errorMessage: string | undefined;
 
   constructor(
     private router: Router,
     private http: HttpClient,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) { }
-
-  ngOnInit() {
-    this.company_id = this.route.snapshot.params['company_id'];
-    this.getCompanyData(this.company_id);
-
-    this.route.queryParams.subscribe(params => {
-      if (params['CompanyInformation']) {
-        const parsedData = JSON.parse(params['CompanyInformation']);
-        this.CompanyInformation = parsedData;
-        this.selectedOption1 = parsedData.year;
-        this.selectedOption2 = parsedData.type_code;
-      }
+    private dialog: MatDialog,
+    private dataStorageService: DataStorageService
+  ) {
+    this.companyForm = this.fb.group({
+      company_id: [''], 
+      company_name: [''],
+      company_building: [''],
+      send_name: ['', Validators.required],
+      send_coordinator: ['', Validators.required],
+      send_position: ['', Validators.required],
+      send_tel: ['', Validators.required],
+      send_email: ['', Validators.required],
+      send_mobile: ['', Validators.required],
+      company_job: ['', Validators.required],
+      number_student_train: ['', Validators.required],
+      date_addtraining: ['', Validators.required],
     });
   }
 
-
-  getCompanyData(company_id: any) {
-    this.http.get(`http://localhost/PJ/Backend/Officer/Company/company.php?company_id=${company_id}`)
-      .subscribe((response: any) => {
-        if (response.success) {
-          this.company = response.data;
-          this.need_student = response.need_student;
-        } else {
-          console.error(response.message);
-        }
-      }, (error) => {
-        console.error('HTTP Error:', error);
-      });
+  ngOnInit() {
+    this.company_id = this.route.snapshot.params['company_id'];
+    console.log('Company ID:', this.company_id);
+    this.getCompanyData();
   }
+  
+  getCompanyData(): void {
+    if (this.company_id) {
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/company-detail.php?company_id=${this.company_id}`)
+        .subscribe((response: CompanyResponse) => {
+          if (response.success) {
+            console.log('Backend Response:', response);
+            this.companyForm.patchValue(response.data.company);
+            this.companyForm.patchValue({
+              date_addtraining: response.data.need_student ? response.data.need_student.date_addtraining : ''
+            });
+          } else {
+            console.error('Server error:', response);
+          }
+        }, (error) => {
+          console.error('HTTP Error:', error);
+        });
+    } else {
+      this.errorMessage = 'No company ID provided.';
+    }
+  }
+  
 
   updateCompany() {
-    const formDataCompany = {
-      company_id: this.company ? this.company.company_id : null,
-      company_name: this.company ? this.company.company_name : null,
-      send_name: this.company ? this.company.send_name : null,
-      send_coordinator: this.company ? this.company.send_coordinator : null,
-      send_position: this.company ? this.company.send_position : null,
-      send_tel: this.company ? this.company.send_tel : null,
-      send_email: this.company ? this.company.send_email : null,
-      send_mobile: this.company ? this.company.send_mobile : null,
-      company_building: this.company ? this.company.company_building : null,
-      company_job: this.company ? this.company.company_job : null,
-      number_student_train: this.need_student ? this.need_student.number_student_train : null,
-      date_addtraining: this.need_student ? this.need_student.date_addtraining : null,
-      year: this.selectedOption1,
-      type_code: this.selectedOption2
-    };
+    if (this.companyForm.valid) {
+      const formattedDate = this.companyForm.value.date_addtraining ?
+      formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+    const formDataCompany = new FormData();
+    formDataCompany.append('company_id',this.company_id);
+    formDataCompany.append('company_name', this.companyForm.value.company_name);
+    formDataCompany.append('send_name', this.companyForm.value.send_name);
+    formDataCompany.append('send_coordinator', this.companyForm.value.send_coordinator);
+    formDataCompany.append('send_position', this.companyForm.value.send_position);
+    formDataCompany.append('send_tel', this.companyForm.value.send_tel);
+    formDataCompany.append('send_email', this.companyForm.value.send_email);
+    formDataCompany.append('send_mobile', this.companyForm.value.send_mobile);
+    formDataCompany.append('company_building', this.companyForm.value.company_building);
+    formDataCompany.append('company_job', this.companyForm.value.company_job);
+    formDataCompany.append('number_student_train', this.companyForm.value.number_student_train);
+    formDataCompany.append('date_addtraining', formattedDate);
 
     this.http.post('http://localhost/PJ/Backend/Officer/Company/edit-company.php', formDataCompany)
       .subscribe((responseCompany: any) => {
         if (responseCompany.success) {
           console.log(responseCompany.message);
-
-          // Update this.company and this.need_student with formDataCompany
-        this.company = {
-          company_id: formDataCompany.company_id,
-          company_name: formDataCompany.company_name,
-          send_name: formDataCompany.send_name,
-          send_coordinator: formDataCompany.send_coordinator,
-          send_position: formDataCompany.send_position,
-          send_tel: formDataCompany.send_tel,
-          send_email: formDataCompany.send_email,
-          send_mobile: formDataCompany.send_mobile,
-          company_building: formDataCompany.company_building,
-          company_job: formDataCompany.company_job,
-        };
-
-        this.need_student = {
-          number_student_train: formDataCompany.number_student_train,
-          date_addtraining: formDataCompany.date_addtraining,
-        };
-
-        // Use queryParams to send updated data to company-information component
-        const queryParams = {
-          CompanyInformation: JSON.stringify(formDataCompany)
-        };
-        
-          // Open a popup displaying the updated data
-          this.openUpdatePopup(formDataCompany, queryParams);
+          this.router.navigate(['/comapny-information']);
         } else {
-          console.error(responseCompany && responseCompany.message ? responseCompany.message : 'Unknown error occurred');
+          // Handle failure, show an error message
         }
-      }, (error) => {
-        console.error('HTTP Error:', error);
-      });
-  }
-  
+      },
+      (error) => {
+        console.error('Error:', error);
+        // Handle errors
+      }
+    );
+}
+}
+
+
   // Method to open a simple alert as a popup displaying the updated data
-  openUpdatePopup(updatedData: any, queryParams: any): void {
-    const dialogRef = this.dialog.open(EditCompanyPopupComponent, {
-      data: updatedData, // Pass the updated data to the dialog component
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // Additional logic after the dialog is closed, if needed
-  
-      // Navigate back to company-information with the updated data
-      this.router.navigate(['/company-information'], { queryParams: queryParams });
-    });
+  openUpdatePopup(): void {
+    const formattedDate = this.companyForm.value.date_addtraining ?
+      formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+    if (this.companyForm.valid) {
+      const dialogRef = this.dialog.open(EditCompanyPopupComponent, {
+        data: {
+          company: {
+            company_name: this.companyForm.value.company_name,
+            send_name: this.companyForm.value.send_name,
+            send_coordinator: this.companyForm.value.send_coordinator,
+            send_position: this.companyForm.value.send_position,
+            send_tel: this.companyForm.value.send_tel,
+            send_email: this.companyForm.value.send_email,
+            send_mobile: this.companyForm.value.send_mobile,
+            company_building: this.companyForm.value.company_building,
+            company_job: this.companyForm.value.company_job,
+            number_student_train: this.companyForm.value.number_student_train,
+            date_addtraining: formattedDate,
+          }
+          
+        },
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+        if (result && result.saveData) {
+          this.updateCompany();
+        }
+      });
+    }
+  }
+
+  openDatePicker() {
+    // You can perform any additional logic here if needed
   }
 }

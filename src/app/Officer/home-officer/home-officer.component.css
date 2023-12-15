@@ -56,13 +56,16 @@ body {
     height: 100%;
     padding-bottom: 50px;
     overflow: hidden;
-    margin-left: 0px;
+}
+
+.sidebar .nav-links::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar .nav-links li {
     list-style: none;
-    padding-left: 30px;
-    overflow: fit-content;
+    /* padding-left: 30px; */
+    overflow: hidden;
 }
 
 .sidebar .nav-links>li {
@@ -81,6 +84,8 @@ body {
     line-height: 50px;
     color: #75D2FF;
     font-size: 20px;
+    padding-left: 30px;
+    padding-right: 12px;
 }
 
 .sidebar .nav-links li:hover i,
@@ -92,10 +97,10 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
-    width: 100%;
+    width: 290px;
 }
 
-.sidebar .nav-links li:hover {
+.sidebar .nav-links li a:hover {
     background: #44779F;
     border-left: solid aqua;
 }
@@ -104,6 +109,7 @@ body {
     font-size: 15px;
     font-weight: 400;
     color: #C5ECFF;
+    padding-right: 15px;
 }
 
 .sidebar .nav-links li:hover a .link_name,
@@ -117,7 +123,7 @@ body {
 
 /* Dropdown Title */
 .sidebar .nav-links .dropdown-title {
-    width: 260px;
+    width: 290px;
     transition: all 0.52s ease;
     display: flex;
     align-items: center;
@@ -134,7 +140,7 @@ Dropdown Button .sidebar .nav-links .dropdown-btn {
 
 .sidebar .nav-links li i.arrow {
     font-size: 15px;
-    color: #fff;
+    padding-right: 35px;
 }
 
 .sidebar .nav-links li.showMenu i.arrow {
@@ -145,7 +151,7 @@ Dropdown Button .sidebar .nav-links .dropdown-btn {
 .sidebar .nav-links li .sub-menu {
     padding: 0px;
     margin-top: 0px;
-    /* background: #44779F; */
+    background: #44779F;
     display: none;
     transition: all 0.4s ease;
 }
@@ -159,16 +165,13 @@ Dropdown Button .sidebar .nav-links .dropdown-btn {
     color: #C5ECFF;
     height: 50px;
     font-size: 15px;
+    padding: 25px;
     white-space: nowrap;
     transition: all 0.3s ease;
 }
 
 .sidebar .nav-links li .sub-menu li {
-    padding-left: 0px;
-    width: 258px;
-    border-bottom: 0.2px solid #465E72;
-    border-left: 0.2px solid #4F92B3;
-    ;
+    width: 290px;
 }
 
 .sidebar .nav-links li .sub-menu i {
@@ -177,8 +180,7 @@ Dropdown Button .sidebar .nav-links .dropdown-btn {
     text-align: center;
     line-height: 50px;
     color: #75D2FF;
-    font-size: 15px;
-    padding-left: 30px;
+    font-size: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -187,7 +189,6 @@ Dropdown Button .sidebar .nav-links .dropdown-btn {
 .sidebar .nav-links li .sub-menu :hover,
 .sidebar .nav-links li .sub-menu .active {
     background-color: #365f7f;
-    border-left: 0.2px solid #365f7f;
 }
 
 .sidebar .nav-links li .sub-menu li:hover a,

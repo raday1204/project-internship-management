@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 import { CompanyStudentService } from './company-student/company-student.service';
@@ -16,6 +16,7 @@ export class SearchCompanyStudentComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute, 
     private http: HttpClient,
     private dataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
@@ -48,36 +49,26 @@ export class SearchCompanyStudentComponent {
       formData.append('type_code', this.selectedOption6);
   
       this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
-        .subscribe((response: any) => {
-          console.log('Backend Response:', response);
+          .subscribe((response: any) => {
+              console.log('Backend Response:', response);
   
-          // Assuming the response contains both 'company' and 'need_student' arrays
-          if (response.hasOwnProperty('company') && response.hasOwnProperty('need_student')) {
-            this.CompanyInformation = response.company;
-            this.dataStorageService.setCompanyInformation({
-              year: this.selectedOption5,
-              type_code: this.selectedOption6,
-              company: response.company,
-              need_student: response.need_student,
-            });
+              if (response.company && response.student && response.need_student) {
+                  this.dataStorageService.setYearTypecode(this.selectedOption5, this.selectedOption6);
   
-            const queryParams = {
-              CompanyInformation: JSON.stringify({
-                year: this.selectedOption5,
-                type_code: this.selectedOption6,
-                company: response.company,
-            need_student: response.need_student
-              })
-            };
-  
-            this.router.navigate(['/company-student'], { queryParams: queryParams });
-          } else {
-            console.error('Invalid response from server.');
-          }
-        },
-          (error) => {
-            console.error('HTTP Error:', error);
-          }
-        );
-    }
+                  this.router.navigate(['/company-student'], {
+                      relativeTo: this.route,
+                      queryParams: {
+                          year: this.selectedOption5,
+                          type_code: this.selectedOption6
+                      },
+                      queryParamsHandling: 'merge'
+                  });
+              } else {
+                  console.error('Invalid response from server.');
+              }
+          },
+              (error) => {
+                  console.error('HTTP Error:', error);
+              });
+  }
   }

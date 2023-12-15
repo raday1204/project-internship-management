@@ -15,16 +15,26 @@ interface Company {
   company_id: string;
   company_name: string;
   company_building: string;
-  number_student_train: string;
+  students: Student[]; // Add this line
+}
+
+interface Student {
   student_code: string;
   student_name: string;
   student_lastname: string;
 }
 
+
+interface CompanyInformation {
+selected: any;
+  company: Company;
+  students: Student[];
+  need_student: NeedStudent[];
+}
+
 interface CompanyResponse {
-  company: Company[];
-  need_student: { [key: string]: NeedStudent[] };
   success: boolean;
+  data: CompanyInformation[];
 }
 
 @Component({
@@ -33,12 +43,11 @@ interface CompanyResponse {
   styleUrls: ['./company-student.component.css']
 })
 export class CompanyStudentComponent implements OnInit {
-  CompanyInformation: Company[] = [];
-  username: string = '';
-  loggedInUsername: string = '';
   need_student: { [key: string]: NeedStudent[] } = {};
-  company: Company[] = [];
-  companyName: any = {};
+  CompanyInformation: CompanyInformation[] = [];
+  student: { [key: string]: Student[] } = {};
+  username: any;
+
   selectedOption5: any;
   selectedOption6: any;
   hasSelectedCompany: boolean = false;
@@ -47,49 +56,40 @@ export class CompanyStudentComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     public dialog: MatDialog,
+    private route: ActivatedRoute,
     private dataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
   ) { }
 
-  ngOnInit() {
-    this.username = this.companyStudentService.getUsername();
-    console.log('Username from service:', this.username);
-    // Get the latest company information from DataStorageService
-    this.dataStorageService.getCompanyInformation().subscribe(
-      (companyInformation: any) => {
-        if (companyInformation) {
-          this.CompanyInformation = companyInformation.company;
-          this.selectedOption5 = companyInformation.year;
-          this.selectedOption6 = companyInformation.type_code;
-          this.companyName = companyInformation.company_name;
-          this.need_student = companyInformation.need_student;
-        } else {
-          console.error('No company information found.');
-        }
-      },
-      (error) => {
-        // Handle the error if any occurs during the subscription
-        console.error('Error fetching company information:', error);
-      }
-    );
-    const apiUrl = 'http://localhost/PJ/Backend/Student/Company/company-student.php';
+  ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      this.selectedOption5 = params['year'];
+      this.selectedOption6 = params['type_code'];
+    });
+    this.fetchData();
+  }
+  fetchData() {
+    if (this.selectedOption5 && this.selectedOption6) {
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_code=${this.selectedOption6}`)
+        .subscribe(
+          (response: any) => {
+            console.log('Backend Response:', response);
 
-    this.http.get<CompanyResponse>(apiUrl).subscribe(
-      (companyInformation) => {
-        console.log(companyInformation);
-        if (companyInformation && companyInformation.company) {
-          this.CompanyInformation = companyInformation.company;
-          this.need_student = companyInformation.need_student;
-        } else {
-          console.error('No company information found.');
-        }
-      },
-      (error) => {
-        console.error('Error fetching company information:', error);
-      }
-    );
-    const selectedCompanyID = localStorage.getItem('selectedCompanyID');
-    this.hasSelectedCompany = !!selectedCompanyID;
+            if (response && response.success && response.data) {
+              this.CompanyInformation = response.data;
+              this.CompanyInformation.forEach(company => {
+                this.need_student[company.company.company_id] = company.need_student;
+                this.student[company.company.company_id] = company.students;
+              });
+            } else {
+              console.error('Invalid response from the server.');
+            }
+          },
+          (error) => {
+            console.error('HTTP Error:', error);
+          }
+        );
+    }
   }
 
   selectCompany(selectedCompany: Company) {
