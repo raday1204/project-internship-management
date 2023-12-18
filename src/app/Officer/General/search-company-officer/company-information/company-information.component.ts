@@ -41,16 +41,15 @@ export class CompanyInformationComponent implements OnInit {
   need_student: { [key: string]: NeedStudent[] } = {};
   CompanyInformation: CompanyInformation[] = [];
   student: { [key: string]: Student[] } = {};
-
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router,
-    private dataStorageService: DataStorageService
-  ) { }
+    private router: Router
+  ) {  }
+
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -64,15 +63,19 @@ export class CompanyInformationComponent implements OnInit {
     if (this.selectedOption1 && this.selectedOption2) {
       this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_code=${this.selectedOption2}`)
         .subscribe(
-          (response: any) => {
+          (response: CompanyResponse) => {
             console.log('Backend Response:', response);
-
-            if (response && response.success && response.data) {
-              this.CompanyInformation = response.data;
-              this.CompanyInformation.forEach(company => {
-                this.need_student[company.company.company_id] = company.need_student;
-                this.student[company.company.company_id] = company.students;
-              });
+  
+            if (response && response.success) {
+              if (Array.isArray(response.data)) {
+                this.CompanyInformation = response.data;
+                this.CompanyInformation.forEach(company => {
+                  this.need_student[company.company.company_id] = company.need_student;
+                  this.student[company.company.company_id] = company.students;
+                });
+              } else {
+                console.error('Invalid data structure in the server response.');
+              }
             } else {
               console.error('Invalid response from the server.');
             }
@@ -82,11 +85,11 @@ export class CompanyInformationComponent implements OnInit {
           }
         );
     }
-  }
-
+  }  
 
   editCompany(companyId: string) {
     if (companyId) {
+      console.log('Invalid company ID.', companyId);
       this.router.navigate(['/edit-company', companyId]);
     } else {
       console.error('Invalid company ID.');

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
@@ -14,6 +14,7 @@ export class SearchConfirmFormOfficerComponent {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute, 
     private http: HttpClient,
     private dataStorageService: DataStorageService
     ) {}
@@ -41,37 +42,29 @@ export class SearchConfirmFormOfficerComponent {
       const formData = new FormData();
       formData.append('year', this.selectedOption1);
       formData.append('type_code', this.selectedOption2);
-  
+    
       this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
         .subscribe((response: any) => {
           console.log('Backend Response:', response);
-  
-          // Assuming the response contains both 'company' and 'need_student' arrays
-          if (response.hasOwnProperty('company') && response.hasOwnProperty('need_student')) {
-            this.dataStorageService.setCompanyInformation({
-              year: this.selectedOption1,
-              type_code: this.selectedOption2,
-              company: response.company,
-              need_student: response.need_student,
-            });
-  
-            const queryParams = {
-              CompanyInformation: JSON.stringify({
+    
+          if (response.company && Array.isArray(response.company)) {
+            // Assuming you only need the company data, not student and need_student
+            this.dataStorageService.setYearTypecode(this.selectedOption1, this.selectedOption2);
+    
+            this.router.navigate(['/confirm-form'], {
+              relativeTo: this.route,
+              queryParams: {
                 year: this.selectedOption1,
-                type_code: this.selectedOption2,
-                company: response.company,
-                need_student: response.need_student
-              })
-            };
-  
-            this.router.navigate(['/confirm-form'], { queryParams: queryParams });
+                type_code: this.selectedOption2
+              },
+              queryParamsHandling: 'merge'
+            });
           } else {
             console.error('Invalid response from server.');
           }
         },
-          (error) => {
-            console.error('HTTP Error:', error);
-          }
-        );
+        (error) => {
+          console.error('HTTP Error:', error);
+        });
     }
   }

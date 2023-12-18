@@ -55,6 +55,7 @@ export class AddCompanyComponent {
   }
 
   saveCompany() {
+    if (this.companyForm.valid) {
     const formData = new FormData();
     formData.append('year', this.companyForm.value.year);
     formData.append('type_code', this.companyForm.value.type_code);
@@ -69,25 +70,33 @@ export class AddCompanyComponent {
   
     console.log('formData:', formData);
   
-    this.http.post('http://localhost/PJ/Backend/Officer/Company/add-company.php', formData)
-      .subscribe((response: any) => {
-        console.log('Response:', response);
-  
-        if (response.success) {
-          console.log(response.message);
-          this.DataStorageService.setCompanyInformation(response);
-          this.company.company_id = response.company_id;
-          // Pass company information to the route using navigate method
-          this.router.navigate(['/add-internal-company'], {
-            queryParams: { companyInformation: JSON.stringify(response) }
-          });
-        } else {
-          console.error(response.message);
+    this.http.post('http://localhost/PJ/Backend/Officer/Company/add-company.php', formData, { responseType: 'text' })
+      .subscribe(
+        (response: any) => {
+          console.log('Response:', response);
+
+          try {
+            const parsedResponse = JSON.parse(response);
+            if (parsedResponse.success) {
+              console.log(parsedResponse.message);
+              this.DataStorageService.setCompanyInformation(parsedResponse);
+              this.company.company_id = parsedResponse.company_id;
+              // Pass company information to the route using navigate method
+              this.router.navigate(['/add-internal-company', this.company.company_id]);
+            } else {
+              console.error(parsedResponse.message);
+            }
+          } catch (error) {
+            console.error('Error parsing JSON response:', error);
+          }
+        },
+        (error) => {
+          console.error('HTTP Error:', error);
+          // Handle errors
         }
-      }, (error) => {
-        console.error('HTTP Error:', error);
-      });
+      );
   }
+}
   
 
   getOptions() {

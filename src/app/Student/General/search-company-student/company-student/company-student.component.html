@@ -32,21 +32,26 @@
                 <td style="word-break: break-all;">{{ company.company.company_name }}</td>
                 <td style="word-break: break-all;">{{ company.company.company_building }}</td>
 
-                <td class="text-center"
-                    *ngIf="need_student[company.company.company_id] && need_student[company.company.company_id].length > 0">
-                    {{ need_student[company.company.company_id][0].number_student_train }}
+                <td class="text-center">
+                    {{ company.need_student && company.need_student.length > 0 ?
+                    company.need_student[0].number_student_train : '' }}
                 </td>
 
-                <ng-container
-                    *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0; else noStudents">
-                    <td class="text-center">{{ student[company.company.company_id][0].student_code }}</td>
-                    <td>{{ student[company.company.company_id][0].student_name }} {{
-                        student[company.company.company_id][0].student_lastname }}</td>
-                </ng-container>
+                <td *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0">
+                    <ng-container *ngFor="let studentItem of student[company.company.company_id]">
+            <tr>
+                {{ studentItem.student_code }}
+            </tr>
+            </ng-container>
+            </td>
 
-                <ng-template #noStudents>
-                    <td colspan="2" class="text-center">No students available</td>
-                </ng-template>
+            <td *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0">
+                <ng-container *ngFor="let studentItem of student[company.company.company_id]">
+                    <tr>
+                        {{ studentItem.student_name }} {{ studentItem.student_lastname }}
+                    </tr>
+                </ng-container>
+            </td>
 
                 <td class="text-center">
                     <button (click)="selectCompany(company.company)" style="background-color: #66B366; color: #FDFDF6;"

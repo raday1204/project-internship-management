@@ -18,7 +18,7 @@
         <p>กรุณากรอกข้อมูล</p>
         <form (ngSubmit)="submitForm()">
             <div class="form-group">
-                <label for="option1">ปีการศึกษา</label><br>
+                <label for="year">ปีการศึกษา</label><br>
                 <select [(ngModel)]="selectedOption1" name="selectedOption1">
                     <option value="">-- เลือกปีการศึกษา --</option> <!-- Add a default option -->
                     <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>

@@ -45,30 +45,19 @@ export class AddInternalCompanyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['companyInformation']) {
-        this.CompanyInformation = JSON.parse(params['companyInformation']);
-        this.populateFormWithData();
-      }
-    });
-  
     this.route.params.subscribe((params) => {
       this.company.company_id = params['company_id'];
   
-      this.route.queryParams.subscribe((queryParams) => {
-        if (queryParams && queryParams['company_id']) {
-          this.company.company_id = queryParams['company_id'];
-        }
-  
-        if (queryParams && queryParams['company_name']) {
-          this.company.company_name = queryParams['company_name'];
-        }
-        this.fetchCompanyData(this.company.company_id); // Corrected: Pass company ID
-      });
+      this.fetchCompanyData(this.company.company_id)
+        .subscribe(() => {
+          // Once the company data is fetched, populate the form
+          this.populateFormWithData();
+        });
     });
   
     this.getOptions();
   }
+  
   
   populateFormWithData() {
     // Populate the form fields with existing company data
@@ -78,21 +67,11 @@ export class AddInternalCompanyComponent implements OnInit {
       // Populate other fields if available in CompanyInformation
     });
   }
-  
+
   fetchCompanyData(companyId: string) {
+    console.log('Fetching data for company ID:', companyId);
     // Fetch existing company data using companyId
-    this.http.get(`http://localhost/PJ/Backend/Officer/Company/get-company-officer.php?company_id=${companyId}`)
-      .subscribe((response: any) => {
-        if (response.success) {
-          // Populate form fields with existing company data
-          this.company.company_building = response.company_building;
-          this.company.company_job = response.company_job;
-        } else {
-          console.error(response.message);
-        }
-      }, (error) => {
-        console.error('HTTP Error:', error);
-      });
+    return this.http.get(`http://localhost/PJ/Backend/Officer/Company/get-company-officer.php?company_id=${companyId}`);
   }
 
   openAddInternalPopup(): void {
@@ -100,7 +79,7 @@ export class AddInternalCompanyComponent implements OnInit {
       if (this.internalCompanyForm.valid && companyData) {
         const formattedDate = this.internalCompanyForm.value.date_addtraining ?
           formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
-  
+
         const dialogRef = this.dialog.open(DialogComponent, {
           data: {
             company: {
@@ -121,7 +100,7 @@ export class AddInternalCompanyComponent implements OnInit {
             }
           }
         });
-  
+
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed');
           if (result && result.saveData) {
@@ -146,7 +125,7 @@ export class AddInternalCompanyComponent implements OnInit {
 
           // Step 2: Insert need_student data
           const formattedDate = this.internalCompanyForm.value.date_addtraining ?
-          formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+            formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
 
           const formDataNeedStudent = new FormData();
           formDataNeedStudent.append('company_id', this.company.company_id);

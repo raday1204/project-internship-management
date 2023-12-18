@@ -47,28 +47,29 @@ export class SearchCompanyStudentComponent {
       const formData = new FormData();
       formData.append('year', this.selectedOption5);
       formData.append('type_code', this.selectedOption6);
-  
+    
       this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
-          .subscribe((response: any) => {
-              console.log('Backend Response:', response);
-  
-              if (response.company && response.student && response.need_student) {
-                  this.dataStorageService.setYearTypecode(this.selectedOption5, this.selectedOption6);
-  
-                  this.router.navigate(['/company-student'], {
-                      relativeTo: this.route,
-                      queryParams: {
-                          year: this.selectedOption5,
-                          type_code: this.selectedOption6
-                      },
-                      queryParamsHandling: 'merge'
-                  });
-              } else {
-                  console.error('Invalid response from server.');
-              }
-          },
-              (error) => {
-                  console.error('HTTP Error:', error);
-              });
-  }
-  }
+        .subscribe((response: any) => {
+          console.log('Backend Response:', response);
+    
+          if (response.company && Array.isArray(response.company)) {
+            // Assuming you only need the company data, not student and need_student
+            this.dataStorageService.setYearTypecode(this.selectedOption5, this.selectedOption6);
+    
+            this.router.navigate(['/company-student'], {
+              relativeTo: this.route,
+              queryParams: {
+                year: this.selectedOption5,
+                type_code: this.selectedOption6
+              },
+              queryParamsHandling: 'merge'
+            });
+          } else {
+            console.error('Invalid response from server.');
+          }
+        },
+        (error) => {
+          console.error('HTTP Error:', error);
+        });
+    }
+  }  

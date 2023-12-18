@@ -16,9 +16,10 @@
 
     <div class="form-container">
         <p>กรุณากรอกข้อมูล</p>
+
         <form (ngSubmit)="submitForm()">
             <div class="form-group">
-                <label for="option1">ปีการศึกษา</label><br>
+                <label for="year">ปีการศึกษา</label><br>
                 <select [(ngModel)]="selectedOption1" name="selectedOption1">
                     <option value="">-- เลือกปีการศึกษา --</option> <!-- Add a default option -->
                     <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
@@ -30,7 +31,7 @@
                     <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
                 </select>
             </div>
-            
+
             <div class="button-container">
                 <button class="button" style="background-color: #FDFDF6; color: #072D44;"
                     [routerLink]="['/home-officer']">ย้อนกลับ</button>
