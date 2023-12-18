@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 $students = fetchRecords($resultStudents);
 
                 // Retrieve information from the need_student table using prepared statement
-                $stmtNeedStudents = $conn->prepare("SELECT number_student_train FROM need_student WHERE company_id = ?");
+                $stmtNeedStudents = $conn->prepare("SELECT * FROM need_student WHERE company_id = ?");
                 $stmtNeedStudents->bind_param("s", $company_id);
                 $stmtNeedStudents->execute();
                 $resultNeedStudents = $stmtNeedStudents->get_result();

@@ -2,7 +2,7 @@
 session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: *");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json");
 
 if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $conn->real_escape_string($username);
 
     // Check if the student already exists
-    $checkSql = "SELECT users.username, student.* 
+    $checkSql = "SELECT users.username, student.student_code 
     FROM users 
     LEFT JOIN student ON users.username = student.student_code 
     WHERE student.student_code = '$username'";
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } else {
         http_response_code(404);
-        echo json_encode(array("success" => false, "error" => "Student not found for this user."));
+        echo json_encode(array("success" => false, "error" => "Student not found for this user. username: $username"));
     }
 
     mysqli_close($conn);
