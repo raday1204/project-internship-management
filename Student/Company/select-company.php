@@ -32,9 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $conn->real_escape_string($username);
 
     // Check if the student already exists
-    $checkSql = "SELECT users.username, student.student_code 
+    $checkSql = "SELECT users.username, student.student_code, student.company_id , company.company_id
     FROM users 
     LEFT JOIN student ON users.username = student.student_code 
+    LEFT JOIN company ON company.company_id = student.company_id
     WHERE student.student_code = '$username'";
     $checkResult = $conn->query($checkSql);
 
@@ -49,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     } else {
         http_response_code(404);
-        echo json_encode(array("success" => false, "error" => "Student not found for this user. username: $username"));
+        echo json_encode(array("success" => false, "error" => "File not found: " . $_SERVER['PHP_SELF']));
     }
 
     mysqli_close($conn);

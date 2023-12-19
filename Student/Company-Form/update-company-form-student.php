@@ -21,7 +21,6 @@ if (isset($_POST["username"])) {
     }
 
     // Get data from the POST request
-    $type_code = $_POST['type_code'];
     $student_code = $_POST['student_code'];
     $student_name = $_POST['student_name'];
     $student_lastname = $_POST['student_lastname'];
@@ -32,7 +31,6 @@ if (isset($_POST["username"])) {
 
     // Update student profile data
     $updateSql = "UPDATE student SET
-                type_code = '$type_code',
                 student_code = '$student_code',
                 student_name = '$student_name',
                 student_lastname = '$student_lastname',
