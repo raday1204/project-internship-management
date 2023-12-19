@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -52,12 +52,13 @@ export class CompanyFormStudentComponent implements OnInit {
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
+    private router: Router,
     private DataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
 
   ) {
     this.studentyForm = this.fb.group({
-      type_code: ['', Validators.required],
+      type_code: [''],
       student_code: ['', Validators.required],
       student_name: ['', Validators.required],
       student_lastname: ['', Validators.required],
@@ -68,6 +69,7 @@ export class CompanyFormStudentComponent implements OnInit {
     });
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
+      type_code: ['', Validators.required],
       term: ['', Validators.required],
       company_name: ['', Validators.required],
       send_name: ['', Validators.required],
@@ -111,8 +113,9 @@ export class CompanyFormStudentComponent implements OnInit {
 
   updateData() {
     if (this.username) {
+      // Update student data
       const formDataStudent = new FormData();
-      formDataStudent.append('type_code', this.companyForm.value.type_code);
+      formDataStudent.append('type_code', this.studentyForm.value.type_code);
       formDataStudent.append('student_code', this.studentyForm.value.student_code);
       formDataStudent.append('student_name', this.studentyForm.value.student_name);
       formDataStudent.append('student_lastname', this.studentyForm.value.student_lastname);
@@ -134,7 +137,7 @@ export class CompanyFormStudentComponent implements OnInit {
               // Proceed with company form data only if student data is successfully updated
               const formattedDate = this.companyForm.value.date_addtraining ?
                 formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
-
+              // Update company form data
               const formDataCompany = new FormData();
               formDataCompany.append('year', this.companyForm.value.year);
               formDataCompany.append('type_code', this.companyForm.value.type_code);
@@ -159,40 +162,41 @@ export class CompanyFormStudentComponent implements OnInit {
                     if (responseCompany.success) {
                       console.log(responseCompany.message);
 
-                      if (responseCompany.data) {
-                        console.log(responseCompany.data);
-
-                        this.companyForm.patchValue(responseCompany.data);
-                      } else {
-                        console.error('Data from the server is undefined.');
-                      }
+                      // Update student's company ID and type code
                       const updatedCompanyId = responseCompany.company_id;
+                      const updatedCompanytypecode = responseCompany.type_code;
 
                       const formDataUpdateStudent = new FormData();
-                      if (this.username) {
-                        formDataUpdateStudent.append('company_id', updatedCompanyId);
-
-                        formDataUpdateStudent.append('username', this.username ?? '');
-                      } else {
-                        // Handle the case where username is undefined.
-                        console.error('Error: Username is undefined.');
-                      }
+                      formDataUpdateStudent.append('company_id', updatedCompanyId);
+                      formDataUpdateStudent.append('type_code', updatedCompanytypecode);
+                      formDataUpdateStudent.append('username', this.username ?? '');
 
                       this.http.post('http://localhost/PJ/Backend/Student/Company-Form/update-student-company-id.php', formDataUpdateStudent)
                         .subscribe(
                           (responseUpdateStudent: any) => {
+                            console.log('Response:', responseUpdateStudent);
+
                             if (responseUpdateStudent.success) {
                               console.log(responseUpdateStudent.message);
-                              this.printDocument();
+
+                              const updatedStudentData = responseUpdateStudent.data;
+                              console.log('Updated Student Data:', updatedStudentData);
+                              this.router.navigate(['/company-form-student-print']);
                             } else {
                               console.error(responseUpdateStudent.message);
                             }
                           },
                           (errorUpdateStudent) => {
-                            console.error('HTTP Error:', errorUpdateStudent);
+                            if (errorUpdateStudent instanceof ErrorEvent) {
+                              // Client-side error (e.g., network issues)
+                              console.error('Client-side error:', errorUpdateStudent.message);
+                            } else {
+                              // Server-side error
+                              console.error('Server-side error:', errorUpdateStudent.error);
+                              // You might want to handle errorUpdateStudent.error based on your server response
+                            }
                           }
                         );
-
                     } else {
                       console.error(responseCompany.message);
                     }
@@ -237,11 +241,12 @@ export class CompanyFormStudentComponent implements OnInit {
             date_addtraining: formattedDate,
           },
           student: {
+            type_code: this.studentyForm.value.type_code,
             student_code: this.studentyForm.value.student_code,
             student_name: this.studentyForm.value.student_name,
             student_lastname: this.studentyForm.value.student_lastname,
             depart_code: this.studentyForm.value.depart_code,
-            student_pa: this.studentyForm.value.student_pak,
+            student_pak: this.studentyForm.value.student_pak,
             student_mobile: this.studentyForm.value.student_mobile,
             student_facebook: this.studentyForm.value.student_facebook,
           }

@@ -12,9 +12,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProfileStudentComponent implements OnInit {
   username: string | undefined;
   studentData = {
-    student_id: '', 
+    student_id: '',
     type_code: '',
-    student_name: '', 
+    student_name: '',
     student_lastname: '',
     student_nickname: '',
     student_pic: '',
@@ -43,7 +43,7 @@ export class ProfileStudentComponent implements OnInit {
   errorMessage: string | undefined;
   studentForm: FormGroup;
   displayedFilePath: string | undefined;
-  
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -93,44 +93,44 @@ export class ProfileStudentComponent implements OnInit {
     });
   }
   private fetchStudentData(): void {
-      if (this.username) {
-        this.http.get(`http://localhost/PJ/Backend/Student/Profile-Student/profile-student.php?username=${this.username}`)
-          .subscribe(
-            (response: any) => {
-              if (!response.error) {
-                const studentData = response.data;
-                this.studentForm.patchValue({
-                  student_id: studentData.student_id,
-                  type_code: studentData.type_code,
-                  student_name: studentData.student_name,
-                  student_lastname: studentData.student_lastname,
-                  student_nickname: studentData.student_nickname,
-                  student_pic: studentData.student_pic,
-                  student_citizen: studentData.student_citizen,
-                  student_email: studentData.student_email,
-                  student_mobile: studentData.student_mobile,
-                  student_facebook: studentData.student_facebook,
-                  student_line: studentData.student_line,
-                  st_address: studentData.st_address,
-                  st_tambol: studentData.st_tambol,
-                  st_ampher: studentData.st_ampher,
-                  st_province: studentData.st_province,
-                  st_zipcode: studentData.st_zipcode,
-                  st_tel: studentData.st_tel,
-                  st_contact: studentData.st_contact,
-                  st_mobile: studentData.st_mobile,
-                  ct_address: studentData.ct_address,
-                  ct_tambol: studentData.ct_tambol,
-                  ct_ampher: studentData.ct_ampher,
-                  ct_province: studentData.ct_province,
-                  ct_zipcode: studentData.ct_zipcode,
-                  ct_tel: studentData.ct_tel,
-                });
-                console.log('Image Path:', response.data.student_pic);
-                this.displayedFilePath = `http://localhost/${response.student_pic}`;
+    if (this.username) {
+      this.http.get(`http://localhost/PJ/Backend/Student/Profile-Student/profile-student.php?username=${this.username}`)
+        .subscribe(
+          (response: any) => {
+            if (!response.error) {
+              const studentData = response.data;
+              this.studentForm.patchValue({
+                student_id: studentData.student_id,
+                type_code: studentData.type_code,
+                student_name: studentData.student_name,
+                student_lastname: studentData.student_lastname,
+                student_nickname: studentData.student_nickname,
+                student_pic: studentData.student_pic,
+                student_citizen: studentData.student_citizen,
+                student_email: studentData.student_email,
+                student_mobile: studentData.student_mobile,
+                student_facebook: studentData.student_facebook,
+                student_line: studentData.student_line,
+                st_address: studentData.st_address,
+                st_tambol: studentData.st_tambol,
+                st_ampher: studentData.st_ampher,
+                st_province: studentData.st_province,
+                st_zipcode: studentData.st_zipcode,
+                st_tel: studentData.st_tel,
+                st_contact: studentData.st_contact,
+                st_mobile: studentData.st_mobile,
+                ct_address: studentData.ct_address,
+                ct_tambol: studentData.ct_tambol,
+                ct_ampher: studentData.ct_ampher,
+                ct_province: studentData.ct_province,
+                ct_zipcode: studentData.ct_zipcode,
+                ct_tel: studentData.ct_tel,
+              });
+              console.log('Image Path:', response.data.student_pic);
+              this.displayedFilePath = `http://localhost/${response.student_pic}`;
 
             } else {
-                this.errorMessage = response.error;
+              this.errorMessage = response.error;
             }
           },
           (error) => {
@@ -154,5 +154,4 @@ export class ProfileStudentComponent implements OnInit {
         }
       );
   }
-
 }

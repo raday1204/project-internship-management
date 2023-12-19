@@ -84,14 +84,59 @@ p {
     display: flex;
 }
 
+.list-content {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 5px;
+    display: flex;
+}
+
 label {
     font-size: 16px;
     font-weight: 600;
+    margin-right: 15px;
 }
 
-input {
-    margin-left: 20px;
+.list input {
+    margin-left: 15px;
     border-radius: 12px;
+    padding: 2px 12px;
+}
+
+.list-date {
+    display: flex;
+    align-items: center;
+}
+
+.list-date input {
+    margin-left: 15px;
+    border-radius: 12px;
+    padding: 2px 12px;
+    min-width: 200px;
+}
+
+.textarea {
+    padding: 2px 12px;
+    border-radius: 12px;
+    border: 2px solid black;
+    outline: none;
+    width: 600px; 
+    height: 80px;
+    margin: 5px;
+    /* display: flex; */
+}
+
+.textarea:focus {
+    border: 2px solid black;
+}
+
+select{
+    padding: 2px 10px;
+}
+
+select option {
+    border: 2px solid #000;
+    padding: 5px;
 }
 
 /* button part */

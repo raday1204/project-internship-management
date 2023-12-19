@@ -94,23 +94,22 @@ export class CompanyStudentComponent implements OnInit {
 
   selectCompany(selectedCompany: Company) {
     if (selectedCompany && selectedCompany.company_id) {
-      // Check if the user has already selected a company
       if (this.hasSelectedCompany) {
         console.log('User has already selected a company. Skipping selection.');
+        this.router.navigate(['/select-company']);
         return;
       }
-
-      // Open the popup with student information
+  
       const dialogRef = this.dialog.open(CompanyStudentPopupComponent, {
         data: {
           companyInformation: selectedCompany
         }
       });
-
+  
       dialogRef.afterClosed().subscribe((result) => {
         console.log('The dialog was closed', result);
         if (result && result.saveData) {
-          this.insertCompanyID(selectedCompany.company_id);
+          this.setSelectedCompany(selectedCompany); // Fix this line
           this.hasSelectedCompany = true;
           console.log('Company selected successfully.');
         } else {
@@ -119,23 +118,22 @@ export class CompanyStudentComponent implements OnInit {
       });
     } else {
       console.error('Invalid company data or missing company_id.');
-      // Additional error handling if necessary
     }
   }
-
-
-  private insertCompanyID(newCompanyID: string) {
+  
+  private setSelectedCompany(selectedCompany: Company) {
     const insertUrl = 'http://localhost/PJ/Backend/Student/Company/select-company.php';
-
+  
     this.http.post<CompanyResponse>(insertUrl, {
       username: this.username,
-      company_id: newCompanyID
+      company_id: selectedCompany.company_id // Use selectedCompany instead of this.selectCompany
     }).subscribe(
       (response) => {
         console.log('Company ID updated successfully:', response);
-        if (response && response.success)
+        if (response && response.success) {
           this.router.navigate(['/select-company']);
-          localStorage.setItem('selectedCompanyID', newCompanyID);
+          localStorage.setItem('selectedCompanyID', selectedCompany.company_id);
+        }
       },
       (error: HttpErrorResponse) => {
         console.error('HTTP error updating company ID:', error);

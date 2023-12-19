@@ -25,7 +25,7 @@
             <span>{{ companyForm.get('company_name')?.value }}</span>
         </div>
 
-        <div>
+        <div class="list">
             <label for="company_building">2. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
             <span>{{ companyForm.get('company_building')?.value }}</span>
         </div>
@@ -73,9 +73,9 @@
             <p>3. ข้อมูลหน่วยงานภายใน</p>
 
 
-            <div class="list">
+            <div class="list-content">
                 <label for="company_job">ลักษณะงาน</label>
-                <input type="text" id="company_job" formControlName="company_job">
+                <textarea class="textarea" rows="10" id="company_job" formControlName="company_job" ></textarea>
             </div>
 
             <div class="list">
@@ -83,10 +83,10 @@
                 <input type="text" id="number_student_train" formControlName="number_student_train">
             </div>
             
-            <div class="list">
+            <div class="list-date">
                 <label for="date_addtraining">วันที่ออกฝึกงาน</label>
                 <input type="text" id="date_addtraining" formControlName="date_addtraining" (click)="openDatePicker()" 
-                [matDatepicker]="picker" />
+                [matDatepicker]="picker"/>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </div>

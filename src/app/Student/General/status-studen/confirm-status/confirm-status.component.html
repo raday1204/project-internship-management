@@ -17,7 +17,8 @@
     <div class="check-container">
         <i class="fa-regular fa-circle-check" style="color: #59AB62;"></i>
         <li class="head-check" style="color: white;">ตรวจสอบสถานะการลงทะเบียนฝึกงาน</li>
-        <h5>ชื่อหน่วยงาน : {{ company.company_name }}</h5>
+        <h5>ชื่อหน่วยงาน : {{ companyForm.get('company_name')?.value }}</h5>
+        <h5>ชื่อหน่วยงานภายใน : {{ companyForm.get('company_building')?.value }}</h5>
         <li class="status" style="color: white;">ตอบรับเข้าฝึกงาน</li>
     </div>
 

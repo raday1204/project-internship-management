@@ -17,12 +17,16 @@
     <div class="edit-profile">
         <form [formGroup]="studentForm" (ngSubmit)="openPopup()">
 
-            <div class="list p-3" style="justify-content: center; text-align: center;">
+            <div class="list p-3"
+                style="display: flex; justify-content: center; align-items: center; text-align: center;">
                 <img *ngIf="displayedFilePath" [src]="displayedFilePath"
-                    style="max-width: 100%; display: inline-block;">
+                    style="max-width: auto; max-height: 250px; display: inline-block;">
             </div>
 
-            <div class="list p-3" style="justify-content: center;">
+            <div class="text-center">ขนาดรูปภาพ ไม่ต่ำกว่า 200 x 200</div>
+
+            <div class="list p-3"
+                style="display: flex; justify-content: center; align-items: center; text-align: center;">
                 <input type="file" (change)="onFileSelected($event)" #fileInput style="margin-bottom: 10px;">
                 <div *ngIf="fileInput.files && fileInput.files.length > 0" style="text-align: center;">
                 </div>
@@ -32,7 +36,7 @@
             <div class="list">
                 <label for="type_code">ประเภทที่</label>
                 <input type="text" id="	type_code" formControlName="type_code">
-            </div>
+            </div><br>
 
             <div class="list">
                 <label for="student_name">ชื่อ :</label>
@@ -62,8 +66,6 @@
                 <label for="student_mobile">โทรศัพท์มือถือ :</label>
                 <input type="text" id="student_mobile" formControlName="student_mobile">
             </div>
-
-
 
             <div class="list">
                 <label for="student_facebook">Fackbook URL :</label>
@@ -136,10 +138,6 @@
                 <label for="ct_tel">โทรศัพท์บ้าน :</label>
                 <input type="text" id="ct_tel" formControlName="ct_tel">
             </div>
-            <!-- <div class="list">
-                <label for="ct_tel">อื่นๆ :</label>
-                <input type="text" id="ct_tel"  [(ngModel)]="profilestudent.ct_tel">
-            </div> -->
             <br><br><br>
 
 

@@ -1,0 +1,134 @@
+<body class="mx-auto d-block" style="width: 980px;">
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a>></li>
+                    <li class="list-item">01 ข้อมูลหน่วยงาน</li>
+                </div>
+                <button (click)="logout()">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+    <div class="main-container" id="print-section">
+        <div class="head-list">
+            01 ข้อมูลหน่วยงาน
+            แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน
+            <span>ภาคเรียนที่ {{ companyForm.get('term')?.value }} ประจำปีการศึกษา {{ companyForm.get('year')?.value }} ประเภทที่ {{ companyForm.get('type_code')?.value }}</span>
+        </div>
+
+        <p>ข้อมูลนิสิต</p>
+        <form [formGroup]="studentyForm">
+            <div class="list">
+                <label for="student_name">ชื่อ-นามสกุล</label>
+                <span>{{ studentyForm.get('student_name')?.value }} {{ studentyForm.get('student_name')?.value }}</span>
+            </div>
+
+            <div class="list">
+                <label for="student_code">รหัสประจำตัวนิสิต</label>
+                <span>{{ studentyForm.get('student_code')?.value }}</span>
+            </div>
+
+            <div class="list">
+                <label for="depart_code">สาขาวิชาวิศวกรรม</label>
+                <span>{{ studentyForm.get('depart_code')?.value }}</span>
+            </div>
+
+            <div class="list">
+                <label for="student_pak">ภาควิชาวิศวกรรม</label>
+                <span>{{ studentyForm.get('student_pak')?.value }}</span>
+            </div>
+
+            <div class="list">
+                <label for="student_mobile">เบอร์โทรศัพท์นิสิตที่สามารถติดต่อได้</label>
+                <span>{{ studentyForm.get('student_mobile')?.value }}</span>
+            </div>
+
+            <div class="list">
+                <label for="student_facebook">Facebook: </label>
+                <span>{{ studentyForm.get('student_facebook')?.value }}</span>
+            </div>
+
+            <form [formGroup]="companyForm">
+                <p>ข้อมูลหน่วยงาน</p>
+
+                <div class="list">
+                    <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
+                    <span>{{ companyForm.get('company_name')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <li>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน (นิสิตจะต้องสอบถามหน่วยงาน
+                        ว่าให้ทำหนังสือถึงใคร)
+                    </li>
+                </div>
+
+                <div class="list">
+                    <label for="send_name">เรียน</label>
+                    <span>{{ companyForm.get('send_name')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <li>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</li>
+                </div>
+
+                <div class="list">
+                    <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
+                    <span>{{ companyForm.get('send_coordinator')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="send_position">ตำแหน่ง</label>
+                    <span>{{ companyForm.get('send_position')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="send_tel">เบอร์โทรศัพท์หน่วยงาน</label>
+                    <span>{{ companyForm.get('send_tel')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="send_email">หรือ E-mail</label>
+                    <span>{{ companyForm.get('send_email')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="send_mobile">เบอร์มือถือ</label>
+                    <span>{{ companyForm.get('send_mobile')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="type_position">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
+                    <span>{{ companyForm.get('type_position')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="type_special">4. คุณสมบัติพิเศษ/ความสามารถ/ความรู้เพิ่มเติม
+                        ของนิสิตที่หน่วยงานต้องการ(ถ้ามี)</label>
+                        <span>{{ companyForm.get('type_special')?.value }}</span>
+                </div>
+
+                <div class="list">
+                    <label for="student">นิสิต</label>
+                    (..............................)
+                    วันที่ เดือน พ.ศ.
+                </div>
+
+                <div class="list">
+                    <label for="officer">อาจารย์ผู้รับรอง</label>
+                    (..............................)
+                    วันที่ เดือน พ.ศ.
+                </div>
+
+                <div class="text">
+                    <li>หมายเหตุ&nbsp;&nbsp;ก่อนส่งให้ภาควิชาเพื่อกรอกข้อมูลลงในระบบ นิสิตควรถ่ายสำเนาเก็บไว้ 1 ชุด</li>
+                    <li style="margin-left: 77px;">กรณีที่ไปฝึกงานสถานที่เดียวหลายคน ขอให้นิสิตรวบรวมส่งพร้อมกัน</li>
+                    <li style="margin-left: 77px;">ส่งงานกิจจการนิสิตและศิษย์เก่าสัมพันธ์ &nbsp;คณะวิศวกรรมศาสตร์&nbsp;
+                        เพื่อขอออกหนังสือราชการส่งให้หน่วยงาน</li>
+                </div>
+            </form>
+        </form>
+    </div>
+</body>

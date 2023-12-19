@@ -16,8 +16,6 @@
         </nav>
     </header>
 
-    <p>ปีการศึกษา ประเภทที่</p>
-
     <div class="main-container">
         <p>ข้อมูลหน่วยงานภายใน</p>
         <form [formGroup]="internalCompanyForm" (ngSubmit)="openAddInternalPopup()">
@@ -28,9 +26,9 @@
                 </select>
             </div>
 
-            <div class="list">
+            <div class="list-content">
                 <label for="company_job">ลักษณะงาน</label>
-                <input type="text" id="company_job" formControlName="company_job">
+                <textarea class="textarea" rows="10" id="company_job" formControlName="company_job"></textarea>
             </div>
 
             <div class="list">
@@ -38,7 +36,7 @@
                 <input type="text" id="number_student_train" formControlName="number_student_train">
             </div>
 
-            <div class="list">
+            <div class="list-date">
                 <label for="date_addtraining">วันที่ออกฝึกงาน</label>
                 <input type="text" id="date_addtraining" formControlName="date_addtraining"(click)="openDatePicker()"
                 [matDatepicker]="picker" />

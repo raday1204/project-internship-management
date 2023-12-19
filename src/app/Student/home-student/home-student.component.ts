@@ -25,6 +25,7 @@ export class HomeStudentComponent implements OnInit {
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
     this.checkLoginStatus();
+    this.checkTrainingStatus();
   }
 
   menuSidebar = [
@@ -61,7 +62,7 @@ export class HomeStudentComponent implements OnInit {
     },
     {
       link_name: "ตรวจสอบสถานะ",
-      link: "/cancel-status",
+      link: "/wait-status",
       icon: "fa-solid fa-user-check",
       sub_menu: []
     },
@@ -127,7 +128,36 @@ export class HomeStudentComponent implements OnInit {
         }
       );
   }
-
+  
+  checkTrainingStatus() {
+    //มาใส่ this.username
+this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', { username: this.username })
+      .subscribe(
+        (response: any) => {
+          if (response && response.body && response.body.success) {
+            // Training status found, navigate to the appropriate page
+            console.log('Training Status:', response.data.company.status);
+  
+            // Example: Redirect to a page based on the training status
+            if (response.body.status === '1') {
+              this.router.navigate(['/wait-status']);
+            } else if (response.body.status === '2') {
+              this.router.navigate(['/confirm-status']);
+            } else {
+              this.router.navigate(['/cancel-status']);
+            }
+          } else {
+            // No training status found, you can handle this case accordingly
+            console.log('No training status found.');
+          }
+        },
+        (error) => {
+          console.error('An error occurred while checking training status:', error);
+        }
+      );
+  }
+  
+  
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(

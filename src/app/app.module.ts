@@ -71,6 +71,7 @@ import { ReportFormComponent } from './Officer/Form/search-report-form-officer/r
 import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-relation-popup/add-relation-popup.component';
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
+import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-student/company-form-student-print/company-form-student-print.component';
 
 
 
@@ -132,7 +133,8 @@ import { DeleteRelationPopupComponent } from './Officer/Relation/relation-office
     CompanyStudentPopupComponent,
     CompanyFormStudentPopupComponent,
     EditProfilePopupComponent,
-    SearchCompanyStudentComponent
+    SearchCompanyStudentComponent,
+    CompanyFormStudentPrintComponent
   ],
   imports: [
     BrowserModule,

@@ -21,6 +21,7 @@ import { DiaryFormStudentComponent } from './Student/Form/diary-form-student/dia
 import { EvaluationFormStudentComponent } from './Student/Form/evaluation-form-student/evaluation-form-student.component';
 import { ManualFormStudentComponent } from './Student/Form/manual-form-student/manual-form-student.component';
 import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
+import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-student/company-form-student-print/company-form-student-print.component';
 import { CompanyStudentService} from './Student/General/search-company-student/company-student/company-student.service';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
@@ -75,6 +76,7 @@ const routes: Routes = [
   { path: 'evaluation-form-student', component: EvaluationFormStudentComponent },
   { path: 'manual-form-student', component: ManualFormStudentComponent },
   { path: 'search-company-student', component: SearchCompanyStudentComponent},
+  { path: 'company-form-student-print', component: CompanyFormStudentPrintComponent},
 
   { path: 'search-student-officer', component: SearchStudentOfficerComponent },
   { path: 'student-information', component: StudentInformationComponent },
