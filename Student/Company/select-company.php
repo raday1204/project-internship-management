@@ -14,6 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] === "OPTIONS") {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $data = json_decode(file_get_contents("php://input"));
 
+    if (!isset($data->username) || !isset($data->company_id)) {
+        http_response_code(400);
+        echo json_encode(array("success" => false, "error" => "Invalid request data.", "requestData" => $data));
+        exit();
+    }
+
     $username = $data->username;
     $newCompanyID = $data->company_id;
 
@@ -29,28 +35,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die(json_encode(array("success" => false, "error" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
     $username = $conn->real_escape_string($username);
 
-    // Check if the student already exists
-    $checkSql = "SELECT users.username, student.student_code, student.company_id , company.company_id
-    FROM users 
-    LEFT JOIN student ON users.username = student.student_code 
-    LEFT JOIN company ON company.company_id = student.company_id
-    WHERE student.student_code = '$username'";
-    $checkResult = $conn->query($checkSql);
+    // Start a transaction
+    $conn->begin_transaction();
 
-    if ($checkResult && $checkResult->num_rows > 0) {
-        // If the student exists, update the company_id
-        $updateSql = "UPDATE student SET company_id = '$newCompanyID' WHERE student_code = '$username'";
-        if ($conn->query($updateSql) === TRUE) {
-            echo json_encode(array("success" => true, "message" => "Company ID updated successfully"));
+    try {
+        // Check if the student already exists
+        $checkSql = "SELECT users.username, student.student_code, student.company_id, training.status
+        FROM users 
+        LEFT JOIN student ON users.username = student.student_code 
+        LEFT JOIN training ON training.student_code = student.student_code
+        WHERE student.student_code = '$username' FOR UPDATE";  // Lock the selected rows for update
+
+        $checkResult = $conn->query($checkSql);
+
+        if ($checkResult && $checkResult->num_rows > 0) {
+            // If the student exists, update the company_id and status
+            $updateSql = "UPDATE student SET company_id = '$newCompanyID' WHERE student_code = '$username'";
+            $conn->query($updateSql);
+
+            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', status = '1' WHERE student_code = '$username'";
+            $conn->query($updateStatusSql);
+
+            // Commit the transaction if both updates are successful
+            $conn->commit();
+
+            echo json_encode(array("success" => true, "message" => "Company ID and status updated successfully"));
         } else {
-            http_response_code(500);
-            echo json_encode(array("success" => false, "error" => "Error updating company ID: " . $conn->error));
+            http_response_code(404);
+            echo json_encode(array("success" => false, "error" => "Student not found for this user. username: $username"));
         }
-    } else {
-        http_response_code(404);
-        echo json_encode(array("success" => false, "error" => "File not found: " . $_SERVER['PHP_SELF']));
+    } catch (Exception $e) {
+        // An error occurred, rollback the transaction
+        $conn->rollback();
+
+        http_response_code(500);
+        echo json_encode(array("success" => false, "error" => "Transaction failed: " . $e->getMessage()));
     }
 
     mysqli_close($conn);

@@ -26,13 +26,13 @@ if (isset($_GET['company_id'])) {
 
     // Sanitize input to prevent SQL injection
     $company_id = mysqli_real_escape_string($conn, $_GET['company_id']);
-    $sql_get_company = "SELECT * FROM company WHERE year = ? AND type_code = ?";
+    $sql_get_company = "SELECT * FROM company WHERE year = ? AND type_name = ?";
     $stmt_get_company = $conn->prepare($sql_get_company);
 
     if ($stmt_get_company === false) {
         $response = array("success" => false, "message" => "Prepare failed: " . $conn->error);
     } else {
-        $stmt_get_company->bind_param("ss", $year, $type_code);
+        $stmt_get_company->bind_param("ss", $year, $type_name);
 
         if ($stmt_get_company->execute()) {
             $result = $stmt_get_company->get_result();
@@ -54,7 +54,7 @@ if (isset($_GET['company_id'])) {
     }
 } else {
     // Fetch distinct values from the company table
-    $sql = "SELECT DISTINCT year, type_code, term, company_name, company_building FROM company";
+    $sql = "SELECT DISTINCT year, type_name, term, company_name, company_building FROM company";
     $result = $conn->query($sql);
     $data = array();
 
@@ -64,8 +64,18 @@ if (isset($_GET['company_id'])) {
         }
     }
 
-    // Return the data array even if it's empty
-    $response = $data;
+    // Fetch distinct type names from the type table
+    $sql_type = "SELECT DISTINCT type_name FROM type";
+    $result_type = $conn->query($sql_type);
+
+    if ($result_type->num_rows > 0) {
+        while ($row_type = $result_type->fetch_assoc()) {
+            $data_type[] = $row_type['type_name'];
+        }
+    }
+
+    // Merge the data arrays
+    $response = array("success" => true, "message" => "Data retrieved successfully", "data" => $data, "type_names" => $data_type);
 }
 
 echo json_encode($response);

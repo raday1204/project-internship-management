@@ -48,7 +48,7 @@ if (isset($_SESSION["username"]) || isset($_GET["username"])) {
                 'company' => [
                     'company_id' => $row['company_id'],
                     'year' => $row['year'],
-                    'type_code' => $row['type_code'],
+                    'type_name' => $row['type_name'],
                     'term' => $row['term'],
                     'company_name' => $row['company_name'],
                     'send_name' => $row['send_name'],

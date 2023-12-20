@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $year = $_POST['year'];
-    $type_code = $_POST['type_code'];
+    $type_name = $_POST['type_name'];
     $term = $_POST['term'];
     $company_name = $_POST['company_name'];
     $send_name = $_POST['send_name'];
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $type_special = $_POST['type_special'];
 
     // This is an insert operation
-    $sql_insert_company = "INSERT INTO company (year, type_code, term, company_name, 
+    $sql_insert_company = "INSERT INTO company (year, type_name, term, company_name, 
     send_name, send_coordinator, send_position, send_tel, send_email, send_mobile,
     type_position, type_special) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt_insert_company->bind_param(
         "ssssssssssss",
         $year,
-        $type_code,
+        $type_name,
         $term,
         $company_name,
         $send_name,
@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt_insert_company->execute()) {
         $company_id = $conn->insert_id; // Get the last inserted ID
 
-        $response_company = array("success" => true, "company_id" => $company_id, "type_code" => $type_code, "message" => "Company data inserted successfully");
+        $response_company = array("success" => true, "company_id" => $company_id, "type_name" => $type_name, "message" => "Company data inserted successfully");
     } else {
         $response_company = array("success" => false, "message" => "Error adding company data: " . $stmt_insert_company->error);
     }

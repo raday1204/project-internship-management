@@ -18,15 +18,15 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Sanitize and validate input
     $year = mysqli_real_escape_string($conn, $_POST['year']);
-    $type_code = mysqli_real_escape_string($conn, $_POST['type_code']);
+    $type_name = mysqli_real_escape_string($conn, $_POST['type_name']);
 
     // Initialize response array
     $response = [];
 
     // Retrieve company information
-    $sqlCompany = "SELECT * FROM company WHERE year = ? AND type_code = ?";
+    $sqlCompany = "SELECT * FROM company WHERE year = ? AND type_name = ?";
     $stmtCompany = $conn->prepare($sqlCompany);
-    $stmtCompany->bind_param("ss", $year, $type_code);
+    $stmtCompany->bind_param("ss", $year, $type_name);
 
     if ($stmtCompany->execute()) {
         $resultCompany = $stmtCompany->get_result();

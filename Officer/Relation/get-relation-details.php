@@ -16,20 +16,16 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Retrieve the relation ID from the URL parameter
     $relationId = $_GET['id'];
 
     // Use prepared statement to avoid SQL injection
     $select_query = "SELECT * FROM relation WHERE id = ?";
     $stmt = $conn->prepare($select_query);
 
-    // Bind the parameter
     $stmt->bind_param("i", $relationId);
 
-    // Execute the query
     $stmt->execute();
 
-    // Get the result
     $result = $stmt->get_result();
 
     if ($result === false) {
@@ -57,14 +53,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     } else {
         echo json_encode(['success' => false, 'message' => 'Relation not found']);
     }
-
-    // Close the statement
     $stmt->close();
 } else {
-    // Handle invalid request method
     echo json_encode(['success' => false, 'message' => 'Invalid request method']);
 }
 
-// Close the connection
 $conn->close();
 ?>

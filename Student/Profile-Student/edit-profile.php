@@ -36,7 +36,7 @@ if (isset($_POST["username"])) {
 
     // Process other fields
     $fieldsToUpdate = array(
-        'type_code', 'student_name', 'student_lastname', 'student_nickname',
+        'type_name', 'student_name', 'student_lastname', 'student_nickname',
         'student_citizen', 'student_email', 'student_mobile', 'student_facebook',
         'student_line', 'st_address', 'st_tambol', 'st_ampher', 'st_province',
         'st_zipcode', 'st_tel', 'st_contact', 'st_mobile', 'ct_address', 'ct_tambol',

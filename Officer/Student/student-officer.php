@@ -17,11 +17,11 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $year = $_POST['year'];
-    $type_code = $_POST['type_code'];
+    $type_name = $_POST['type_name'];
 
     $studentInformation = [];
 
-    $sqlStudent = "SELECT * FROM student WHERE year = '$year' AND type_code = '$type_code'";
+    $sqlStudent = "SELECT * FROM student WHERE year = '$year' AND type_name = '$type_name'";
     $resultStudent = $conn->query($sqlStudent);
 
     if ($resultStudent) {
@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $studentInformation['student'][] = $row;
             }
         } else {
-            $studentInformation = ['error' => 'No data found for the given year and type_code.'];
+            $studentInformation = ['error' => 'No data found for the given year and type_name.'];
         }
     } else {
         $studentInformation = ['error' => 'Query execution failed: ' . $conn->error];

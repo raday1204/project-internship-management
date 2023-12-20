@@ -26,18 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $company_id = $_POST['company_id'];
-    $type_code = $_POST['type_code'];
+    $type_name = $_POST['type_name'];
     $username = $_POST['username'];
 
     // This is an update operation
-    $sql_update_student = "UPDATE student SET company_id = ?, type_code = ? WHERE student_code = ?";
+    $sql_update_student = "UPDATE student SET company_id = ?, type_name = ? WHERE student_code = ?";
     $stmt_update_student = $conn->prepare($sql_update_student);
 
     if ($stmt_update_student === false) {
         die(json_encode(array("success" => false, "message" => "Prepare failed: " . $conn->error)));
     }
 
-    $stmt_update_student->bind_param("iss", $company_id, $type_code, $username);
+    $stmt_update_student->bind_param("iss", $company_id, $type_name, $username);
 
     if ($stmt_update_student->execute()) {
         $response_update_student = array("success" => true, "message" => "Student data updated successfully");
@@ -62,6 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result->num_rows > 0) {
             $data = $result->fetch_assoc();
             $response_update_student["data"] = $data;
+
+            // Update the training table
+            $newCompanyID = $data['company_id'];
+            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', status = '1' WHERE student_code = '$username'";
+            $conn->query($updateStatusSql);
         } else {
             $response_update_student["data"] = null;
         }

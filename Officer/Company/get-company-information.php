@@ -17,15 +17,15 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $year = mysqli_real_escape_string($conn, $_GET['year']);
-    $type_code = mysqli_real_escape_string($conn, $_GET['type_code']);
+    $type_name = mysqli_real_escape_string($conn, $_GET['type_name']);
 
     // Initialize response array
     $response = [];
 
     // Retrieve company information using prepared statement
-    $sqlCompany = "SELECT company_id, company_name, company_building FROM company WHERE year = ? AND type_code = ?";
+    $sqlCompany = "SELECT company_id, company_name, company_building FROM company WHERE year = ? AND type_name = ?";
     $stmtCompany = $conn->prepare($sqlCompany);
-    $stmtCompany->bind_param("ss", $year, $type_code);
+    $stmtCompany->bind_param("ss", $year, $type_name);
 
     if ($stmtCompany->execute()) {
         $resultCompany = $stmtCompany->get_result();
