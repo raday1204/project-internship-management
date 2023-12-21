@@ -31,16 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $company_id = isset($_POST['company_id']) ? $conn->real_escape_string($_POST['company_id']) : "";
     $number_student_train = isset($_POST['number_student_train']) ? $conn->real_escape_string($_POST['number_student_train']) : "";
     $date_addtraining = isset($_POST['date_addtraining']) ? $conn->real_escape_string($_POST['date_addtraining']) : "";
+    $date_endtraining = isset($_POST['date_endtraining']) ? $conn->real_escape_string($_POST['date_endtraining']) : "";
     
 
     // Insert data into the need_student table
-    $sql_insert_need_student = "INSERT INTO need_student (company_id, number_student_train, date_addtraining ) VALUES (?, ?, ?)";
+    $sql_insert_need_student = "INSERT INTO need_student (company_id, number_student_train, date_addtraining, date_endtraining ) VALUES (?, ?, ?, ?)";
     $stmt_insert_need_student = $conn->prepare($sql_insert_need_student);
 
     if ($stmt_insert_need_student === false) {
         die(json_encode(array("success" => false, "message" => "Prepare failed: " . $conn->error)));
     } else {
-        $stmt_insert_need_student->bind_param("iss", $company_id, $number_student_train, $date_addtraining );
+        $stmt_insert_need_student->bind_param("isss", $company_id, $number_student_train, $date_addtraining, $date_endtraining );
 
         if ($stmt_insert_need_student->execute()) {
             $response = array("success" => true, "message" => "Data inserted into need_student table successfully");

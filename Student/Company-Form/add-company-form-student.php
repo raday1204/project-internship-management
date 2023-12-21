@@ -76,14 +76,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt_insert_company->close();
 
     $date_addtraining = $_POST['date_addtraining'];
+    $date_endtraining = $_POST['date_endtraining'];
 
-    $sql_insert_need_student = "INSERT INTO need_student (company_id, date_addtraining ) VALUES (?, ?)";
+    $sql_insert_need_student = "INSERT INTO need_student (company_id, date_addtraining, date_endtraining) VALUES (?, ?, ?)";
     $stmt_insert_need_student = $conn->prepare($sql_insert_need_student);
 
     if ($stmt_insert_need_student === false) {
         die(json_encode(array("success" => false, "message" => "Prepare failed: " . $conn->error)));
     } else {
-        $stmt_insert_need_student->bind_param("is", $company_id, $date_addtraining );
+        $stmt_insert_need_student->bind_param("iss", $company_id, $date_addtraining, $date_endtraining);
 
         if ($stmt_insert_need_student->execute()) {
             $response_need_student = array("success" => true, "message" => "Data inserted into need_student table successfully");

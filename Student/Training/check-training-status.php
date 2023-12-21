@@ -50,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($resultTraining) {
                 while ($rowTraining = $resultTraining->fetch_assoc()) {
                     $trainingData[] = [
-                        'status' => $rowTraining['status'],
+                        'company_status' => $rowTraining['company_status'],
+                        'assessment_status' => $rowTraining['assessment_status'],
                     ];
                 }
             }

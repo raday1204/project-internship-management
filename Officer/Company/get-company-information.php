@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 $company_id = $rowCompany['company_id'];
 
                 // Retrieve information from the student table using prepared statement
-                $stmtStudents = $conn->prepare("SELECT student_code, student_name, student_lastname FROM student WHERE company_id = ?");
+                $stmtStudents = $conn->prepare("SELECT student_code, student_name, student_lastname,  student_mobile FROM student WHERE company_id = ?");
                 $stmtStudents->bind_param("s", $company_id);
                 $stmtStudents->execute();
                 $resultStudents = $stmtStudents->get_result();

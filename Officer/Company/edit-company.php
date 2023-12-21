@@ -27,8 +27,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $send_email = mysqli_real_escape_string($conn, $_POST['send_email']);
     $send_mobile = mysqli_real_escape_string($conn, $_POST['send_mobile']);
     $company_job = mysqli_real_escape_string($conn, $_POST['company_job']);
-    $number_student_train = (int)$_POST['number_student_train'];  // Cast to integer
-    $date_addtraining  = mysqli_real_escape_string($conn, $_POST['date_addtraining']) ? date('Y-m-d', strtotime($_POST['date_addtraining'])) : null;
+    $number_student_train = (int) $_POST['number_student_train'];  // Cast to integer
+    
+    // Convert date strings to timestamps
+    $date_addtraining = isset($_POST['date_addtraining']) ? date('Y-m-d', strtotime($_POST['date_addtraining'])) : null;
+    $date_endtraining = isset($_POST['date_endtraining']) ? date('Y-m-d', strtotime($_POST['date_endtraining'])) : null;
 
     // Update query without updating company_name and company_building
     $sql = "UPDATE company 
@@ -40,9 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($stmt->execute()) {
         // Update need_student data
-        $sql_need_student = "UPDATE need_student SET number_student_train = ?, date_addtraining = ? WHERE company_id = ?";
-$stmt_need_student = $conn->prepare($sql_need_student);
-$stmt_need_student->bind_param("isi", $number_student_train, $date_addtraining, $company_id);
+        $sql_need_student = "UPDATE need_student SET number_student_train = ?, date_addtraining = ?, date_endtraining = ? WHERE company_id = ?";
+        $stmt_need_student = $conn->prepare($sql_need_student);
+        $stmt_need_student->bind_param("issi", $number_student_train, $date_addtraining, $date_endtraining, $company_id);
 
         if ($stmt_need_student->execute()) {
             $response = array("success" => true, "message" => "Data updated successfully");

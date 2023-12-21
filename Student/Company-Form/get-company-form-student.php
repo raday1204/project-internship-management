@@ -60,7 +60,8 @@ if (isset($_SESSION["username"]) || isset($_GET["username"])) {
                     'type_position' => $row['type_position'],
                     'type_special' => $row['type_special'],
                     'need_student' => [
-                    'date_addtraining' => $row['date_addtraining']
+                    'date_addtraining' => $row['date_addtraining'],
+                    'date_endtraining' => $row['date_endtraining']
                     ]
                 ]
             ]

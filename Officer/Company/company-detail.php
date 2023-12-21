@@ -34,7 +34,7 @@ if (isset($_GET['company_id'])) {
     }
 
     // Query to fetch need_student data
-    $sql_internal = "SELECT number_student_train, date_addtraining FROM need_student WHERE company_id = ?";
+    $sql_internal = "SELECT number_student_train, date_addtraining, date_endtraining FROM need_student WHERE company_id = ?";
     $stmt_internal = $conn->prepare($sql_internal);
     $stmt_internal->bind_param("i", $company_id);
 

@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     try {
         // Check if the student already exists
-        $checkSql = "SELECT users.username, student.student_code, student.company_id, training.status
+        $checkSql = "SELECT users.username, student.student_code, student.company_id, training.*
         FROM users 
         LEFT JOIN student ON users.username = student.student_code 
         LEFT JOIN training ON training.student_code = student.student_code
@@ -56,8 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updateSql = "UPDATE student SET company_id = '$newCompanyID' WHERE student_code = '$username'";
             $conn->query($updateSql);
 
-            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', status = '1' WHERE student_code = '$username'";
+            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', company_status = '1' WHERE student_code = '$username'";
             $conn->query($updateStatusSql);
+
+            $updateAssessmentStatusSql = "UPDATE training SET company_id = '$newCompanyID', assessment_status = '1' WHERE student_code = '$username'";
+            $conn->query($updateAssessmentStatusSql);
 
             // Commit the transaction if both updates are successful
             $conn->commit();

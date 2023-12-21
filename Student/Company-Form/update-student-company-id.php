@@ -65,8 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Update the training table
             $newCompanyID = $data['company_id'];
-            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', status = '1' WHERE student_code = '$username'";
+
+            $updateStatusSql = "UPDATE training SET company_id = '$newCompanyID', company_status = '1' WHERE student_code = '$username'";
             $conn->query($updateStatusSql);
+
+            $updateAssessmentStatusSql = "UPDATE training SET company_id = '$newCompanyID', assessment_status = '1' WHERE student_code = '$username'";
+            $conn->query($updateAssessmentStatusSql);
         } else {
             $response_update_student["data"] = null;
         }
