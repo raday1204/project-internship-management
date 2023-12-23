@@ -13,6 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata, true);
 
+$company_id = null;
+$response_company = array("success" => false, "message" => "Unexpected error");
+$response_need_student = array("success" => false, "message" => "Unexpected error");
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hostAuth = "localhost";
     $userAuth = "root";
@@ -22,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = new mysqli($hostAuth, $userAuth, $passAuth, $dbname);
 
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die(json_encode(array("success" => false, "message" => "Connection failed: " . $conn->connect_error)));
     }
 
     $year = $_POST['year'];
@@ -96,13 +100,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $conn->close();
-
-    // Combine both responses into a final response
-    $response = array_merge($response_company, $response_need_student);
-} else {
-    $response_company = array("success" => true, "company_id" => $company_id, "message" => "Company data inserted successfully");
-
 }
+
+// Combine both responses into a final response
+$response = array_merge($response_company, $response_need_student);
 
 echo json_encode($response);
 ?>

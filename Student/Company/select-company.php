@@ -52,7 +52,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $checkResult = $conn->query($checkSql);
 
         if ($checkResult && $checkResult->num_rows > 0) {
-            // If the student exists, update the company_id and status
+
+            // Check if the username already exists in the training table
+            $checkUsernameSql = "SELECT * FROM training WHERE student_code = '$username'";
+            $checkUsernameResult = $conn->query($checkUsernameSql);
+
+            if ($checkUsernameResult && $checkUsernameResult->num_rows == 0) {
+                // If the student exists and username is not in the training table, insert the username
+                $insertUsernameSql = "INSERT INTO training (student_code) VALUES ('$username')";
+                $conn->query($insertUsernameSql);
+            }
+
+            // Update the company_id and status
             $updateSql = "UPDATE student SET company_id = '$newCompanyID' WHERE student_code = '$username'";
             $conn->query($updateSql);
 
@@ -62,10 +73,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $updateAssessmentStatusSql = "UPDATE training SET company_id = '$newCompanyID', assessment_status = '1' WHERE student_code = '$username'";
             $conn->query($updateAssessmentStatusSql);
 
-            // Commit the transaction if both updates are successful
+            // Commit the transaction if all queries are successful
             $conn->commit();
 
-            echo json_encode(array("success" => true, "message" => "Company ID and status updated successfully"));
+            echo json_encode(array("success" => true, "message" => "Company ID, status, and username inserted/updated successfully"));
         } else {
             http_response_code(404);
             echo json_encode(array("success" => false, "error" => "Student not found for this user. username: $username"));

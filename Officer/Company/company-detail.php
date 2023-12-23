@@ -19,7 +19,7 @@ if (isset($_GET['company_id'])) {
     $company_id = $_GET['company_id'];
 
     // Query to fetch company data
-    $sql_company = "SELECT company_id, company_name, send_name, send_coordinator, send_position, send_tel, 
+    $sql_company = "SELECT company_id, year, type_name, company_name, send_name, send_coordinator, send_position, send_tel, 
     send_email, send_mobile, company_building, company_job FROM company WHERE company_id = ?";
     $stmt_company = $conn->prepare($sql_company);
     $stmt_company->bind_param("i", $company_id);
