@@ -26,7 +26,7 @@ if (isset($_GET['company_id'])) {
 
     // Sanitize input to prevent SQL injection
     $company_id = mysqli_real_escape_string($conn, $_GET['company_id']);
-    $sql_get_company = "SELECT * FROM company WHERE year = ? AND type_name = ?";
+    $sql_get_company = "SELECT year, type_name FROM company WHERE year = ? AND type_name = ?";
     $stmt_get_company = $conn->prepare($sql_get_company);
 
     if ($stmt_get_company === false) {

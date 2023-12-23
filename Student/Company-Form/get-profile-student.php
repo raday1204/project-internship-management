@@ -26,9 +26,10 @@ if ($conn->connect_error) {
 
 $username = $conn->real_escape_string($username);
 
-$sql = "SELECT users.username, student.* 
+$sql = "SELECT users.username, student.*, depart.depart_name
         FROM users 
         LEFT JOIN student ON users.username = student.student_code 
+        LEFT JOIN depart ON student.depart_code = depart.depart_code
         WHERE student.student_code = '$username'";
 
 $result = $conn->query($sql);

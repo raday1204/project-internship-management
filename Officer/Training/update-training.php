@@ -36,9 +36,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$conn->query($sqlAssessmentStatus)) {
                 die(json_encode(array("error" => "Error updating assessment status: " . $conn->error)));
             }
-        }
-
-        echo json_encode(array("success" => true));
+        }        
+        echo json_encode(array("success" => true, "studentCode" => $studentCode));
     } else {
         echo json_encode(array("error" => "Invalid input data."));
     }

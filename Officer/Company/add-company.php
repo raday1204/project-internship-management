@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt_insert_company->execute()) {
         $company_id = $conn->insert_id;
 
-        $response = array("success" => true, "company_id" => $company_id, "message" => "Company data inserted successfully");
+        $response = array("success" => true, "company_id" => $company_id, "year" => $year, "type_name" => $type_name, "message" => "Company data inserted successfully");
     } else {
         $response = array("success" => false, "message" => "Error adding company data: " . $stmt_insert_company->error);
     }

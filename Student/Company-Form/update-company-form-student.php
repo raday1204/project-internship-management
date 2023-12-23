@@ -24,7 +24,7 @@ if (isset($_POST["username"])) {
     $student_code = $_POST['student_code'];
     $student_name = $_POST['student_name'];
     $student_lastname = $_POST['student_lastname'];
-    $depart_code = $_POST['depart_code'];
+    $depart_name = $_POST['depart_name'];
     $student_pak = $_POST['student_pak'];
     $student_mobile = $_POST['student_mobile']; 
     $student_facebook = $_POST['student_facebook'];
@@ -34,7 +34,7 @@ if (isset($_POST["username"])) {
                 student_code = '$student_code',
                 student_name = '$student_name',
                 student_lastname = '$student_lastname',
-                depart_code = '$depart_code',
+                depart_name = '$depart_name',
                 student_pak = '$student_pak',
                 student_mobile = '$student_mobile',
                 student_facebook = '$student_facebook'
@@ -43,9 +43,10 @@ if (isset($_POST["username"])) {
     if ($conn->query($updateSql) === TRUE) {
         $response = array('success' => true, 'message' => 'Student profile updated successfully');
         // Fetch the updated data and send it back if needed
-        $selectSql = "SELECT users.username, student.* 
+        $selectSql = "SELECT users.username, student.*, depart.depart_name
             FROM users 
             LEFT JOIN student ON users.username = student.student_code 
+            LEFT JOIN depart ON student.depart_code = depart.depart_code
             WHERE student.student_code = '$username'";
 
         $result = $conn->query($selectSql);
