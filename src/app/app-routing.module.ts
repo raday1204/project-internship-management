@@ -23,6 +23,9 @@ import { ManualFormStudentComponent } from './Student/Form/manual-form-student/m
 import { SearchCompanyStudentComponent } from './Student/General/search-company-student/search-company-student.component';
 import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-student/company-form-student-print/company-form-student-print.component';
 import { CompanyStudentService} from './Student/General/search-company-student/company-student/company-student.service';
+import { WaitAssessmentStatusComponent } from './Student/General/assessment-status/wait-assessment-status/wait-assessment-status.component';
+import { ConfirmAssessmentStatusComponent } from './Student/General/assessment-status/confirm-assessment-status/confirm-assessment-status.component';
+import { AllRelationComponent } from './Student/all-relation/all-relation.component';
 
 import { SearchStudentOfficerComponent } from './Officer/General/search-student-officer/search-student-officer.component';
 import { StudentInformationComponent } from './Officer/General/search-student-officer/student-information/student-information.component';
@@ -44,7 +47,7 @@ import { RelationOfficerComponent } from './Officer/Relation/relation-officer/re
 import { AddCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-company.component';
 import { EditCompanyComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company.component';
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
-import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
+import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/dialog/dialog.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
 import { ConfirmFormComponent } from './Officer/Form/search-confirm-form-officer/confirm-form/confirm-form.component';
 import { EvaluationFormComponent } from './Officer/Form/search-evaluation-form-officer/evaluation-form/evaluation-form.component';
@@ -77,6 +80,9 @@ const routes: Routes = [
   { path: 'manual-form-student', component: ManualFormStudentComponent },
   { path: 'search-company-student', component: SearchCompanyStudentComponent},
   { path: 'company-form-student-print', component: CompanyFormStudentPrintComponent},
+  { path: 'wait-assessment-status', component: WaitAssessmentStatusComponent},
+  { path: 'confirm-assessment-status', component: ConfirmAssessmentStatusComponent},
+  { path: 'all-relation', component: AllRelationComponent},
 
   { path: 'search-student-officer', component: SearchStudentOfficerComponent },
   { path: 'student-information', component: StudentInformationComponent },

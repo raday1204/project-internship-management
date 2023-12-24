@@ -18,8 +18,8 @@
         <div [formGroup]="companyForm">
             <i class="fa-solid fa-hourglass-half" style="color: #F3A530;"></i>
             <li class="head-check" style="color: white;">ตรวจสอบสถานะการลงทะเบียนฝึกงาน</li>
-            <h5>ชื่อหน่วยงาน : {{ companyForm.get('company_name')?.value }}</h5>
-            <h5>ชื่อหน่วยงานภายใน : {{ companyForm.get('company_building')?.value }}</h5>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงาน :</strong> {{ companyForm.get('company_name')?.value }}</p>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงานภายใน :</strong> {{ companyForm.get('company_building')?.value }}</p>
             <li class="status" style="color: white;">รอยืนยัน</li>
         </div>
     </div>

@@ -1,0 +1,31 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item">ตรวจสอบสถานะการประเมินจากหน่วยงาน</li>
+                </div>
+                <button [routerLink]="['/app']">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="check-container">
+        <div [formGroup]="companyForm">
+            <i class="fa-regular fa-circle-check" style="color: #59AB62;"></i>
+            <li class="head-check" style="color: white;">ตรวจสอบสถานะการประเมินจากหน่วยงาน</li>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงาน :</strong> {{ companyForm.get('company_name')?.value }}</p>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงานภายใน :</strong> {{ companyForm.get('company_building')?.value }}</p>
+            <li class="status" style="color: white;">ได้รับแบบประเมินการฝึกงาน</li>
+        </div>
+    </div>
+    <div class="text-box">
+        <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
+        <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>
+        <li class="text-list">โทรศัพท์ 0-5596-4015 โทรสาร 0-5596-4000</li>
+    </div>
+</body>

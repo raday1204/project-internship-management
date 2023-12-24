@@ -75,6 +75,7 @@ export class AddRelationComponent {
       });
     } else {
       this.snackBar.open('กรุณากรอกข้อมูลให้ครบถ้วน', 'Close', {
+        duration: 3000,
       });
     }
   }

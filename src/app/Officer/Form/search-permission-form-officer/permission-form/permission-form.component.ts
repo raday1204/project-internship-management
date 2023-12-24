@@ -48,25 +48,25 @@ export class PermissionFormComponent {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.selectedOption1 = params['year'];
-      this.selectedOption2 = params['type_code'];
+      this.selectedOption2 = params['type_name'];
     });
     this.fetchData();
   }
 
   fetchData() {
     if (this.selectedOption1 && this.selectedOption2) {
-      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_code=${this.selectedOption2}`)
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_name=${this.selectedOption2}`)
         .subscribe(
           (response: CompanyResponse) => {
             console.log('Backend Response:', response);
-  
+
             if (response && response.success) {
               if (Array.isArray(response.data)) {
                 this.CompanyInformation = response.data.filter(companyInfo => {
                   // Filter out companies without students
                   return companyInfo.students && companyInfo.students.length > 0;
                 });
-  
+
                 // Build the student map for filtered companies
                 this.CompanyInformation.forEach(company => {
                   this.student[company.company.company_id] = company.students;
@@ -84,10 +84,5 @@ export class PermissionFormComponent {
         );
     }
   }
-  selectForm(form: any) {
-
-  }
+  selectForm(form: any) { }
 }
-
-
-

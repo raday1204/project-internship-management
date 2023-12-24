@@ -14,8 +14,8 @@
         </nav>
     </header>
 
-    <p *ngIf="CompanyInformation.length === 0" style="color: red;">ไม่มีหน่วยงานที่นิสิตเลือก</p>
-    <p *ngIf="CompanyInformation.length > 0">ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
+    <p *ngIf="companyInformation.length === 0" style="color: red;">ไม่มีหน่วยงานที่นิสิตเลือก</p>
+    <p *ngIf="companyInformation.length > 0">ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
 
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">
@@ -26,34 +26,97 @@
                 <th>รับ-ลง-เหลือ</th>
                 <th>รหัสนิสิต</th>
                 <th>ชื่อนิสิตที่ลงทะเบียน</th>
+                <th>ยืนยันหน่วยงาน</th>
+                <th>ยืนยันแบบประเมิน</th>
             </tr>
         </thead>
         <tbody style="font-size: 13px;">
-            <tr *ngFor="let company of CompanyInformation; let i = index">
-                <td class="text-center">{{ i + 1 }}</td>
-                <td style="word-break: break-all;">{{ company.company.company_name }}</td>
-                <td style="word-break: break-all;">{{ company.company.company_building }}</td>
-                <td *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0">
-                    <ng-container *ngFor="let studentItem of student[company.company.company_id]">
-            <tr>
-                {{ studentItem.student_code }}
-            </tr>
-            </ng-container>
-            </td>
-
-            <td *ngIf="student[company.company.company_id] && student[company.company.company_id].length > 0">
-                <ng-container *ngFor="let studentItem of student[company.company.company_id]">
+            <ng-container *ngFor="let company of companyInformation; let i = index">
+                <!-- Loop through students of each company -->
+                <ng-container *ngFor="let studentItem of company.students; let j = index">
                     <tr>
-                        {{ studentItem.student_name }} {{ studentItem.student_lastname }}
+                        <td class="text-center" *ngIf="j === 0" [attr.rowspan]="company.students.length">{{ i + 1 }}
+                        </td>
+
+                        <!-- Display company name and building for the first row of each company -->
+                        <td *ngIf="j === 0" [attr.rowspan]="company.students.length" style="word-wrap: break-word;">
+                            {{ company.company.company_name }}
+                        </td>
+
+                        <td *ngIf="j === 0" [attr.rowspan]="company.students.length" style="word-wrap: break-word;">
+                            {{ company.company.company_building }}
+                        </td>
+
+                        <td class="text-center" *ngIf="j === 0" [attr.rowspan]="company.students.length">
+                            {{ company.need_student && company.need_student.length > 0 ?
+                            company.need_student[0].number_student_train : '' }} -
+                            {{ student[company.company.company_id].length }} -
+                            {{
+                            (company.need_student && company.need_student.length > 0
+                            ? +company.need_student[0].number_student_train
+                            : 0) -
+                            (student[company.company.company_id].length || 0)
+                            }}
+                        </td>
+
+
+                        <!-- <td class="text-center">
+                            <ng-container *ngFor="let trainingItem of training[company.company.company_id]">
+                                <button *ngIf="trainingItem.company_status === 1" class="button"
+                                    (click)="confirmCompany(trainingItem.student_code)"
+                                    style="background-color: white; color: #0075FF;">ยืนยัน</button>
+                                <button *ngIf="trainingItem.company_status === 1" class="button"
+                                    (click)="rejectCompany(trainingItem.student_code)"
+                                    style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
+                                <button *ngIf="trainingItem.company_status === 2" class="button"
+                                    style="background-color: white; color: #0075FF;">ยืนยันเรียบร้อย</button>
+                                <button *ngIf="trainingItem.company_status === 3" class="button"
+                                    style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
+                            </ng-container>
+                        </td>
+
+                        <td class="text-center">
+                            <ng-container *ngFor="let trainingItem of training[company.company.company_id]">
+                                <button *ngIf="trainingItem.assessment_status === 1" class="button"
+                                    (click)="confirmAssessments(trainingItem.student_code)"
+                                    style="background-color: white; color: #0075FF;">ยืนยัน</button>
+                                <button *ngIf="trainingItem.assessment_status === 2" class="button"
+                                    style="background-color: white; color: #4c9a4c;">ยืนยันเรียบร้อย</button>
+                            </ng-container>
+                        </td> -->
+
+                        <ng-container *ngIf="studentItem.training && studentItem.training.length > 0">
+                            <!-- Loop through training entries for each student -->
+                            <ng-container *ngFor="let trainingItem of studentItem.training; let k = index">
+                                <td>{{ studentItem.student_code }}</td>
+                                <td>{{ studentItem.student_name }} {{ studentItem.student_lastname }}</td>
+            
+                                <td class="text-center">
+                                    <button *ngIf="trainingItem.company_status === 1" class="button"
+                                        (click)="confirmCompany(studentItem.student_code)"
+                                        style="background-color: white; color: #0075FF;">ยืนยัน</button>
+                                    <button *ngIf="trainingItem.company_status === 1" class="button"
+                                        (click)="rejectCompany(studentItem.student_code)"
+                                        style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
+                                    <button *ngIf="trainingItem.company_status === 2" class="button"
+                                        style="background-color: white; color: #0075FF;">ยืนยันเรียบร้อย</button>
+                                    <button *ngIf="trainingItem.company_status === 3" class="button"
+                                        style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
+                                </td>
+            
+                                <td class="text-center">
+                                    <button *ngIf="trainingItem.assessment_status === 1" class="button"
+                                        (click)="confirmAssessmentStatus(studentItem.student_code)"
+                                        style="background-color: white; color: #0075FF;">ยืนยัน</button>
+                                    <button *ngIf="trainingItem.assessment_status === 2" class="button"
+                                        style="background-color: white; color: #4c9a4c;">ยืนยันเรียบร้อย</button>
+                                </td>
+                            </ng-container>
+                        </ng-container>
+
                     </tr>
                 </ng-container>
-            </td>
-                <td class="text-center">
-                    <button class="button" (click)="confirmCompanyStatus()" style="background-color: white; color: #0075FF;">ยืนยัน</button><br>
-                    <button class="button" (click)="rejectCompanyStatus()" style="background-color: white; color: #FF0000;">ไม่รับนิสิตเข้าฝึกงาน</button>
-                </td>
-            </tr>
+            </ng-container>
         </tbody>
     </table>
-
 </body>

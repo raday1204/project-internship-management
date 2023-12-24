@@ -1,29 +1,29 @@
-<p>ยืนยันการกรอกแบบฟอร์ม 01 ข้อมูลหน่วยงาน</p>
-<div>
-    <!-- Display data from the passed object -->
-    <p>ภาคเรียนที่ {{ data.company.term }} ประจำปีการศึกษา {{ data.company.year }}</p>
-    <p>ข้อมูลนิสิต </p>
-    <p>ชื่อ-นามสกุล {{ data.student.student_name }} {{ data.student.student_lastname }}</p>
-    <p>รหัสนิสิต {{ data.student.student_code }}</p>
-    <p>สาขาวิศวกรรม {{ data.student.depart_code }}</p>
-    <p>ภาควิชาวิศวกรรม  {{ data.student.student_pak }}</p>
-    <p>เบอร์โทรศัพท์ที่สามารถติดต่อได้ {{ data.student.student_mobile }}</p>
-    <p>Facebook {{ data.student.student_facebook }}</p>
+<body style="width: 900px; overflow: hidden; padding: 20px;">
 
-    <p>ข้อมูลหน่วยงาน</p>
-    <p>1. ชื่อหน่วยงาน(ภาษาไทย) {{ data.company.company_name }}</p>
-    <p>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน</p>
-    <p>เรียน {{ data.company.send_name }}</p>
-    <p>ชื่อผู้ประสานงาน {{ data.company.send_coordinator }}</p>
-    <p>ตำแหน่ง {{ data.company.send_position }}</p>
-    <p>เบอร์โทรศัพท์หน่วยงาน {{ data.company.send_tel }}</p>
-    <p>E-mail {{ data.company.send_email }}</p>
-    <p>เบอร์มือถือ {{ data.company.send_mobile }}</p>
-    <p>3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน {{ data.company.type_position }}</p>
-    <p>4. คุณสมบัติ/ความสามารถ/ความรู้เพิ่มเติม {{ data.company.type_special }}</p>
-    <p>5. วันที่ออกฝึกงาน {{ data.need_student.date_addtraining | date:'yyyy-MM-dd' }}</p>
-</div>
-<div class="buttons">
-    <button mat-button [mat-dialog-close]="{ saveData: false }">ย้อนกลับ</button>
-    <button mat-button [mat-dialog-close]="{ saveData: true }">พิมพ์เอกสาร</button>
-</div>
+    <i class="fa-regular fa-circle-check"></i>
+
+    <div class="text-box text-center">
+        <h5>ยืนยันการกรอกแบบฟอร์ม 01 ข้อมูลหน่วยงาน</h5>
+    </div>
+
+    <div class="main-container">
+        <p><strong>ข้อมูลหน่วยงาน</strong></p><br>
+        <p><strong>1. ชื่อหน่วยงาน(ภาษาไทย): </strong> {{ data.company.company_name }}</p><br>
+        <p><strong>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน: </strong></p><br>
+        <p><strong>เรียน: </strong> {{ data.company.send_name }}</p>
+        <p><strong>ชื่อผู้ประสานงาน: </strong> {{ data.company.send_coordinator }}</p>
+        <p><strong>ตำแหน่ง: </strong> {{ data.company.send_position }}</p>
+        <p><strong>เบอร์โทรศัพท์หน่วยงาน: </strong> {{ data.company.send_tel }}</p>
+        <p><strong>E-mail: </strong> {{ data.company.send_email }}</p>
+        <p><strong>เบอร์มือถือ: </strong> {{ data.company.send_mobile }}</p>
+        <p><strong>3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน: </strong> {{ data.company.type_position }}</p><br>
+        <p><strong>4. คุณสมบัติ/ความสามารถ/ความรู้เพิ่มเติม: </strong> {{ data.company.type_special }}</p><br>
+        <p><strong>5. วันที่ออกฝึกงาน: </strong> {{ data.need_student.date_addtraining | date:'yyyy-MM-dd' }}</p>
+        <p><strong>6. วันสุดท้ายของการฝึกงาน: </strong> {{ data.need_student.date_endtraining | date:'yyyy-MM-dd' }}</p>
+    </div>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" mat-button [mat-dialog-close]="{ saveData: false }">ย้อนกลับ</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" mat-button [mat-dialog-close]="{ saveData: true }">พิมพ์เอกสาร</button>
+    </div>
+</body>

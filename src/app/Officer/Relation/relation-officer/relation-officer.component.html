@@ -34,7 +34,7 @@
         <tbody style="font-size: 13px;">
             <tr *ngFor="let relationItem of relations">
                 <td class="text-center">{{ relationItem.relation_date }}</td>
-                <td>{{ relationItem.relation_content }}</td>
+                <td style="padding: 0px 15px; word-wrap: break-word;">{{ relationItem.relation_content }}</td>
                 <td class="text-center">
                     <button class="button" (click)="deleteRelation(relationItem.id)"
                         style="background-color: #FF4545; color: #FDFDF6;">ลบ</button>
@@ -44,4 +44,12 @@
             </tr>
         </tbody>
     </table>
+
+    <div class="pagination-wrapper">
+        <div class="pagination">
+            <button (click)="paginate(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+            <span>{{ currentPage }}</span>
+            <button (click)="paginate(currentPage + 1)" [disabled]="relations.length < itemsPerPage">Next</button>
+        </div>
+    </div>
 </body>

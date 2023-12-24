@@ -1,31 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router'; 
+import { Router, ActivatedRoute } from '@angular/router';
 import { CompanyStudentService } from '../General/search-company-student/company-student/company-student.service';
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+
+interface Relation {
+  id: number;
+  relation_date: string;
+  relation_content: string;
+}
 
 @Component({
   selector: 'app-home-student',
   templateUrl: './home-student.component.html',
   styleUrls: ['./home-student.component.css']
 })
+
 export class HomeStudentComponent implements OnInit {
+  [x: string]: any;
   dateTime: Date | undefined
   username: string = '';
   loggedInUsername: string = '';
+  relations: Relation[] = [];
 
   constructor(
     private http: HttpClient,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
+    private snackBar: MatSnackBar,
     private companyStudentService: CompanyStudentService
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.dateTime = new Date();
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
     this.checkLoginStatus();
-    this.checkTrainingStatus();
+    // this.checkTrainingStatus();
+
+    const serverUrl = 'http://localhost/PJ/Backend/Student/get-relation-student.php';
+
+    this.http.get<{ data: Relation[] }>(serverUrl).subscribe(
+      (response) => {
+        this.relations = response.data;
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+        // Handle error here
+      }
+    );
   }
 
   menuSidebar = [
@@ -42,30 +65,42 @@ export class HomeStudentComponent implements OnInit {
       icon: "fa-regular fa-thumbs-up",
       sub_menu: []
     },
+
     {
       link_name: "ปฏิทินฝึกงาน",
       link: "/calendar-student",
       icon: "fa-regular fa-calendar",
       sub_menu: []
     },
+
     {
       link_name: "ข้อมูลประวัติส่วนตัว",
-      link: '/profile-student', 
+      link: '/profile-student',
       icon: "fa-solid fa-clipboard-user",
       sub_menu: []
-    },    
+    },
+
     {
       link_name: "ข้อมูลหน่วยงาน",
       link: "/search-company-student",
       icon: "fa-solid fa-list",
       sub_menu: []
     },
+
     {
       link_name: "ตรวจสอบสถานะ",
-      link: "/wait-status",
+      action: () => this.checkCompanyStatus(),// link: "/wait-status",
       icon: "fa-solid fa-user-check",
-      sub_menu: []
+      sub_menu: [],
     },
+
+    {
+      link_name: "ตรวจสอบสถานะแบบประเมิน",
+      action: () => this.checkAssessmentStatus(),// link: "/wait-status",
+      icon: "fa-solid fa-file-circle-check",
+      sub_menu: [],
+    },
+
     {
       link_name: "ผู้ประสานงานด้านการฝึกงาน",
       link: "/coordinator-student",
@@ -88,12 +123,14 @@ export class HomeStudentComponent implements OnInit {
       icon: "fa-regular fa-file-pdf",
       sub_menu: []
     },
+
     {
       link_name: "04-แบบบันทึกประจำวัน",
       link: "/diary-form-student",
       icon: "fa-regular fa-file-pdf",
       sub_menu: []
     },
+
     {
       link_name: "06-สถานประกอบการในมุมมองของนิสิต",
       link: "/evaluation-form-student",
@@ -101,6 +138,7 @@ export class HomeStudentComponent implements OnInit {
       sub_menu: []
     },
   ]
+
   showSubmenu(itemEl: HTMLElement) {
     itemEl.classList.toggle("showMenu");
   }
@@ -128,36 +166,79 @@ export class HomeStudentComponent implements OnInit {
         }
       );
   }
-  
-  checkTrainingStatus() {
-    //มาใส่ this.username
-this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', { username: this.username })
-      .subscribe(
-        (response: any) => {
-          if (response && response.body && response.body.success) {
-            // Training status found, navigate to the appropriate page
-            console.log('Training Status:', response.data.company.status);
-  
-            // Example: Redirect to a page based on the training status
-            if (response.body.status === '1') {
+
+ //Company-Status
+checkCompanyStatus() {
+  console.log('Checking training status for username:', this.username);
+  const requestBody = { username: this.username };
+
+  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+    .subscribe(
+      (response: any) => {
+        if (response && response.success) {
+          const trainingData = response.data.trainingData;  // Match the key with PHP response
+          console.log('Training Data:', trainingData);
+
+          if (trainingData.length > 0) {
+            const company_status = trainingData[0].company_status;
+            if (company_status === '1') {
               this.router.navigate(['/wait-status']);
-            } else if (response.body.status === '2') {
+            } else if (company_status === '2') {
               this.router.navigate(['/confirm-status']);
-            } else {
+            } else if (company_status === '3') {
               this.router.navigate(['/cancel-status']);
             }
           } else {
-            // No training status found, you can handle this case accordingly
-            console.log('No training status found.');
+            // console.log('No training status found.');
+            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+              duration: 3000,
+            });
           }
-        },
-        (error) => {
-          console.error('An error occurred while checking training status:', error);
+        } else {
+          console.log('No training status found or an error occurred.');
         }
-      );
-  }
-  
-  
+      },
+      (error) => {
+        console.error('An error occurred while checking training status:', error);
+      }
+    );
+}
+
+  //Assessment-Status
+checkAssessmentStatus() {
+  console.log('Checking training status for username:', this.username);
+  const requestBody = { username: this.username };
+
+  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+    .subscribe(
+      (response: any) => {
+        if (response && response.success) {
+          const trainingData = response.data.trainingData;  // Match the key with PHP response
+          console.log('Training Data:', trainingData);
+
+          if (trainingData.length > 0) {
+            const assessment_status = trainingData[0].assessment_status;
+            if (assessment_status === '1') {
+              this.router.navigate(['/wait-assessment-status']);
+            } else if (assessment_status === '2') {
+              this.router.navigate(['/confirm-assessment-status']);
+            } 
+          } else {
+            // console.log('No training status found.');
+            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+              duration: 3000,
+            });
+          }
+        } else {
+          console.log('No training status found or an error occurred.');
+        }
+      },
+      (error) => {
+        console.error('An error occurred while checking training status:', error);
+      }
+    );
+}
+
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
@@ -169,5 +250,12 @@ this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training
           console.error('Logout error:', error);
         }
       );
+  }
+
+  isNew(date: string): boolean {
+    const newsDate = new Date(date);
+    const today = new Date();
+    const differenceInDays = Math.floor((today.getTime() - newsDate.getTime()) / (1000 * 3600 * 24));
+    return differenceInDays < 2;
   }
 }

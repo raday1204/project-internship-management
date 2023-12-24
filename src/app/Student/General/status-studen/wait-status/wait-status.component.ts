@@ -12,19 +12,12 @@ import { CompanyStudentService } from '../../search-company-student/company-stud
 })
 export class WaitStatusComponent implements OnInit {
   username: string | undefined;
-  student = {
-    company_id: '',
-    student_code: '',
-    student_name: '',
-    student_lastname: '',
-  };
   company = {
-    company_id: '',  // Fix the typo here
+    company_id: '',  
     company_name: '',
     company_building: ''
   };
   errorMessage: string | undefined;
-  studentForm: FormGroup;
   companyForm: FormGroup;
 
   constructor(
@@ -35,13 +28,8 @@ export class WaitStatusComponent implements OnInit {
     public dialog: MatDialog,
     private companyStudentService: CompanyStudentService
   ) {
-    this.studentForm = this.fb.group({
-      student_code: [''],
-      student_name: [''],
-      student_lastname: [''],
-    });
     this.companyForm = this.fb.group({
-      company_id: [''],  // Fix the typo here
+      company_id: [''],
       company_name: [''],
       company_building: [''],
     });
@@ -51,14 +39,22 @@ export class WaitStatusComponent implements OnInit {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
 
+    if (!this.username) {
+      this.router.navigate(['/home-student']);
+    }
+    
     if (this.username) {
       this.http
-        .get(`http://localhost/PJ/Backend/Student/Status/get-status-student.php?username=${this.username}`)
+        .get(`http://localhost/PJ/Backend/Student/Training/get-training.php?username=${this.username}`)
         .subscribe(
           (response: any) => {
-            if (response && response.success) {
-              this.studentForm.patchValue(response.data);
-              this.companyForm.patchValue(response.data.company);
+            if (response && response.success) { 
+              const company = response.data;
+              this.companyForm.patchValue({
+                company_id: company.company_id,
+                company_name: company.company_name,
+                company_building: company.company_building,
+              });
             } else {
               this.errorMessage = response.error || 'An error occurred while fetching student data.';
               console.error('API Error:', this.errorMessage);

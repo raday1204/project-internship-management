@@ -21,9 +21,7 @@
         <form [formGroup]="internalCompanyForm" (ngSubmit)="openAddInternalPopup()">
             <div>
                 <label for="company_building">1. ชื่อหน่วยงานภายใน(ภาษาไทย)</label>
-                <select formControlName="company_building">
-                    <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
-                </select>
+                <input type="text" id="company_building" formControlName="company_building">
             </div>
 
             <div class="list-content">
@@ -38,10 +36,18 @@
 
             <div class="list-date">
                 <label for="date_addtraining">วันที่ออกฝึกงาน</label>
-                <input type="text" id="date_addtraining" formControlName="date_addtraining"(click)="openDatePicker()"
-                [matDatepicker]="picker" />
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <input type="text" id="date_addtraining" formControlName="date_addtraining" (click)="openDatePicker()"
+                    [matDatepicker]="pickerAddTraining" />
+                <mat-datepicker-toggle matSuffix [for]="pickerAddTraining"></mat-datepicker-toggle>
+                <mat-datepicker #pickerAddTraining></mat-datepicker>
+            </div>
+
+            <div class="list-date">
+                <label for="date_endtraining">วันสุดท้ายของการฝึกงาน</label>
+                <input type="text" id="date_endtraining" formControlName="date_endtraining" (click)="openDatePicker()"
+                    [matDatepicker]="pickerEndTraining" />
+                <mat-datepicker-toggle matSuffix [for]="pickerEndTraining"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEndTraining></mat-datepicker>
             </div>
 
             <div class="button-container">

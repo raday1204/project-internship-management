@@ -1,0 +1,32 @@
+<body style="width: 800px; overflow: hidden; padding: 20px;">
+
+    <h4 class="text-center">ยืนยันการเพิ่มข้อมูลหน่วยงาน</h4>
+
+    <div class="grid-container">
+        <div class="left-column">
+            <p><strong>ชื่อหน่วยงาน: </strong> {{ data.company.company_name }}</p><br>
+            <p><strong>เรียน: </strong> {{ data.company.send_name }}</p><br>
+            <p><strong>ชื่อผู้ประสานงาน: </strong> {{ data.company.send_coordinator }}</p><br>
+            <p><strong>ตำแหน่ง: </strong> {{ data.company.send_position }}</p><br>
+            <p><strong>เบอร์โทรศัพท์หน่วยงาน: </strong> {{ data.company.send_tel }}</p><br>
+            <p><strong>E-mail: </strong> {{ data.company.send_email }}</p><br>
+            <p><strong>เบอร์โทรศัพท์มือถือ: </strong> {{ data.company.send_mobile }}</p>
+        </div>
+
+        <div class="right-column">
+            <p><strong>ชื่อหน่วยงานภายใน: </strong> {{ data.company.company_building }}</p><br>
+            <p><strong>ลักษณะงาน: </strong> {{ data.company.company_job }}</p><br>
+            <p><strong>จำนวนนิสิตที่รับเข้า: </strong> {{ data.need_student.number_student_train }}</p><br>
+            <p><strong>วันที่ออกฝึกงาน: </strong> {{ data.need_student.date_addtraining | date:'dd/MM/yyyy' }}</p>
+            <p><strong>วันสุดท้ายของการฝึกงาน: </strong> {{ data.need_student.date_endtraining | date:'dd/MM/yyyy' }}
+            </p>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" mat-button
+            [mat-dialog-close]="{ saveData: false }">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" mat-button
+            [mat-dialog-close]="{ saveData: true }">ใช่</button>
+    </div>
+</body>

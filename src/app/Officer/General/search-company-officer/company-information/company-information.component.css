@@ -80,9 +80,19 @@ td:nth-child(1) {
     width: 6%;
 }
 
+th:nth-child(2),
+td:nth-child(2) {
+    width: 15%;
+}
+
+th:nth-child(3),
+td:nth-child(3) {
+    width: 15%;
+}
+
 th:nth-child(4),
 td:nth-child(4) {
-    width: 11%;
+    width: 9%;
 }
 
 th:nth-child(5),
@@ -90,9 +100,14 @@ td:nth-child(5) {
     width: 9%;
 }
 
+th:nth-child(6),
+td:nth-child(6) {
+    width: 22%;
+}
+
 th:nth-child(7),
 td:nth-child(7) {
-    width: 14%;
+    width: 11%;
 }
 
 table th {
@@ -111,18 +126,4 @@ table button {
     border-radius: 5px;
     padding: 5px;
     border: none;
-}
-
-/* add-button part */
-
-.add-container {
-    display: grid;
-    justify-content: right;
-    margin-right: 40px;
-}
-
-.add-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 10px;
 }

@@ -1,4 +1,3 @@
-
 <body class="mx-auto d-block" style="width: 980px;">
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
@@ -58,5 +57,30 @@
             </a>
         </li>
     </div>
+    </div>
+
+    <div class="content">
+        <table class="table-container">
+            <thead class="text-center" style="font-size: 15px;">
+                <tr style="color: #e6ecf0;">
+                    <th><i class="fa-solid fa-satellite-dish"></i>ข่าวประชาสัมพันธ์<i
+                            class="fa-solid fa-satellite-dish"></i></th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 15px;">
+                <tr *ngFor="let relationItem of relations">
+                    <td>
+                        <i class="fa-solid fa-square" style="color: #FF8A00;"></i>
+                        {{ relationItem.relation_content }} - [ {{ relationItem.relation_date }} ]
+                        <ng-container *ngIf="isNew(relationItem.relation_date)">
+                            <img src="https://media.tenor.com/h8wC3_J4yh8AAAAi/new-post.gif" /> 
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr style="text-align: right;"><a [routerLink]="['/relation-officer']"
+                        style="margin: 15px 15px 20px 15px; text-decoration: none; font-size: 17px;">แก้ไขข่าวประชาสัมพันธ์
+                        >>></a></tr>
+            </tbody>
+        </table>
     </div>
 </body>

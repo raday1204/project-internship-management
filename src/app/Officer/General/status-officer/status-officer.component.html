@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/status-information">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
                     <li class="list-item">ยืนยันสถานะการฝึกงาน</li>
                 </div>
                 <button [routerLink]="['/app']">
@@ -25,7 +25,7 @@
                     <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
                 </select><br>
 
-                <label for="type_code">ประเภท</label><br>
+                <label for="type_name">ประเภท</label><br>
                 <select [(ngModel)]="selectedOption2" name="selectedOption2">
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
@@ -41,4 +41,3 @@
         </form>
     </div>
 </body>
-

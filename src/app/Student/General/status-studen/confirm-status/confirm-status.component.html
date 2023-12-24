@@ -15,13 +15,14 @@
     </header>
 
     <div class="check-container">
-        <i class="fa-regular fa-circle-check" style="color: #59AB62;"></i>
-        <li class="head-check" style="color: white;">ตรวจสอบสถานะการลงทะเบียนฝึกงาน</li>
-        <h5>ชื่อหน่วยงาน : {{ companyForm.get('company_name')?.value }}</h5>
-        <h5>ชื่อหน่วยงานภายใน : {{ companyForm.get('company_building')?.value }}</h5>
-        <li class="status" style="color: white;">ตอบรับเข้าฝึกงาน</li>
+        <div [formGroup]="companyForm">
+            <i class="fa-regular fa-circle-check" style="color: #59AB62;"></i>
+            <li class="head-check" style="color: white;">ตรวจสอบสถานะการลงทะเบียนฝึกงาน</li>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงาน :</strong> {{ companyForm.get('company_name')?.value }}</p>
+            <p style="word-wrap: break-word;"><strong>ชื่อหน่วยงานภายใน : </strong>{{ companyForm.get('company_building')?.value }}</p>
+            <li class="status" style="color: white;">ตอบรับเข้าฝึกงาน</li>
+        </div>
     </div>
-
     <div class="text-box">
         <li class="text-list">หน่วยกิจการนิสิต สาขาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยนเรศวร</li>
         <li class="text-list">99 หมู่ 9 ถ.พิษณุโลก-นครสวรรค์ ต.ท่าโพธิ์ อ.เมือง จ.พิษณุโลก 65000</li>

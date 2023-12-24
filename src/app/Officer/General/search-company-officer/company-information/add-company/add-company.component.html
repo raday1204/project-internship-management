@@ -18,14 +18,11 @@
         <p>ข้อมูลหน่วยงาน</p>
         <form [formGroup]="companyForm" (ngSubmit)="saveCompany()">
             <div class="list">
-                <label for="year">ปีการศึกษา</label>
-                <select formControlName="year">
-                    <option value="">-- เลือกปีการศึกษา --</option>
-                    <option *ngFor="let option of selectedOption1" [value]="option">{{ option }}</option>
-                </select><br>
+                <label style="min-width: 120px;" for="year">ปีการศึกษา</label>
+                <input style="width: 230px;" type="text" id="year" formControlName="year"><br>
 
-                <label for="type_code">ประเภท</label>
-                <select formControlName="type_code">
+                <label style="min-width: 120px;" for="type_name">ประเภท</label>
+                <select formControlName="type_name">
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
                 </select>
@@ -35,8 +32,9 @@
                 <label for="term">ภาคเรียน</label>
                 <select formControlName="term">
                     <option value="">-- เลือกภาคเรียน --</option>
-                    <option *ngFor="let option of selectedOption5" [value]="option">{{ option }}</option>
-                </select>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                </select><br>
             </div>
 
             <div class="list">

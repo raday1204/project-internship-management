@@ -30,6 +30,7 @@
                 <td class="text-center">{{ company.company_id }}</td>
                 <td style="word-break: break-all;">{{ company.company_name }}</td>
                 <td style="word-break: break-all;">{{ company.company_building }}</td>
+
                 <td class="text-center" *ngIf="need_student[company.company_id] && need_student[company.company_id].length > 0">
                     {{ need_student[company.company_id][0].number_student_train }}
                 </td>

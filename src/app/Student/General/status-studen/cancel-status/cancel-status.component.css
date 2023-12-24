@@ -1,7 +1,7 @@
 body {
     background-color: white;
     background-position: top;
-    height: 100%; 
+    height: auto; 
     overflow: auto;
  }
 
@@ -54,7 +54,7 @@ body {
 
 .check-container {
     background-color: #DFEBF6;
-    margin: 50px  200px 200px 150px;
+    margin: 50px  150px 100px 150px;
     border-radius: 8px;
     padding: 40px;
     text-align: center;
@@ -75,8 +75,10 @@ body {
     border-radius: 10px;
 }
 
-h5 {
-    padding: 30px;
+p {
+    font-size: 18px;
+    font-weight: 600px;
+    padding: 10px 30px;
 }
 
 .status {

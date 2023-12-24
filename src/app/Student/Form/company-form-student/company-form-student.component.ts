@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CompanyStudentService } from '../../General/search-company-student/company-student/company-student.service';
 import { CompanyFormStudentPopupComponent } from './company-form-student-popup/company-form-student-popup.component';
 
@@ -17,7 +17,7 @@ export class CompanyFormStudentComponent implements OnInit {
   company: any = {
     company_id: '',
     year: '',
-    type_code: '',
+    type_name: '',
     term: '',
     company_name: '',
     send_name: '',
@@ -30,14 +30,15 @@ export class CompanyFormStudentComponent implements OnInit {
     type_special: '',
   };
   need_student: any = {
-    date_addtraining: ''
+    date_addtraining: '',
+    date_endtraining: ''
   };
   student: any = {
-    type_code: '',
+    type_name: '',
     student_code: '',
     student_name: '',
     student_lastname: '',
-    depart_code: '',
+    depart_name: '',
     student_pak: '',
     student_mobile: '',
     student_facebook: '',
@@ -47,29 +48,31 @@ export class CompanyFormStudentComponent implements OnInit {
   studentData: any;
   username: string | undefined;
   errorMessage: string | undefined;
+  selectedOption2: any;
+  selectedOption3: any;
 
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
-    private DataStorageService: DataStorageService,
+    private snackBar: MatSnackBar,
     private companyStudentService: CompanyStudentService
 
   ) {
     this.studentyForm = this.fb.group({
-      type_code: [''],
+      type_name: [''],
       student_code: ['', Validators.required],
       student_name: ['', Validators.required],
       student_lastname: ['', Validators.required],
-      depart_code: ['', Validators.required],
+      depart_name: ['', Validators.required],
       student_pak: ['', Validators.required],
       student_mobile: ['', Validators.required],
       student_facebook: ['', Validators.required],
     });
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
-      type_code: ['', Validators.required],
+      type_name: ['', Validators.required],
       term: ['', Validators.required],
       company_name: ['', Validators.required],
       send_name: ['', Validators.required],
@@ -80,7 +83,8 @@ export class CompanyFormStudentComponent implements OnInit {
       send_mobile: ['', Validators.required],
       type_position: ['', Validators.required],
       type_special: ['', Validators.required],
-      date_addtraining: ['', Validators.required]
+      date_addtraining: ['', Validators.required],
+      date_endtraining: ['', Validators.required]
     });
   }
 
@@ -95,7 +99,7 @@ export class CompanyFormStudentComponent implements OnInit {
         .subscribe(
           (response: any) => {
             if (response && response.success) {
-              this.studentyForm.patchValue(response.data); // Assuming response.data is the correct field
+              this.studentyForm.patchValue(response.data); 
             } else {
               this.errorMessage = response.error || 'An error occurred while fetching student data.';
               console.error('API Error:', this.errorMessage);
@@ -109,17 +113,18 @@ export class CompanyFormStudentComponent implements OnInit {
     } else {
       this.errorMessage = 'No username provided.';
     }
+    this.getOptions();
   }
 
   updateData() {
     if (this.username) {
       // Update student data
       const formDataStudent = new FormData();
-      formDataStudent.append('type_code', this.studentyForm.value.type_code);
+      formDataStudent.append('type_name', this.studentyForm.value.type_name);
       formDataStudent.append('student_code', this.studentyForm.value.student_code);
       formDataStudent.append('student_name', this.studentyForm.value.student_name);
       formDataStudent.append('student_lastname', this.studentyForm.value.student_lastname);
-      formDataStudent.append('depart_code', this.studentyForm.value.depart_code);
+      formDataStudent.append('depart_name', this.studentyForm.value.depart_name);
       formDataStudent.append('student_pak', this.studentyForm.value.student_pak);
       formDataStudent.append('student_mobile', this.studentyForm.value.student_mobile);
       formDataStudent.append('student_facebook', this.studentyForm.value.student_facebook);
@@ -135,12 +140,15 @@ export class CompanyFormStudentComponent implements OnInit {
               this.studentyForm.patchValue(responseStudent.data);
 
               // Proceed with company form data only if student data is successfully updated
-              const formattedDate = this.companyForm.value.date_addtraining ?
+              const formattedDateAddTraining = this.companyForm.value.date_addtraining ?
                 formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+              const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
+                formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
               // Update company form data
               const formDataCompany = new FormData();
               formDataCompany.append('year', this.companyForm.value.year);
-              formDataCompany.append('type_code', this.companyForm.value.type_code);
+              formDataCompany.append('type_name', this.companyForm.value.type_name);
               formDataCompany.append('term', this.companyForm.value.term);
               formDataCompany.append('company_name', this.companyForm.value.company_name);
               formDataCompany.append('send_name', this.companyForm.value.send_name);
@@ -151,7 +159,8 @@ export class CompanyFormStudentComponent implements OnInit {
               formDataCompany.append('send_mobile', this.companyForm.value.send_mobile);
               formDataCompany.append('type_position', this.companyForm.value.type_position);
               formDataCompany.append('type_special', this.companyForm.value.type_special);
-              formDataCompany.append('date_addtraining', formattedDate);
+              formDataCompany.append('date_addtraining', formattedDateAddTraining);
+              formDataCompany.append('date_endtraining', formattedDateEndTraining);
 
               console.log('formDataCompany:', this.companyForm.value);
 
@@ -164,11 +173,11 @@ export class CompanyFormStudentComponent implements OnInit {
 
                       // Update student's company ID and type code
                       const updatedCompanyId = responseCompany.company_id;
-                      const updatedCompanytypecode = responseCompany.type_code;
+                      const updatedCompanytypecode = responseCompany.type_name;
 
                       const formDataUpdateStudent = new FormData();
                       formDataUpdateStudent.append('company_id', updatedCompanyId);
-                      formDataUpdateStudent.append('type_code', updatedCompanytypecode);
+                      formDataUpdateStudent.append('type_name', updatedCompanytypecode);
                       formDataUpdateStudent.append('username', this.username ?? '');
 
                       this.http.post('http://localhost/PJ/Backend/Student/Company-Form/update-student-company-id.php', formDataUpdateStudent)
@@ -218,14 +227,16 @@ export class CompanyFormStudentComponent implements OnInit {
 
   openPopup(): void {
     if (this.areFormsValid()) {
-      const formattedDate = this.companyForm.value.date_addtraining ?
+      const formattedDateAddTraining = this.companyForm.value.date_addtraining ?
         formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
 
+      const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
+        formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
       const dialogRef = this.dialog.open(CompanyFormStudentPopupComponent, {
         data: {
           company: {
             year: this.companyForm.value.year,
-            type_code: this.companyForm.value.type_code,
+            type_name: this.companyForm.value.type_name,
             term: this.companyForm.value.term,
             company_name: this.companyForm.value.company_name,
             send_name: this.companyForm.value.send_name,
@@ -238,14 +249,15 @@ export class CompanyFormStudentComponent implements OnInit {
             type_special: this.companyForm.value.type_special
           },
           need_student: {
-            date_addtraining: formattedDate,
+            date_addtraining: formattedDateAddTraining,
+            date_endtraining: formattedDateEndTraining,
           },
           student: {
-            type_code: this.studentyForm.value.type_code,
+            type_name: this.studentyForm.value.type_name,
             student_code: this.studentyForm.value.student_code,
             student_name: this.studentyForm.value.student_name,
             student_lastname: this.studentyForm.value.student_lastname,
-            depart_code: this.studentyForm.value.depart_code,
+            depart_name: this.studentyForm.value.depart_name,
             student_pak: this.studentyForm.value.student_pak,
             student_mobile: this.studentyForm.value.student_mobile,
             student_facebook: this.studentyForm.value.student_facebook,
@@ -259,8 +271,13 @@ export class CompanyFormStudentComponent implements OnInit {
           this.updateData();
         }
       });
+    } else {
+        this.snackBar.open('กรุณากรอกข้อมูลให้ครบถ้วน', 'Close', {
+          duration: 3000,
+        });
+      }
     }
-  }
+
 
   areFormsValid(): boolean {
     return this.studentyForm.valid && this.companyForm.valid;
@@ -273,5 +290,19 @@ export class CompanyFormStudentComponent implements OnInit {
   openDatePicker() {
     console.log('Date picker opened');
   }
-}
 
+  getOptions() {
+    this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe(
+      (data: any) => {
+        const uniqueTypeNames = new Set(data.type_names);
+        const uniqueCompanyNames = new Set(data.data.map((item: any) => item.company_name));
+
+        this.selectedOption2 = Array.from(uniqueTypeNames);
+        this.selectedOption3 = Array.from(uniqueCompanyNames);
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+      }
+    );
+  }
+}

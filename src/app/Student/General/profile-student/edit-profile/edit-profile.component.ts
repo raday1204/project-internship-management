@@ -17,7 +17,7 @@ export class EditProfileComponent implements OnInit {
 
   studentData = {
     student_id: '',
-    type_code: '',
+    type_name: '',
     student_name: '',
     student_lastname: '',
     student_nickname: '',
@@ -60,7 +60,7 @@ export class EditProfileComponent implements OnInit {
   ) {
     this.studentForm = this.fb.group({
       student_id: ['', Validators.required],
-      type_code: ['', Validators.required],
+      type_name: ['', Validators.required],
       student_name: ['', Validators.required],
       student_lastname: ['', Validators.required],
       student_nickname: ['', Validators.required],
@@ -125,7 +125,7 @@ export class EditProfileComponent implements OnInit {
   updateStudent() {
     if (this.username) {
       const formDataStudent = new FormData();
-      formDataStudent.append('type_code', this.studentForm.value.type_code);
+      formDataStudent.append('type_name', this.studentForm.value.type_name);
       formDataStudent.append('student_name', this.studentForm.value.student_name);
       formDataStudent.append('student_lastname', this.studentForm.value.student_lastname);
       formDataStudent.append('student_nickname', this.studentForm.value.student_nickname);
@@ -161,10 +161,8 @@ export class EditProfileComponent implements OnInit {
           (response: any) => {
             console.log(response);
             if (response.success) {
-              this.router.navigate(['/profile-student', this.username]);
-            } else {
-              // Handle failure, show an error message
-            }
+              this.location.back();
+            } 
           },
           (error) => {
             console.error('Error:', error);
