@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     if ($resultStudent->num_rows > 0) {
                         while ($rowStudent = $resultStudent->fetch_assoc()) {
-                            $companyInformation['student'][] = $rowStudent;
+                            $companyInformation['students'][] = $rowStudent;
                         }
                     }
                 } else {
@@ -76,6 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 $stmtNeedStudent->close();
             }
+
+            $response['success'] = true;
+            $response['data'] = $companyInformation;
         } else {
             $response['error'] = "No data found for the specified parameters";
         }
@@ -88,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $conn->close();
 
     // Output the response
-    echo json_encode($companyInformation);
+    echo json_encode($response);
 } else {
     echo json_encode(['error' => 'Invalid request method']);
 }

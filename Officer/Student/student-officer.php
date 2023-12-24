@@ -16,8 +16,8 @@ if ($conn->connect_error) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $year = $_POST['year'];
-    $type_name = $_POST['type_name'];
+    $year = mysqli_real_escape_string($conn, $_POST['year']);
+    $type_name = mysqli_real_escape_string($conn, $_POST['type_name']);
 
     $studentInformation = [];
 

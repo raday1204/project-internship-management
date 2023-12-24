@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $request['username'];
     $username = mysqli_real_escape_string($conn, $username);
 
-    $sql = "SELECT * FROM users WHERE username = '$username'";
+    $sql = "SELECT username, permission FROM users WHERE username = '$username'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {

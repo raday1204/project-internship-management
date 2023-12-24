@@ -6,7 +6,6 @@ header("Access-Control-Allow-Methods: GET");
 header("Content-Type: application/json");
 
 if (isset($_SESSION["username"]) || isset($_GET["username"])) {
-
     $username = isset($_SESSION["username"]) ? $_SESSION["username"] : $_GET["username"];
 
     $hostAuth = "localhost";

@@ -34,13 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             while ($rowCompany = $resultCompany->fetch_assoc()) {
                 $company_id = $rowCompany['company_id'];
 
-                // Retrieve information from the student table using prepared statement
-                $stmtStudents = $conn->prepare("SELECT student_code, student_name, student_lastname, student_mobile FROM student WHERE company_id = ?");
-                $stmtStudents->bind_param("s", $company_id);
-                $stmtStudents->execute();
-                $resultStudents = $stmtStudents->get_result();
-                $students = fetchRecords($resultStudents);
-
                 // Retrieve information from the need_student table using prepared statement
                 $stmtNeedStudents = $conn->prepare("SELECT * FROM need_student WHERE company_id = ?");
                 $stmtNeedStudents->bind_param("s", $company_id);
@@ -48,18 +41,42 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 $resultNeedStudents = $stmtNeedStudents->get_result();
                 $needStudent = fetchRecords($resultNeedStudents);
 
-                // Retrieve information from the training table using prepared statement
-                $stmtTraining = $conn->prepare("SELECT * FROM training WHERE company_id = ?");
-                $stmtTraining->bind_param("s", $company_id);
-                $stmtTraining->execute();
-                $resultTraining = $stmtTraining->get_result();
-                $training = fetchRecords($resultTraining);
+                // Retrieve information from the student table using prepared statement
+                $stmtStudents = $conn->prepare("SELECT student_code, student_name, student_lastname, student_mobile FROM student WHERE company_id = ?");
+                $stmtStudents->bind_param("s", $company_id);
+                $stmtStudents->execute();
+                $resultStudents = $stmtStudents->get_result();
+                
+                $students = [];
+
+                // Check if there are students
+                if ($resultStudents->num_rows > 0) {
+                    // Loop through students
+                    while ($rowStudent = $resultStudents->fetch_assoc()) {
+                        $student_code = $rowStudent['student_code'];
+
+                        // Retrieve information from the training table using prepared statement
+                        $stmtTraining = $conn->prepare("SELECT * FROM training WHERE student_code = ? AND company_id = ?");
+                        $stmtTraining->bind_param("ss", $student_code, $company_id);
+                        $stmtTraining->execute();
+                        $resultTraining = $stmtTraining->get_result();
+                        $training = fetchRecords($resultTraining);
+
+                        $students[] = [
+                            'student_code' => $student_code,
+                            'student_name' => $rowStudent['student_name'],
+                            'student_lastname' => $rowStudent['student_lastname'],
+                            'student_mobile' => $rowStudent['student_mobile'],
+                            'training' => $training,
+                            'company_status' => isset($training[0]['company_status']) ? $training[0]['company_status'] : null,
+                        ];
+                    }
+                } 
 
                 $response[] = [
                     'company' => $rowCompany,
                     'students' => $students,
                     'need_student' => $needStudent,
-                    'training' => $training
                 ];
             }
         } else {
@@ -78,7 +95,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     echo json_encode(['error' => 'Invalid request method']);
 }
 
-function fetchRecords($result) {
+function fetchRecords($result)
+{
     $records = [];
 
     if ($result->num_rows > 0) {
