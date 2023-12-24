@@ -32,8 +32,7 @@
 
         <form [formGroup]="companyForm" (ngSubmit)="openUpdatePopup()">
             <div class="list">
-                <li>3. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร
-                </li>
+                <li>3. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</li>
             </div>
 
             <div class="list">
@@ -85,11 +84,20 @@
             
             <div class="list-date">
                 <label for="date_addtraining">วันที่ออกฝึกงาน</label>
-                <input type="text" id="date_addtraining" formControlName="date_addtraining" (click)="openDatePicker()" 
-                [matDatepicker]="picker"/>
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
+                <input type="text" id="date_addtraining" formControlName="date_addtraining"
+                    (click)="openDatePicker()" [matDatepicker]="pickerAddTraining" />
+                <mat-datepicker-toggle matSuffix [for]="pickerAddTraining"></mat-datepicker-toggle>
+                <mat-datepicker #pickerAddTraining></mat-datepicker>
             </div>
+
+            <div class="list-date">
+                <label for="date_endtraining">วันสุดท้ายของการฝึกงาน</label>
+                <input type="text" id="date_endtraining" formControlName="date_endtraining"
+                    (click)="openDatePicker()" [matDatepicker]="pickerEndTraining" />
+                <mat-datepicker-toggle matSuffix [for]="pickerEndTraining"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEndTraining></mat-datepicker>
+            </div>
+            
             
             <div class="button-container">
                 <button class="button" type="submit"

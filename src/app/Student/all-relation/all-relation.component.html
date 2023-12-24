@@ -1,0 +1,41 @@
+<body class="mx-auto d-block" style="width: 980px;">
+
+    <header class="header mx-auto d-block text-center" style="width: 980px;">
+        <nav>
+            <ul>
+                <div class="header-list">
+                    <li class="list-item"><a routerLink="/home-student">ข้อมูลทั่วไป </a> > </li>
+                    <li class="list-item">ข่าวประชาสัมพันธ์ทั้งหมด</li>
+                </div>
+                <button (click)="logout()">
+                    ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
+                </button>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        <table class="table-container">
+            <thead class="text-center" style="font-size: 15px;">
+                <tr style="color: #e6ecf0;">
+                    <th><i class="fa-solid fa-satellite-dish"></i>ข่าวประชาสัมพันธ์<i
+                            class="fa-solid fa-satellite-dish"></i></th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 15px;">
+                <tr *ngFor="let relationItem of relations">
+                    <td><i class="fa-solid fa-square" style="color: #FF8A00;"></i>{{ relationItem.relation_content }} -
+                        [ {{ relationItem.relation_date }} ]</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="pagination-wrapper">
+            <div class="pagination">
+                <button (click)="paginate(currentPage - 1)" [disabled]="currentPage === 1">Previous</button>
+                <span>{{ currentPage }}</span>
+                <button (click)="paginate(currentPage + 1)" [disabled]="relations.length < itemsPerPage">Next</button>
+            </div>
+        </div>
+    </div>
+</body>

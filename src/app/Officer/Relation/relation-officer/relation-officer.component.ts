@@ -18,25 +18,36 @@ interface Relation {
 export class RelationOfficerComponent implements OnInit {
   relations: Relation[] = [];
 
+  currentPage = 1;
+  itemsPerPage = 10;
+
   constructor(
     private http: HttpClient, 
     private router: Router,
     private dialog: MatDialog
     ) {}
 
-  ngOnInit(): void {
-    const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
-
-    this.http.get<{ data: Relation[] }>(serverUrl).subscribe(
-      (response) => {
-        this.relations = response.data;
-      },
-      (error) => {
-        console.error('HTTP Error:', error);
-        // Handle error here
-      }
-    );
-  }
+    ngOnInit(): void {
+      this.fetchRelations(this.currentPage, this.itemsPerPage);
+    }
+  
+    fetchRelations(page: number, limit: number): void {
+      const serverUrl = `http://localhost/PJ/Backend/Officer/Relation/get-relation.php?page=${page}&limit=${limit}`;
+  
+      this.http.get<{ data: Relation[] }>(serverUrl).subscribe(
+        (response) => {
+          this.relations = response.data;
+        },
+        (error) => {
+          console.error('HTTP Error:', error);
+        }
+      );
+    }
+  
+    paginate(pageNumber: number): void {
+      this.currentPage = pageNumber;
+      this.fetchRelations(this.currentPage, this.itemsPerPage);
+    }
 
   deleteRelation(relationId: number) {
     const dialogRef = this.dialog.open(DeleteRelationPopupComponent);

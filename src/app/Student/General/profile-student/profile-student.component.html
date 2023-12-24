@@ -16,8 +16,8 @@
 
     <div class="profile">
         <div [formGroup]="studentForm">
-            <!-- <img [src]="imageUrl" alt="Uploaded Image"><br><br> -->
-            <div class="list p-3" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+            <div class="list p-3"
+                style="display: flex; justify-content: center; align-items: center; text-align: center;">
                 <img *ngIf="displayedFilePath" [src]="displayedFilePath"
                     style="max-width: auto; max-height: 250px; display: inline-block;">
             </div>
@@ -25,44 +25,44 @@
             <p>รายละเอียดส่วนตัว</p>
 
             <div class="list">
-                <label for="typeCode">ประเภท :</label>
-                <span>{{ studentForm.get('type_code')?.value }}</span>
+                <label for="type_name">ประเภท :</label>
+                <span style="width: 245px;">{{ studentForm.get('type_name')?.value || '-' }}</span>
+            </div>
+
+            <div class="list">
+                <label for="studentCitizen">หมายเลขประจำวันประชาชน:</label>
+                <span>{{ studentForm.get('student_citizen')?.value || '-' }}</span>
             </div>
 
             <div class="list">
                 <label for="studentName">ชื่อ-นามสกุล :</label>
-                <span>{{ studentForm.get('student_name')?.value }} {{ studentForm.get('student_lastname')?.value
+                <span style="width: 245px;">{{ studentForm.get('student_name')?.value || '-' }} {{ studentForm.get('student_lastname')?.value
                     }}</span>
             </div>
 
             <div class="list">
                 <label for="studentNickname">ชื่อเล่น :</label>
-                <span>{{ studentForm.get('student_nickname')?.value }}</span>
-            </div>
-
-            <div class="list">
-                <label for="studentCitizen">หมายเลขประจำวันประชาชน:</label>
-                <span>{{ studentForm.get('student_citizen')?.value }}</span>
+                <span>{{ studentForm.get('student_nickname')?.value || '-' }}</span>
             </div>
 
             <div class="list">
                 <label for="studentEmail">Email :</label>
-                <span>{{ studentForm.get('student_email')?.value }}</span>
+                <span style="width: 245px;">{{ studentForm.get('student_email')?.value || '-' }}</span>
             </div>
 
             <div class="list">
                 <label for="studentMobile">โทรศัพท์มือถือ :</label>
-                <span>{{ studentForm.get('student_mobile')?.value }}</span>
+                <span>{{ studentForm.get('student_mobile')?.value || '-' }}</span>
             </div>
 
             <div class="list">
                 <label for="studentFacebook">Fackbook URL :</label>
-                <span>{{ studentForm.get('student_facebook')?.value }}</span>
+                <span style="width: 245px;">{{ studentForm.get('student_facebook')?.value || '-' }}</span>
             </div>
 
             <div class="list">
                 <label for="studentLine">Line ID :</label>
-                <span>{{ studentForm.get('student_line')?.value }}</span>
+                <span>{{ studentForm.get('student_line')?.value || '-' }}</span>
             </div>
             <br><br>
 
@@ -70,62 +70,62 @@
             <p>ที่อยู่ตามภูมิลำเนา</p>
             <div class="list">
                 <label for="stAddress">ที่อยู่ :</label>
-                <span>{{ studentForm.get('st_address')?.value }}</span>
+                <span>{{ studentForm.get('st_address')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stTambol">ตำบล/แขวง :</label>
-                <span>{{ studentForm.get('st_tambol')?.value }}</span>
+                <span>{{ studentForm.get('st_tambol')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stAmpher">อำเภอ/เขต :</label>
-                <span>{{ studentForm.get('st_ampher')?.value }}</span>
+                <span>{{ studentForm.get('st_ampher')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stProvince">จังหวัด :</label>
-                <span>{{ studentForm.get('st_province')?.value }}</span>
+                <span>{{ studentForm.get('st_province')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stZipcode">รหัสไปรษณีย์ :</label>
-                <span>{{ studentForm.get('st_zipcode')?.value }}</span>
+                <span>{{ studentForm.get('st_zipcode')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stTel">โทรศัพท์บ้าน :</label>
-                <span>{{ studentForm.get('st_tel')?.value }}</span>
+                <span>{{ studentForm.get('st_tel')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stContact">บุคคลอ้างอิง :</label>
-                <span>{{ studentForm.get('st_contact')?.value }}</span>
+                <span>{{ studentForm.get('st_contact')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="stMobile">โทรศัพท์มือถือ :</label>
-                <span>{{ studentForm.get('st_mobile')?.value }}</span>
+                <span>{{ studentForm.get('st_mobile')?.value || '-' }}</span>
             </div>
             <br><br>
 
             <p>ที่อยู่ปัจจุบัน ที่สามารถติดต่อได้</p>
             <div class="list">
                 <label for="ctAddress">ที่อยู่ :</label>
-                <span>{{ studentForm.get('ct_address')?.value }}</span>
+                <span>{{ studentForm.get('ct_address')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="ctTambol">ตำบล/แขวง :</label>
-                <span>{{ studentForm.get('ct_tambol')?.value }}</span>
+                <span>{{ studentForm.get('ct_tambol')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="ctAmpher">อำเภอ/เขต :</label>
-                <span>{{studentForm.get('ct_ampher')?.value}}</span>
+                <span>{{studentForm.get('ct_ampher')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="ctProvince">จังหวัด :</label>
-                <span>{{ studentForm.get('ct_province')?.value }}</span>
+                <span>{{ studentForm.get('ct_province')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="ctZipcode">รหัสไปรษณีย์ :</label>
-                <span>{{ studentForm.get('ct_zipcode')?.value }}</span>
+                <span>{{ studentForm.get('ct_zipcode')?.value || '-' }}</span>
             </div>
             <div class="list">
                 <label for="ctTel">โทรศัพท์บ้าน :</label>
-                <span>{{studentForm.get('ct_tel')?.value }}</span>
+                <span>{{studentForm.get('ct_tel')?.value || '-' }}</span>
             </div>
             <br><br>
 

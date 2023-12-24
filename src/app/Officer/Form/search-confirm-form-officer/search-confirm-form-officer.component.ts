@@ -24,24 +24,33 @@ export class SearchConfirmFormOfficerComponent {
     }
   
     getOptions() {
-      this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {
-        if (Array.isArray(data)) {
-          // Create a Set to store unique values for selectedOption1 and selectedOption2
-          const uniqueYears = new Set(data.map((item: any) => item.year));
-          const uniqueTypeCodes = new Set(data.map((item: any) => item.type_code));
-  
-          this.selectedOption1 = Array.from(uniqueYears);
-          this.selectedOption2 = Array.from(uniqueTypeCodes);
-        } else if (typeof data === 'number') {
-          console.error('Invalid data structure in the API response.');
+      this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe(
+        (data: any) => {
+          if (data.success) {
+            if (Array.isArray(data.data)) {
+              // Create a Set to store unique values for selectedOption1 and selectedOption2
+              const uniqueYears = new Set(data.data.map((item: any) => item.year));
+              const uniqueTypeNames = new Set(data.data.map((item: any) => item.type_name));
+    
+              this.selectedOption1 = Array.from(uniqueYears);
+              this.selectedOption2 = Array.from(uniqueTypeNames);
+            } else {
+              console.error('Invalid data structure in the API response.');
+            }
+          } else {
+            console.error('API request failed:', data.message);
+          }
+        },
+        (error) => {
+          console.error('HTTP Error:', error);
         }
-      });
+      );
     }
-  
+    
     submitForm() {
       const formData = new FormData();
       formData.append('year', this.selectedOption1);
-      formData.append('type_code', this.selectedOption2);
+      formData.append('type_name', this.selectedOption2);
     
       this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
         .subscribe((response: any) => {
@@ -55,7 +64,7 @@ export class SearchConfirmFormOfficerComponent {
               relativeTo: this.route,
               queryParams: {
                 year: this.selectedOption1,
-                type_code: this.selectedOption2
+                type_name: this.selectedOption2
               },
               queryParamsHandling: 'merge'
             });

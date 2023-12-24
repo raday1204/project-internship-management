@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CompanyStudentPopupComponent } from './company-student-popup/company-student-popup.component';
-import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 import { CompanyStudentService } from './company-student.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface NeedStudent {
   number_student_train: string;
@@ -26,7 +26,7 @@ interface Student {
 
 
 interface CompanyInformation {
-selected: any;
+  selected: any;
   company: Company;
   students: Student[];
   need_student: NeedStudent[];
@@ -51,26 +51,31 @@ export class CompanyStudentComponent implements OnInit {
   selectedOption5: any;
   selectedOption6: any;
   hasSelectedCompany: boolean = false;
+  selectedCompany: Company | null = null;
 
   constructor(
     private router: Router,
     private http: HttpClient,
     public dialog: MatDialog,
     private route: ActivatedRoute,
-    private dataStorageService: DataStorageService,
+    private snackBar: MatSnackBar,
     private companyStudentService: CompanyStudentService
   ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.selectedOption5 = params['year'];
-      this.selectedOption6 = params['type_code'];
+      this.selectedOption6 = params['type_name'];
     });
+
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
     this.fetchData();
   }
+
   fetchData() {
     if (this.selectedOption5 && this.selectedOption6) {
-      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_code=${this.selectedOption6}`)
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_name=${this.selectedOption6}`)
         .subscribe(
           (response: any) => {
             console.log('Backend Response:', response);
@@ -83,6 +88,7 @@ export class CompanyStudentComponent implements OnInit {
               });
             } else {
               console.error('Invalid response from the server.');
+              this.router.navigate(['/search-company-student']);
             }
           },
           (error) => {
@@ -90,53 +96,69 @@ export class CompanyStudentComponent implements OnInit {
           }
         );
     }
+    // ยังมีปัญหา
+    // const selectedCompanyID = localStorage.getItem('selectedCompanyID');
+    // this.hasSelectedCompany = !!selectedCompanyID;
   }
 
-  selectCompany(selectedCompany: Company) {
-    if (selectedCompany && selectedCompany.company_id) {
-      if (this.hasSelectedCompany) {
-        console.log('User has already selected a company. Skipping selection.');
-        this.router.navigate(['/select-company']);
-        return;
+  selectCompany(selectedCompany: CompanyInformation) {
+    if (this.username) {
+      if (selectedCompany && selectedCompany.company && selectedCompany.company.company_id) {
+        if (this.hasSelectedCompany) {
+          this.snackBar.open('ไม่สามารถเปลี่ยนแปลงหน่วยงานได้', 'Close', {
+            duration: 3000,
+            // verticalPosition: 'center' as MatSnackBarVerticalPosition,
+          });
+          this.router.navigate(['/select-company']);
+          return;
+        }
+
+        const dialogRef = this.dialog.open(CompanyStudentPopupComponent, {
+          data: {
+            companyInformation: selectedCompany.company
+          }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          console.log('The dialog was closed', result);
+          if (result && result.saveData) {
+            this.selectedCompany = selectedCompany.company;
+            this.setSelectedCompany(selectedCompany.company);
+            this.hasSelectedCompany = true;
+            console.log('Company selected successfully.');
+          } else {
+            console.log('No data to save or action was canceled.');
+            this.snackBar.open('คำเตือน: ไม่สามารถเลือกหน่วยงานได้', 'Close', {
+              duration: 3000,
+            });
+          }
+        });
+      } else {
+        console.error('Invalid company data or missing company_id.');
       }
-  
-      const dialogRef = this.dialog.open(CompanyStudentPopupComponent, {
-        data: {
-          companyInformation: selectedCompany
-        }
-      });
-  
-      dialogRef.afterClosed().subscribe((result) => {
-        console.log('The dialog was closed', result);
-        if (result && result.saveData) {
-          this.setSelectedCompany(selectedCompany); // Fix this line
-          this.hasSelectedCompany = true;
-          console.log('Company selected successfully.');
-        } else {
-          console.log('No data to save or action was canceled.');
-        }
-      });
-    } else {
-      console.error('Invalid company data or missing company_id.');
     }
   }
-  
+
   private setSelectedCompany(selectedCompany: Company) {
+
     const insertUrl = 'http://localhost/PJ/Backend/Student/Company/select-company.php';
-  
-    this.http.post<CompanyResponse>(insertUrl, {
+
+    const requestData = {
       username: this.username,
-      company_id: selectedCompany.company_id // Use selectedCompany instead of this.selectCompany
-    }).subscribe(
+      company_id: selectedCompany.company_id
+    };
+
+    this.http.post<CompanyResponse>(insertUrl, requestData).subscribe(
       (response) => {
         console.log('Company ID updated successfully:', response);
-        if (response && response.success) {
+        if (response.success) {
           this.router.navigate(['/select-company']);
           localStorage.setItem('selectedCompanyID', selectedCompany.company_id);
         }
       },
       (error: HttpErrorResponse) => {
         console.error('HTTP error updating company ID:', error);
+        console.error('Detailed error:', error.error);
         // Handle errors
       }
     );

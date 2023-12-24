@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class CompanyFormStudentPrintComponent {
   company: any = {
     company_id: '',
     year: '',
-    type_code: '',
+    type_name: '',
     term: '',
     company_name: '',
     send_name: '',
@@ -30,11 +31,11 @@ export class CompanyFormStudentPrintComponent {
     date_addtraining: ''
   };
   student: any = {
-    type_code: '',
+    type_name: '',
     student_code: '',
     student_name: '',
     student_lastname: '',
-    depart_code: '',
+    depart_name: '',
     student_pak: '',
     student_mobile: '',
     student_facebook: '',
@@ -50,21 +51,22 @@ export class CompanyFormStudentPrintComponent {
     private fb: FormBuilder,
     private http: HttpClient,
     private router: Router,
+    private location: Location,
     private companyStudentService: CompanyStudentService
   ) {
     this.studentyForm = this.fb.group({
-      type_code: [''],
+      type_name: [''],
       student_code: [''],
       student_name: [''],
       student_lastname: [''],
-      depart_code: [''],
+      depart_name: [''],
       student_pak: [''],
       student_mobile: [''],
       student_facebook: [''],
     });
     this.companyForm = this.fb.group({
       year: [''],
-      type_code: [''],
+      type_name: [''],
       term: [''],
       company_name: [''],
       send_name: [''],
@@ -119,10 +121,13 @@ export class CompanyFormStudentPrintComponent {
       if (printContents) {
         document.body.innerHTML = printContents;
         window.print();
+      }
         document.body.innerHTML = originalContents;
+      } else {
+        this.router.navigate(['/company-form-student']);
       }
     }
-  }
+  
 
   generatePrintableHtml(data: any): string {
     const student = data || {};
@@ -134,7 +139,7 @@ export class CompanyFormStudentPrintComponent {
         <div class="head-list">
             01 ข้อมูลหน่วยงาน
             แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน
-            <span>ภาคเรียนที่ ${company.term} ประจำปีการศึกษา ${company.year} ประเภทที่ ${company.type_code}</span>
+            <span>ภาคเรียนที่ ${company.term} ประจำปีการศึกษา ${company.year} ประเภทที่ ${company.type_name}</span>
         </div>
 
         <p>ข้อมูลนิสิต</p>
@@ -150,8 +155,8 @@ export class CompanyFormStudentPrintComponent {
             </div>
 
             <div class="list">
-                <label for="depart_code">สาขาวิชาวิศวกรรม</label>
-                <span>${student.depart_code}</span>
+                <label for="depart_name">สาขาวิชาวิศวกรรม</label>
+                <span>${student.depart_name}</span>
             </div>
 
             <div class="list">

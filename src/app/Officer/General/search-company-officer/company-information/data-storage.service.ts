@@ -7,7 +7,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class DataStorageService {
     private companyInformationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     private studentInformationSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    private yearTypeCodeSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    private yearTypeNameSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor() { }
 
@@ -35,12 +35,12 @@ export class DataStorageService {
         this.studentInformationSubject.next(data);
     }
 
-    setYearTypecode(year: string, typeCode: string): void {
-        const data = { year, typeCode };
-        this.yearTypeCodeSubject.next(data);
+    setYearTypecode(year: string, typeName: string): void {
+        const data = { year, typeName };
+        this.yearTypeNameSubject.next(data);
     }
 
     getYearTypecode(): Observable<any> {
-        return this.yearTypeCodeSubject.asObservable();
+        return this.yearTypeNameSubject.asObservable();
     }
 }

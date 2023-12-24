@@ -1,4 +1,4 @@
-<body class="mx-auto d-block" style="width: 980px;">
+<body class="mx-auto d-block" style="width: 980px; height: auto;">
     <header class="header mx-auto d-block text-center" style="width: 980px;">
         <nav>
             <ul>
@@ -13,12 +13,22 @@
     <div class="sidebar">
         <p class="text-center">ข้อมูลทั่วไป</p>
         <div class="nav-links" id="nav-links">
-            <li *ngFor="let item of menuSidebar" #itemEl routerLinkActive="active">
-                <a [routerLink]="[item.link]" [queryParams]="{ username: this.username }">
-                    <i [class]="item.icon"></i>
-                    <span class="link_name">{{item.link_name}}</span>
-                </a>
-            </li><br>
+            <ng-container *ngFor="let item of menuSidebar">
+                <li *ngIf="item.link; else actionTemplate" #itemEl routerLinkActive="active">
+                    <a [routerLink]="[item.link]" [queryParams]="{ username: username }">
+                        <i [class]="item.icon"></i>
+                        <span class="link_name">{{ item.link_name }}</span>
+                    </a>
+                </li>
+                <ng-template #actionTemplate>
+                    <li #itemEl>
+                        <a *ngIf="item.action" (click)="item.action()">
+                            <i [class]="item.icon"></i>
+                            <span class="link_name">{{ item.link_name }}</span>
+                        </a>
+                    </li>
+                </ng-template>
+            </ng-container><br>
 
             <hr style="border-width: 3px; border-color: white;">
 
@@ -31,4 +41,26 @@
             </li>
         </div>
     </div>
+
+    <div class="content">
+        <table class="table-container">
+            <thead class="text-center" style="font-size: 15px;">
+                <tr style="color: #e6ecf0;">
+                    <th><i class="fa-solid fa-satellite-dish"></i>ข่าวประชาสัมพันธ์<i class="fa-solid fa-satellite-dish"></i></th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 15px;">
+                <tr *ngFor="let relationItem of relations">
+                    <td>
+                        <i class="fa-solid fa-square" style="color: #FF8A00;"></i>
+                        {{ relationItem.relation_content }} - [ {{ relationItem.relation_date }} ]
+                        <ng-container *ngIf="isNew(relationItem.relation_date)">
+                            <img src="https://media.tenor.com/h8wC3_J4yh8AAAAi/new-post.gif" /> 
+                        </ng-container>
+                    </td>
+                </tr>
+                <tr style="text-align: right;"><a [routerLink]="['/all-relation']" style="margin: 15px 15px 20px 15px; text-decoration: none; font-size: 17px;">ข่าวประชาสัมพันธ์ทั้งหมด >>></a></tr>
+            </tbody>
+        </table>
+    </div>   
 </body>

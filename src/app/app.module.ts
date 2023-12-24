@@ -64,7 +64,6 @@ import { SendFormComponent } from './Officer/Form/search-send-form-officer/send-
 import { ThanksFormComponent } from './Officer/Form/search-thanks-form-officer/thanks-form/thanks-form.component';
 import { AddInternalCompanyComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/add-internal-company.component';
 import { StatusInformationComponent } from './Officer/General/status-officer/status-information/status-information.component';
-import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/Dialog-Add-Internal/dialog/dialog.component';
 import { EditCompanyPopupComponent } from './Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component';
 import { DataStorageService } from './Officer/General/search-company-officer/company-information/data-storage.service';
 import { ReportFormComponent } from './Officer/Form/search-report-form-officer/report-form/report-form.component';
@@ -72,6 +71,11 @@ import { AddRelationPopupComponent } from './Officer/Relation/add-relation/add-r
 import { EditRelationPopupComponent } from './Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
 import { DeleteRelationPopupComponent } from './Officer/Relation/relation-officer/delete-relation-popup/delete-relation-popup.component';
 import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-student/company-form-student-print/company-form-student-print.component';
+import { DialogComponent } from './Officer/General/search-company-officer/company-information/add-company/add-internal-company/dialog/dialog.component';
+import { ConfirmAssessmentStatusComponent } from './Student/General/assessment-status/confirm-assessment-status/confirm-assessment-status.component';
+import { WaitAssessmentStatusComponent } from './Student/General/assessment-status/wait-assessment-status/wait-assessment-status.component';
+import { AllRelationComponent } from './Student/all-relation/all-relation.component';
+import { StatusInformationPopupComponent } from './Officer/General/status-officer/status-information/status-information-popup/status-information-popup.component';
 
 
 
@@ -124,7 +128,6 @@ import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-st
     ThanksFormComponent,
     AddInternalCompanyComponent,
     StatusInformationComponent,
-    DialogComponent,
     EditCompanyPopupComponent,
     ReportFormComponent,
     AddRelationPopupComponent,
@@ -134,7 +137,12 @@ import { CompanyFormStudentPrintComponent } from './Student/Form/company-form-st
     CompanyFormStudentPopupComponent,
     EditProfilePopupComponent,
     SearchCompanyStudentComponent,
-    CompanyFormStudentPrintComponent
+    CompanyFormStudentPrintComponent,
+    DialogComponent,
+    ConfirmAssessmentStatusComponent,
+    WaitAssessmentStatusComponent,
+    AllRelationComponent,
+    StatusInformationPopupComponent,
   ],
   imports: [
     BrowserModule,

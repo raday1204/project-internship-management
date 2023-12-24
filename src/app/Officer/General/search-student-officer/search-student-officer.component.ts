@@ -1,8 +1,7 @@
-// search-student-officer.component.ts
-
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataStorageService } from '../search-company-officer/company-information/data-storage.service';
 
 @Component({
@@ -19,6 +18,7 @@ export class SearchStudentOfficerComponent {
   constructor(
     private router: Router,
     private http: HttpClient,
+    private snackBar: MatSnackBar,
     private dataStorageService: DataStorageService
   ) { }
 
@@ -28,21 +28,24 @@ export class SearchStudentOfficerComponent {
 
   getOptions() {
     this.http.get('http://localhost/PJ/Backend/Officer/Student/get-student-officer.php').subscribe(
-      (response: any) => {
-        if (Array.isArray(response.data)) {
-          const uniqueYears = new Set(response.data.map((item: any) => item.year));
-          const uniqueTypeCodes = new Set(response.data.map((item: any) => item.type_code));
+      (data: any) => {
+        if (data.success) {
+          if (Array.isArray(data.data)) {
+            // Create a Set to store unique values for selectedOption1 and selectedOption2
+            const uniqueYears = new Set(data.data.map((item: any) => item.year));
+            const uniqueTypeNames = new Set(data.data.map((item: any) => item.type_name));
 
-          // Convert sets to arrays
-          this.selectedOption3 = Array.from(uniqueYears);
-          this.selectedOption4 = Array.from(uniqueTypeCodes);
+            this.selectedOption3 = Array.from(uniqueYears);
+            this.selectedOption4 = Array.from(uniqueTypeNames);
+          } else {
+            console.error('Invalid data structure in the API response.');
+          }
         } else {
-          console.error('Invalid data structure in the API response.');
+          console.error('API request failed:', data.message);
         }
       },
       (error) => {
-        console.error('Error fetching options:', error);
-        // Handle error appropriately
+        console.error('HTTP Error:', error);
       }
     );
   }
@@ -50,20 +53,23 @@ export class SearchStudentOfficerComponent {
   submitForm() {
     const formData = new FormData();
     formData.append('year', this.selectedOption3.toString());
-    formData.append('type_code', this.selectedOption4.toString());
+    formData.append('type_name', this.selectedOption4.toString());
 
     this.http.post('http://localhost/PJ/Backend/Officer/Student/student-officer.php', formData)
       .subscribe(
         (response: any) => {
           console.log('Backend Response:', response);
 
-          if (response.error === 'No data found for the given year and type_code.') {
-            this.error = 'No data found for the selected year and type_code.';
+          if (response.error) {
+            this.snackBar.open('ไม่มีรายชื่อในปีการศึกษาและประเภทที่เลือก', 'Close', {
+              duration: 500,
+            });
+
           } else if (response.student && response.student.length > 0) {
             // Save student information in the data storage service
             this.dataStorageService.setStudentInformation({
               year: this.selectedOption3,
-              type_code: this.selectedOption4,
+              type_name: this.selectedOption4,
               student: response.student
             });
 
@@ -71,7 +77,7 @@ export class SearchStudentOfficerComponent {
             const queryParams = {
               StudentInformation: JSON.stringify({
                 year: this.selectedOption3,
-                type_code: this.selectedOption4,
+                type_name: this.selectedOption4,
                 student: response.student
               })
             };

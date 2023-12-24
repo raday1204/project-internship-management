@@ -16,7 +16,7 @@
         <div class="head-list">
             01 ข้อมูลหน่วยงาน
             แบบฟอร์มการศึกษาข้อมูลเบื้องต้นของหน่วยงวานที่ต้องการไปฝึกงาน
-            <span>ภาคเรียนที่ {{ companyForm.get('term')?.value }} ประจำปีการศึกษา {{ companyForm.get('year')?.value }} ประเภทที่ {{ companyForm.get('type_code')?.value }}</span>
+            <span>ภาคเรียนที่ {{ companyForm.get('term')?.value }} ประจำปีการศึกษา {{ companyForm.get('year')?.value }} ประเภทที่ {{ companyForm.get('type_name')?.value }}</span>
         </div>
 
         <p>ข้อมูลนิสิต</p>
@@ -32,8 +32,8 @@
             </div>
 
             <div class="list">
-                <label for="depart_code">สาขาวิชาวิศวกรรม</label>
-                <span>{{ studentyForm.get('depart_code')?.value }}</span>
+                <label for="depart_name">สาขาวิชาวิศวกรรม</label>
+                <span>{{ studentyForm.get('depart_name')?.value }}</span>
             </div>
 
             <div class="list">

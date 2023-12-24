@@ -1,26 +1,32 @@
-<h2>ข้อมูลหน่วยงาน</h2>
-<div>
-    <!-- Display the updated data as needed -->
-    <p>1. ชื่อหน่วยงาน(ภาษาไทย): {{ data.company_name }}</p>
+<body style="width: 900px; overflow: hidden; padding: 20px;">
 
-    <h2>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</h2>
-    <p>เรียน: {{ data.send_name }}</p>
-    <h2>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</h2>
-    <p>ชื่อผู้ประสานงาน: {{ data.send_coordinator }}</p>
-    <p>ตำแหน่ง: {{ data.send_position }}</p>
-    <p>เบอร์โทรศัพท์หน่วยงาน: {{ data.send_tel }}</p>
-    <p>Emile: {{ data.send_email }}</p>
-    <p>โทรศัพท์มือถือ: {{ data.send_mobile }}</p>
+    <div class="text-box text-center">
+        <h5>ข้อมูลหน่วยงาน</h5>
+    </div>
 
-    <h2>3. ข้อมูลหน่วยงานภายใน</h2>
-    <p>1. ชื่อหน่วยงานภายใน(ภาษาไทย): {{ data.company_building }}</p>
-    <p>ลักษณะงาน: {{ data.company_job }}</p>
-    <p>จำนวนนิสิตที่รับเข้า: {{ data.number_student_train }}</p>
-    <p>ระยะเวลาฝึกงาน: {{ data.date_addtraining }}</p>
-    <!-- Add more fields as needed -->
-</div>
+    <div class="main-container" style="font-size: 15px;">
+        <!-- Display the updated data as needed -->
+        <p><strong>1. ชื่อหน่วยงาน(ภาษาไทย):</strong> {{ data.company.company_name }}</p>
+        <p><strong>2. ชื่อหรือตำแหน่งที่จะออกหนังสือราชการถึงหน่วยงาน นิสิตจะต้องสอบถามหน่วยงาน ว่าให้ทำหนังสือถึงใคร</strong></p>
+        <p><strong>เรียน:</strong> {{ data.company.send_name }}</p>
+        <p><strong>ชื่อผู้ประสานงาน คือ บุคคลที่นิสิตติดต่อหรือโทรศัพท์สอบถามข้อมูลเบื้องต้น</strong></p><br>
+        <p><strong>ชื่อผู้ประสานงาน:</strong> {{ data.company.send_coordinator }}</p>
+        <p><strong>ตำแหน่ง:</strong> {{ data.company.send_position }}</p>
+        <p><strong>เบอร์โทรศัพท์:</strong> {{ data.company.send_tel }}</p>
+        <p><strong>Emile:</strong> {{ data.company.send_email }}</p>
+        <p><strong>โทรศัพท์มือถือ:</strong> {{ data.company.send_mobile }}</p><br>
 
-<div>
-    <button (click)="onCancel()">Cancel</button>
-    <button (click)="onSubmit()">Submit</button>
-</div>
+        <p><strong>3. ข้อมูลหน่วยงานภายใน</strong></p><br>
+        <p><strong>ชื่อหน่วยงานภายใน(ภาษาไทย):</strong> {{ data.company.company_building }}</p>
+        <p><strong>ลักษณะงาน:</strong> {{ data.company.company_job }}</p>
+        <p><strong>จำนวนนิสิตที่รับเข้า:</strong> {{ data.company.number_student_train }}</p>
+        <p><strong>วันที่ออกฝึกงาน:</strong> {{ data.company.date_addtraining }}</p>
+        <p><strong>วันสุดท้ายของการฝึกงาน:</strong> {{ data.company.date_endtraining }}</p>
+        <!-- Add more fields as needed -->
+    </div>
+
+    <div class="button-container">
+        <button class="button" style="background-color: #FF4545; color: #FDFDF6;" (click)="onCancel()">ไม่ใช่</button>
+        <button class="button" style="background-color: #6CB5FF; color: #FDFDF6;" (click)="onSubmit()">ใช่</button>
+    </div>
+</body>

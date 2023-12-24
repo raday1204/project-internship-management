@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
 interface Company {
   selected: boolean;
@@ -41,22 +40,20 @@ export class EvaluationFormComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
-    private router: Router,
-    private dataStorageService: DataStorageService
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.selectedOption1 = params['year'];
-      this.selectedOption2 = params['type_code'];
+      this.selectedOption2 = params['type_name'];
     });
     this.fetchData();
   }
 
   fetchData() {
     if (this.selectedOption1 && this.selectedOption2) {
-      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_code=${this.selectedOption2}`)
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_name=${this.selectedOption2}`)
         .subscribe(
           (response: CompanyResponse) => {
             console.log('Backend Response:', response);
@@ -86,8 +83,5 @@ export class EvaluationFormComponent {
     }
   }
   
-
-  selectForm(form: any) {
-    // Handle selection logic here
-  }
+  selectForm(form: any) {  }
 }

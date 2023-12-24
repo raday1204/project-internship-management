@@ -5,8 +5,35 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
-import { DialogComponent } from './Dialog-Add-Internal/dialog/dialog.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { DataStorageService } from '../../data-storage.service';
+
+interface CompanyData {
+  company_id: string;
+  company_name: string;
+  send_name: string;
+  send_coordinator: string;
+  send_position: string;
+  send_tel: string;
+  send_email: string;
+  send_mobile: string;
+  company_building: string;
+  company_job: string;
+}
+
+interface NeedStudentData {
+  number_student_train: number;
+  date_addtraining: string;
+  date_endtraining: string;
+}
+
+interface CompanyResponse {
+  success: boolean;
+  data: {
+    company: CompanyData;
+    need_student: NeedStudentData;
+  };
+}
 
 @Component({
   selector: 'app-add-internal-company',
@@ -22,42 +49,82 @@ export class AddInternalCompanyComponent implements OnInit {
   };
   need_student: any = {
     number_student_train: '',
-    date_addtraining: ''
+    date_addtraining: '',
+    date_endtraining: ''
   };
   CompanyInformation: any = {};
   internalCompanyForm: FormGroup;
+  companyForm: FormGroup;
   selectedOption4: any;
+  companyData: CompanyData = {} as CompanyData;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog,
+    
     private DataStorageService: DataStorageService
   ) {
+    this.companyForm = this.fb.group({
+      company_id: [''],
+      year: [''],
+      type_name: [''],
+      term: [''],
+      company_name: [''],
+      send_name: [''],
+      send_coordinator: [''],
+      send_position: [''],
+      send_tel: [''],
+      send_email: [''],
+      send_mobile: ['']
+    });
+
     this.internalCompanyForm = this.fb.group({
       company_building: ['', Validators.required],
       company_job: ['', Validators.required],
       number_student_train: ['', Validators.required],
-      date_addtraining: ['', [Validators.required]]
+      date_addtraining: ['', [Validators.required]],
+      date_endtraining: ['', Validators.required]
     });
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.company.company_id = params['company_id'];
-  
-      this.fetchCompanyData(this.company.company_id)
-        .subscribe(() => {
-          // Once the company data is fetched, populate the form
-          this.populateFormWithData();
-        });
-    });
-  
-    this.getOptions();
+    const companyId = this.route.snapshot.params['company_id'];
+    console.log('Company ID:', companyId);
+    this.getCompanyData(companyId);
   }
   
+  getCompanyData(companyId: string): void {
+    this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/company-detail.php?company_id=${companyId}`)
+      .subscribe((response: CompanyResponse) => {
+        if (response.success) {
+          console.log(response.data);
+  
+          this.companyData = response.data.company;
+  
+          // Set initial form values
+          this.companyForm.patchValue({
+            company_id: this.companyData.company_id,
+            company_name: this.companyData.company_name,
+            send_name: this.companyData.send_name,
+            send_coordinator: this.companyData.send_coordinator,
+            send_position: this.companyData.send_position,
+            send_tel: this.companyData.send_tel,
+            send_email: this.companyData.send_email,
+            send_mobile: this.companyData.send_mobile,
+          });
+        } else {
+          console.error('Server error:', response);
+        }
+      }, (error) => {
+        console.error('HTTP Error:', error);
+      });
+  }
+  
+
   
   populateFormWithData() {
     // Populate the form fields with existing company data
@@ -77,26 +144,30 @@ export class AddInternalCompanyComponent implements OnInit {
   openAddInternalPopup(): void {
     this.DataStorageService.getCompanyInformation().subscribe((companyData: any) => {
       if (this.internalCompanyForm.valid && companyData) {
-        const formattedDate = this.internalCompanyForm.value.date_addtraining ?
+        const formattedDateAddTraining = this.internalCompanyForm.value.date_addtraining ?
           formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+          const formattedDateEndTraining = this.internalCompanyForm.value.date_endtraining ?
+          formatDate(this.internalCompanyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
 
         const dialogRef = this.dialog.open(DialogComponent, {
           data: {
             company: {
-              company_id: companyData.company_id,
-              company_name: companyData.company_name,
-              send_name: companyData.send_name,
-              send_coordinator: companyData.send_coordinator,
-              send_position: companyData.send_position,
-              send_tel: companyData.send_tel,
-              send_email: companyData.send_email,
-              send_mobile: companyData.send_mobile,
+              company_id: this.companyData.company_id,
+              company_name: this.companyForm.value.company_name,
+              send_name: this.companyForm.value.send_name,
+              send_coordinator: this.companyForm.value.send_coordinator,
+              send_position: this.companyForm.value.send_position,
+              send_tel: this.companyForm.value.send_tel,
+              send_email: this.companyForm.value.send_email,
+              send_mobile: this.companyForm.value.send_mobile,
               company_building: this.internalCompanyForm.value.company_building,
               company_job: this.internalCompanyForm.value.company_job,
             },
             need_student: {
               number_student_train: this.internalCompanyForm.value.number_student_train,
-              date_addtraining: formattedDate,
+              date_addtraining: formattedDateAddTraining,
+              date_endtraining: formattedDateEndTraining,
             }
           }
         });
@@ -107,6 +178,10 @@ export class AddInternalCompanyComponent implements OnInit {
             this.saveInternal();
           }
         });
+      } else {
+        this.snackBar.open('กรุณากรอกข้อมูลให้ครบถ้วน', 'Close', {
+          duration: 3000,
+        });
       }
     });
   }
@@ -114,7 +189,7 @@ export class AddInternalCompanyComponent implements OnInit {
   saveInternal(): void {
     // Step 1: Update company data
     const formDataCompany = new FormData();
-    formDataCompany.append('company_id', this.company.company_id); // Use this.company instead of this.companyForm.value
+    formDataCompany.append('company_id', this.companyData.company_id); // Use this.company instead of this.companyForm.value
     formDataCompany.append('company_building', this.internalCompanyForm.value.company_building);
     formDataCompany.append('company_job', this.internalCompanyForm.value.company_job);
 
@@ -124,41 +199,35 @@ export class AddInternalCompanyComponent implements OnInit {
           console.log(companyResponse.message);
 
           // Step 2: Insert need_student data
-          const formattedDate = this.internalCompanyForm.value.date_addtraining ?
-            formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+          const formattedDateAddTraining = this.internalCompanyForm.value.date_addtraining ?
+          formatDate(this.internalCompanyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+          const formattedDateEndTraining = this.internalCompanyForm.value.date_endtraining ?
+          formatDate(this.internalCompanyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
 
           const formDataNeedStudent = new FormData();
-          formDataNeedStudent.append('company_id', this.company.company_id);
+          formDataNeedStudent.append('company_id', this.companyData.company_id);
           formDataNeedStudent.append('number_student_train', this.internalCompanyForm.value.number_student_train);
-          formDataNeedStudent.append('date_addtraining', formattedDate);
+          formDataNeedStudent.append('date_addtraining', formattedDateAddTraining);
+          formDataNeedStudent.append('date_endtraining', formattedDateEndTraining);
 
           this.http.post('http://localhost/PJ/Backend/Officer/Company/add-internal-company.php', formDataNeedStudent)
             .subscribe((needStudentResponse: any) => {
               if (needStudentResponse.success) {
                 console.log(needStudentResponse.message);
-                this.router.navigate(['/company-information']);
+                this.router.navigate(['/home-officer']);
               } else {
                 console.error(needStudentResponse.message);
-                // Handle error in inserting need_student data
               }
             }, (needStudentError: any) => {
               console.error('HTTP Error (Inserting Need Student):', needStudentError);
-              // Handle HTTP error in inserting need_student data
             });
         } else {
           console.error(companyResponse.message);
-          // Handle error in updating company data
         }
       }, (companyError: any) => {
         console.error('HTTP Error (Updating Company):', companyError);
-        // Handle HTTP error in updating company data
       });
-  }
-
-  getOptions() {
-    this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe((data: any) => {
-      this.selectedOption4 = data.map((item: { company_building: any; }) => item.company_building);
-    });
   }
 
   openDatePicker() {

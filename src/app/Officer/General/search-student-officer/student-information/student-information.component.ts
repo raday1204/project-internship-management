@@ -1,5 +1,3 @@
-// student-information.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -27,7 +25,7 @@ export class StudentInformationComponent implements OnInit {
     if (studentInformation) {
       this.StudentInformation = studentInformation.student; // Access the 'student' property
       this.selectedOption3 = studentInformation.year;
-      this.selectedOption4 = studentInformation.type_code;
+      this.selectedOption4 = studentInformation.type_name;
       // Handle accordingly, e.g., redirect to another page or show an error message
     }
   }

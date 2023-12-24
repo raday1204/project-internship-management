@@ -13,7 +13,7 @@ export class ProfileStudentComponent implements OnInit {
   username: string | undefined;
   studentData = {
     student_id: '',
-    type_code: '',
+    type_name: '',
     student_name: '',
     student_lastname: '',
     student_nickname: '',
@@ -53,7 +53,7 @@ export class ProfileStudentComponent implements OnInit {
   ) {
     this.studentForm = this.fb.group({
       student_id: [''],
-      type_code: [''],
+      type_name: [''],
       student_name: [''],
       student_lastname: [''],
       student_nickname: [''],
@@ -101,7 +101,7 @@ export class ProfileStudentComponent implements OnInit {
               const studentData = response.data;
               this.studentForm.patchValue({
                 student_id: studentData.student_id,
-                type_code: studentData.type_code,
+                type_name: studentData.type_name,
                 student_name: studentData.student_name,
                 student_lastname: studentData.student_lastname,
                 student_nickname: studentData.student_nickname,

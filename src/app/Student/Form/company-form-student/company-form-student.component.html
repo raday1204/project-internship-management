@@ -24,8 +24,12 @@
         <p>ข้อมูลนิสิต</p>
         <form [formGroup]="studentyForm" (ngSubmit)="openPopup()">
             <div class="list">
-                <label for="student_name">ชื่อ-นามสกุล</label>
+                <label for="student_name">ชื่อ</label>
                 <input type="text" id="student_name" formControlName="student_name">
+            </div>
+
+            <div class="list">
+                <label for="student_name">นามสกุล</label>
                 <input type="text" id="student_lastname" formControlName="student_lastname">
             </div>
 
@@ -35,13 +39,13 @@
             </div>
 
             <div class="list">
-                <label for="depart_code">สาขาวิศวกรรม</label>
-                <input type="text" id="	depart_code" formControlName="depart_code">
+                <label for="depart_name">สาขาวิศวกรรม</label>
+                <input type="text" id="	depart_name" formControlName="depart_name">
             </div>
 
             <div class="list">
                 <label for="student_pak">ภาควิชาวิศวกรรม</label>
-                <input type="text" id="student_pak" formControlName="student_pak">
+                <input style="width: 300px;" type="text" id="student_pak" formControlName="student_pak">
             </div>
 
             <div class="list">
@@ -51,7 +55,7 @@
 
             <div class="list">
                 <label for="student_facebook">Facebook</label>
-                <input type="text" id="student_facebook" formControlName="student_facebook">
+                <input style="width: 340px;" type="text" id="student_facebook" formControlName="student_facebook">
             </div>
 
             <form [formGroup]="companyForm" (ngSubmit)="openPopup()">
@@ -61,20 +65,27 @@
                 </div>
 
                 <div class="list">
-                    <label for="term">ภาคเรียนที่</label>
-                    <input type="text" id="	term" formControlName="term">
+                    <label for="type_code">ประเภท</label>
+                    <select formControlName="type_name">
+                        <option value="">-- เลือกประเภท --</option>
+                        <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
+                    </select>
                 </div>
 
                 <div class="list">
-                    <label for="type_code">ประเภทที่</label>
-                    <input type="text" id="	type_code" formControlName="type_code">
+                    <label for="term">ภาคเรียนที่</label>
+                    <select formControlName="term">
+                        <option value="">-- เลือกภาคเรียน --</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select><br>
                 </div>
 
                 <p>ข้อมูลหน่วยงาน</p>
 
                 <div class="list">
                     <label for="company_name">1. ชื่อหน่วยงาน(ภาษาไทย)</label>
-                    <input type="text" id="company_name" formControlName="company_name">
+                    <input style="width: 280px;" type="text" id="company_name" formControlName="company_name">
                 </div>
 
                 <div class="list">
@@ -83,9 +94,9 @@
                     </li>
                 </div>
 
-                <div class="list">
+                <div class="list-text">
                     <label for="send_name">เรียน</label>
-                    <input type="text" id="send_name" formControlName="send_name">
+                    <input style="width: 300px;" type="text" id="send_name" formControlName="send_name">
                 </div>
 
                 <div class="list">
@@ -94,10 +105,10 @@
 
                 <div class="list">
                     <label for="send_coordinator">ชื่อผู้ประสานงาน</label>
-                    <input type="text" id="send_coordinator" formControlName="send_coordinator">
+                    <input style="width: 250px;" type="text" id="send_coordinator" formControlName="send_coordinator">
                 </div>
 
-                <div class="list">
+                <div class="list-text">
                     <label for="send_position">ตำแหน่ง</label>
                     <input type="text" id="send_position" formControlName="send_position">
                 </div>
@@ -107,7 +118,7 @@
                     <input type="text" id="send_tel" formControlName="send_tel">
                 </div>
 
-                <div class="list">
+                <div class="list-text">
                     <label for="send_email">Email</label>
                     <input type="text" id="send_email" formControlName="send_email">
                 </div>
@@ -119,7 +130,7 @@
 
                 <div class="list">
                     <label for="type_position">3. ตำแหน่ง/หน้าที่/ลักษณะงานของนิสิตที่เข้าไปฝึกงาน</label>
-                    <input type="text" id="type_position" formControlName="type_position">
+                    <input style="width: 330px;" type="text" id="type_position" formControlName="type_position">
                 </div>
 
                 <div class="list">
@@ -128,12 +139,20 @@
                     <input type="text" id="type_special" formControlName="type_special">
                 </div>
 
-                <div class="list">
+                <div class="list-date">
                     <label for="date_addtraining">5. วันที่ออกฝึกงาน</label>
                     <input type="text" id="date_addtraining" formControlName="date_addtraining"
                         (click)="openDatePicker()" [matDatepicker]="picker" />
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
+                </div>
+
+                <div class="list-date">
+                    <label for="date_endtraining">6. วันสุดท้ายของการฝึกงาน</label>
+                    <input type="text" id="date_endtraining" formControlName="date_endtraining"
+                        (click)="openDatePicker()" [matDatepicker]="pickerEndTraining" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerEndTraining"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerEndTraining></mat-datepicker>
                 </div>
 
                 <div class="text">
