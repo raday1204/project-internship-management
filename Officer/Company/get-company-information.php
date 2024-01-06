@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $response = [];
 
     // Retrieve company information using prepared statement
-    $sqlCompany = "SELECT company_id, company_name, company_building FROM company WHERE year = ? AND type_name = ?";
+    $sqlCompany = "SELECT company_id, company_name, company_building, company_job FROM company WHERE year = ? AND type_name = ?";
     $stmtCompany = $conn->prepare($sqlCompany);
     $stmtCompany->bind_param("ss", $year, $type_name);
 
