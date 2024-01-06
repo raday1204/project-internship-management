@@ -90,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $conn->close();
 
     // Output the response
-    echo json_encode(['success' => true, 'data' => $response]); // Include 'success' key and wrap data in 'data' key
+    echo json_encode(['success' => true, 'data' => $response]); 
 } else {
     echo json_encode(['error' => 'Invalid request method']);
 }
