@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CompanyStudentService } from '../General/search-company-student/company-student/company-student.service';
-import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface Relation {
   id: number;
@@ -36,7 +36,6 @@ export class HomeStudentComponent implements OnInit {
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
     this.checkLoginStatus();
-    // this.checkTrainingStatus();
 
     const serverUrl = 'http://localhost/PJ/Backend/Student/get-relation-student.php';
 

@@ -8,7 +8,7 @@
                     <li class="list-item"><a routerLink="/relation-officer">เพิ่ม-ลบ-แก้ไขประชาสัมพันธ์ </a> > </li>
                     <li class="list-item">เพิ่มข่าวประชาสัมพันธ์</li>
                 </div>
-                <button [routerLink]="['/login-officer']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>

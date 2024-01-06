@@ -61,7 +61,8 @@ export class StatusInformationComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -209,6 +210,19 @@ export class StatusInformationComponent implements OnInit {
         },
         (error) => {
           console.error('HTTP Error:', error);
+        }
+      );
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
         }
       );
   }

@@ -106,12 +106,25 @@ export class AddCompanyComponent {
         const uniqueTypeNames = new Set(data.type_names);
         const uniqueCompanyNames = new Set(data.data.map((item: any) => item.company_name));
 
-        this.selectedOption2 = Array.from(uniqueTypeNames);
-        this.selectedOption3 = Array.from(uniqueCompanyNames);
+        this.selectedOption2 = Array.from(uniqueTypeNames).sort();
+        this.selectedOption3 = Array.from(uniqueCompanyNames).sort();
       },
       (error) => {
         console.error('HTTP Error:', error);
       }
     );
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

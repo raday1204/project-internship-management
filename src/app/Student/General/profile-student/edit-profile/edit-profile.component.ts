@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { CompanyStudentService } from '../../search-company-student/company-student/company-student.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfilePopupComponent } from './edit-profile-popup/edit-profile-popup.component';
@@ -91,6 +91,11 @@ export class EditProfileComponent implements OnInit {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     this.fetchStudentData();
+
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
   }
 
   private fetchStudentData(): void {
@@ -98,8 +103,8 @@ export class EditProfileComponent implements OnInit {
       this.http.get(`http://localhost/PJ/Backend/Student/Profile-Student/profile-student.php?username=${this.username}`)
         .subscribe(
           (response: any) => {
-            console.log('Full Response:', response); 
-  
+            console.log('Full Response:', response);
+
             if (response && response.success) {
               this.studentForm.patchValue(response.data);
               this.displayedFilePath = `http://localhost/${response.student_pic}`;
@@ -162,7 +167,7 @@ export class EditProfileComponent implements OnInit {
             console.log(response);
             if (response.success) {
               this.location.back();
-            } 
+            }
           },
           (error) => {
             console.error('Error:', error);
@@ -199,5 +204,33 @@ export class EditProfileComponent implements OnInit {
         }
       });
     }
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-student'], navigationExtras);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

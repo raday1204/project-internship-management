@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 
 interface NeedStudent {
   number_student_train: string;
@@ -75,6 +74,10 @@ export class CompanyInformationComponent implements OnInit {
                   this.need_student[company.company.company_id] = company.need_student;
                   this.student[company.company.company_id] = company.students;
                 });
+
+                // Sort the data alphabetically by company name (Thai)
+              this.CompanyInformation.sort((a, b) => a.company.company_name.localeCompare(b.company.company_name, 'th'));
+
               } else {
                 console.error('Invalid data structure in the server response.');
               }
@@ -97,5 +100,18 @@ export class CompanyInformationComponent implements OnInit {
     } else {
       console.error('Invalid company ID.');
     }
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

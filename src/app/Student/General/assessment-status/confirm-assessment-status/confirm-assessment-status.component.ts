@@ -65,4 +65,18 @@ export class ConfirmAssessmentStatusComponent {
       this.errorMessage = 'No username provided.';
     }
   }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          // Replace the current navigation history with the login page
+          this.router.navigateByUrl('/login-student', { replaceUrl: true });
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
+  }
 }

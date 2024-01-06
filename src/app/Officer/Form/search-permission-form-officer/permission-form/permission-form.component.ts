@@ -85,4 +85,17 @@ export class PermissionFormComponent {
     }
   }
   selectForm(form: any) { }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
+  }
 }

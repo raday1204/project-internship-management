@@ -3,10 +3,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditCompanyPopupComponent } from 'src/app/Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component'
-import { DataStorageService } from '../data-storage.service';
 
 interface CompanyData {
   company_id: string;
@@ -57,7 +57,8 @@ export class EditCompanyComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private dataStorageService: DataStorageService
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.companyForm = this.fb.group({
       company_id: [''],
@@ -174,11 +175,11 @@ export class EditCompanyComponent implements OnInit {
   // Method to open a simple alert as a popup displaying the updated data
   openUpdatePopup(): void {
     const formattedDateAddTraining = this.companyForm.value.date_addtraining ?
-        formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
-
-      const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
-        formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
-
+      formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+  
+    const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
+      formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
+  
     if (this.companyForm.valid) {
       const dialogRef = this.dialog.open(EditCompanyPopupComponent, {
         data: {
@@ -197,19 +198,39 @@ export class EditCompanyComponent implements OnInit {
             date_addtraining: formattedDateAddTraining,
             date_endtraining: formattedDateEndTraining,
           }
-
         },
       });
-
+  
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed');
         if (result && result.saveData) {
           this.updateCompany();
         }
       });
+    } else {
+      this.snackBar.open('กรุณากรอกวันที่ออกฝึกงานและวันสุดท้ายของการฝึกงานให้ครบถ้วน', 'Close', {
+        duration: 3000,
+      });
     }
   }
 
   openDatePicker() {
+  }
+
+  goback(){
+  this.location.back();
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

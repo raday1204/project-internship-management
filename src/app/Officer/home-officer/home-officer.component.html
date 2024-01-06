@@ -3,7 +3,7 @@
         <nav>
             <ul>
                 <li>{{ dateTime | date: 'fullDate' }}</li>
-                <button [routerLink]="['/login-officer']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>

@@ -59,7 +59,7 @@ import { ReportFormComponent } from './Officer/Form/search-report-form-officer/r
 
 const routes: Routes = [
   { path: 'app', component: AppComponent },
-
+  { path: '', redirectTo: '/login-student', pathMatch: 'full' },
   { path: 'advice-student', component: AdviceStudentComponent },
   { path: 'calendar-student', component: CalendarStudentComponent },
   { path: 'cancel-status', component: CancelStatusComponent },
@@ -116,7 +116,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

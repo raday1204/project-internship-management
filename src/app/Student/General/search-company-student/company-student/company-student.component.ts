@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CompanyStudentPopupComponent } from './company-student-popup/company-student-popup.component';
@@ -15,6 +15,7 @@ interface Company {
   company_id: string;
   company_name: string;
   company_building: string;
+  company_job: string;
   students: Student[]; // Add this line
 }
 
@@ -71,10 +72,17 @@ export class CompanyStudentComponent implements OnInit {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     this.fetchData();
+    
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
+    
   }
 
+
   fetchData() {
-    if (this.selectedOption5 && this.selectedOption6) {
+    if (this.username && this.selectedOption5 && this.selectedOption6) {
       this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_name=${this.selectedOption6}`)
         .subscribe(
           (response: any) => {
@@ -86,6 +94,9 @@ export class CompanyStudentComponent implements OnInit {
                 this.need_student[company.company.company_id] = company.need_student;
                 this.student[company.company.company_id] = company.students;
               });
+              // Sort the data alphabetically by company name (Thai)
+              this.CompanyInformation.sort((a, b) => a.company.company_name.localeCompare(b.company.company_name, 'th'));
+
             } else {
               console.error('Invalid response from the server.');
               this.router.navigate(['/search-company-student']);
@@ -96,10 +107,12 @@ export class CompanyStudentComponent implements OnInit {
           }
         );
     }
-    // ยังมีปัญหา
-    // const selectedCompanyID = localStorage.getItem('selectedCompanyID');
-    // this.hasSelectedCompany = !!selectedCompanyID;
   }
+
+  // ยังมีปัญหา
+  // const selectedCompanyID = localStorage.getItem('selectedCompanyID');
+  // this.hasSelectedCompany = !!selectedCompanyID;
+
 
   selectCompany(selectedCompany: CompanyInformation) {
     if (this.username) {
@@ -165,11 +178,29 @@ export class CompanyStudentComponent implements OnInit {
   }
 
   logout() {
+    // Retrieve the username before making the logout request
+    const username = this.companyStudentService.getUsername();
+
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-student']);
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-student'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

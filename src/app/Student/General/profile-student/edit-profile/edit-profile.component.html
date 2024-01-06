@@ -7,7 +7,7 @@
                     <li class="list-item"><a (click)="goBack()">ข้อมูลประวัติส่วนตัว</a> ></li>
                     <li class="list-item">แก้ไขข้อมูลพื้นฐาน</li>
                 </div>
-                <button [routerLink]="['/app']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>

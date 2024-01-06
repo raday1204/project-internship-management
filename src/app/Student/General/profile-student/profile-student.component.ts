@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationBehaviorOptions, NavigationExtras, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -83,15 +83,22 @@ export class ProfileStudentComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.username = params['username'];
-
+      
       if (!this.username) {
-        this.route.queryParams.subscribe(queryParams => {
-          this.username = queryParams['username'];
-        });
+        // Check queryParams directly instead of subscribing
+        const queryParams = this.route.snapshot.queryParams;
+        this.username = queryParams['username'];
+  
+        if (!this.username) {
+          this.router.navigateByUrl('/login-student', { replaceUrl: true });
+          return;
+        }
       }
+  
       this.fetchStudentData();
     });
   }
+
   private fetchStudentData(): void {
     if (this.username) {
       this.http.get(`http://localhost/PJ/Backend/Student/Profile-Student/profile-student.php?username=${this.username}`)
@@ -147,7 +154,16 @@ export class ProfileStudentComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-student']);
+
+          // Clear navigation history and prevent going back
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-student'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

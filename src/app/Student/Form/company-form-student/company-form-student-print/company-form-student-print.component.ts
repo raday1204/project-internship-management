@@ -263,7 +263,8 @@ export class CompanyFormStudentPrintComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-student']);
+          // Replace the current navigation history with the login page
+          this.router.navigateByUrl('/login-student', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);

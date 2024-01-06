@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class CompanyStudentService {
+  isLoggedIn() {
+    throw new Error('Method not implemented.');
+  }
   private username: string = '';
 
   constructor(

@@ -7,7 +7,7 @@
                     <li class="list-item"><a routerLink="/home-officer">ข้อมูลทั่วไป </a> > </li>
                     <li class="list-item">ข้อมูลนิสิตวิศวกรรมคอมพิวเตอร์</li>
                 </div>
-                <button [routerLink]="['/app']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>

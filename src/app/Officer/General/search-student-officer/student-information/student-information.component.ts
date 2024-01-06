@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from '../../search-company-officer/company-information/data-storage.service';
 
@@ -14,7 +14,7 @@ export class StudentInformationComponent implements OnInit {
   selectedOption4: any;
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private http: HttpClient,
     private dataStorageService: DataStorageService
   ) { }
@@ -28,5 +28,18 @@ export class StudentInformationComponent implements OnInit {
       this.selectedOption4 = studentInformation.type_name;
       // Handle accordingly, e.g., redirect to another page or show an error message
     }
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

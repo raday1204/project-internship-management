@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface Relation {
   id: number;
@@ -17,12 +18,17 @@ export class HomeOfficerComponent implements OnInit {
   item: any;
   dateTime: Date | undefined
   relations: Relation[] = [];
+  username: string = '';
+  loggedInUsername: string = '';
 
   constructor(
     private http: HttpClient,
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
     this.dateTime = new Date()
 
     const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
@@ -119,5 +125,18 @@ export class HomeOfficerComponent implements OnInit {
     const today = new Date();
     const differenceInDays = Math.floor((today.getTime() - newsDate.getTime()) / (1000 * 3600 * 24));
     return differenceInDays < 2;
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

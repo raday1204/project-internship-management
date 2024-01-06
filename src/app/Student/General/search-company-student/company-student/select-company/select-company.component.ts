@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { CompanyStudentService } from '../company-student.service';
+import { NavigationExtras, Router } from '@angular/router';
 
 interface NeedStudent {
   number_student_train: string;
@@ -43,6 +44,7 @@ export class SelectCompanyComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public dialog: MatDialog,
+    private router: Router,
     private companyStudentService: CompanyStudentService
   ) { }
 
@@ -67,5 +69,33 @@ export class SelectCompanyComponent implements OnInit {
         console.error('Error fetching company information:', error);
       }
     );
+  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-student'], navigationExtras);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }

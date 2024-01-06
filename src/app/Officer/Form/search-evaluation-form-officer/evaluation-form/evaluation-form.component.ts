@@ -40,7 +40,8 @@ export class EvaluationFormComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient
+    private router: Router,
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -84,4 +85,17 @@ export class EvaluationFormComponent {
   }
   
   selectForm(form: any) {  }
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.router.navigate(['/login-officer']);
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
+  }
 }

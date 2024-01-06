@@ -9,7 +9,7 @@
                     <li class="list-item"><a routerLink="/add-company">เพิ่มข้อมูลหน่วยงาน </a> > </li>
                     <li class="list-item">เพิ่มข้อมูลหน่วยงานภายใน</li>
                 </div>
-                <button [routerLink]="['/app']">
+                <button (click)="logout()">
                     ออกจากระบบ <i class="fa-solid fa-arrow-right-from-bracket p-1"></i>
                 </button>
             </ul>

@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 import { CompanyStudentService } from './company-student/company-student.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-search-company-student',
@@ -15,20 +17,33 @@ export class SearchCompanyStudentComponent {
   selectedOption5: any;
   selectedOption6: any;
   CompanyInformation: any[] = [];
+  searchForm: FormGroup;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
     private snackBar: MatSnackBar,
+    private location: Location,
+    private formBuilder: FormBuilder,
     private dataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
-  ) { }
+  ) {
+    this.searchForm = this.formBuilder.group({
+      selectedOption5: ['', Validators.required],
+      selectedOption6: ['', Validators.required],
+    });
+  }
 
   ngOnInit() {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     this.getOptions();
+
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
   }
 
   getOptions() {
@@ -56,9 +71,17 @@ export class SearchCompanyStudentComponent {
   }
 
   submitForm() {
+    // Check if the form is valid
+    if (this.searchForm.invalid) {
+      this.snackBar.open('กรุณาเลือกปีการศึกษาและประเภท', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('year', this.selectedOption5);
-    formData.append('type_name', this.selectedOption6);
+    formData.append('year', this.searchForm.value.selectedOption5);
+    formData.append('type_name', this.searchForm.value.selectedOption6);
 
     this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe((response: any) => {
@@ -69,22 +92,38 @@ export class SearchCompanyStudentComponent {
           });
         } else if (response.success && response.data && response.data.company && response.data.company.length > 0) {
           // Assuming you only need the company data, not student and need_student
-          this.dataStorageService.setYearTypecode(this.selectedOption5, this.selectedOption6);
+          this.dataStorageService.setYearTypecode(this.searchForm.value.selectedOption5, this.searchForm.value.selectedOption6);
 
           this.router.navigate(['/company-student'], {
             relativeTo: this.route,
             queryParams: {
-              year: this.selectedOption5,
-              type_name: this.selectedOption6
+              year: this.searchForm.value.selectedOption5,
+              type_name: this.searchForm.value.selectedOption6
             },
             queryParamsHandling: 'merge'
           });
-        }  else {
+        } else {
           console.error('Invalid response from server.');
         }
       },
         (error) => {
           console.error('HTTP Error:', error);
         });
+  }
+
+
+  logout() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
+      .subscribe(
+        () => {
+          localStorage.removeItem('loggedInUsername');
+          this.searchForm.reset();
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-student', { replaceUrl: true });
+        },
+        (error) => {
+          console.error('Logout error:', error);
+        }
+      );
   }
 }
