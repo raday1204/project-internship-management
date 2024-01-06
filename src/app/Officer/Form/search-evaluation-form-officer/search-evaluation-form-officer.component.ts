@@ -14,6 +14,8 @@ export class SearchEvaluationFormOfficerComponent {
   selectedOption1: any;
   selectedOption2: any;
   searchForm: FormGroup;
+  username: string = '';
+  loggedInUsername: string = '';
 
   constructor(
     private router: Router,
@@ -30,6 +32,12 @@ export class SearchEvaluationFormOfficerComponent {
   }
 
   ngOnInit() {
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
     this.getOptions();
   }
 
@@ -66,25 +74,38 @@ export class SearchEvaluationFormOfficerComponent {
       return;
     }
     const formData = new FormData();
-      formData.append('year', this.searchForm.value.selectedOption1);
-      formData.append('type_name', this.searchForm.value.selectedOption2);
+    formData.append('year', this.searchForm.value.selectedOption1);
+    formData.append('type_name', this.searchForm.value.selectedOption2);
 
     this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe((response: any) => {
         console.log('Backend Response:', response);
 
-        if (response.success && response.data && response.data.company && response.data.company.length > 0) {
-          // Assuming you only need the company data, not student and need_student
-          this.dataStorageService.setYearTypecode(this.searchForm.value.selectedOption1, this.searchForm.value.selectedOption2);
+        if (response.success && response.data) {
+          const companies = response.data.company;
+          const students = response.data.students;
 
-          this.router.navigate(['/evaluation-form'], {
-            relativeTo: this.route,
-            queryParams: {
-              year: this.searchForm.value.selectedOption1,
+          if (companies && companies.length > 0 && students && students.length > 0) {
+            // Assuming you only need the company data, not student and need_student
+            this.dataStorageService.setYearTypecode(
+              this.searchForm.value.selectedOption1,
+              this.searchForm.value.selectedOption2
+            );
+
+            this.router.navigate(['/evaluation-form'], {
+              relativeTo: this.route,
+              queryParams: {
+                year: this.searchForm.value.selectedOption1,
                 type_name: this.searchForm.value.selectedOption2
-            },
-            queryParamsHandling: 'merge'
-          });
+              },
+              queryParamsHandling: 'merge'
+            });
+          } else {
+            // Display Snackbar if there are no students
+            this.snackBar.open('ไม่มีรายชื่อในปีการศึกษาและประเภทที่เลือก', 'Close', {
+              duration: 3000,
+            });
+          }
         } else {
           console.error('Invalid response from server.');
         }
@@ -93,12 +114,15 @@ export class SearchEvaluationFormOfficerComponent {
           console.error('HTTP Error:', error);
         });
   }
+
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.searchForm.reset();
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);

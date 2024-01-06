@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
@@ -84,6 +84,11 @@ export class CompanyFormStudentPrintComponent {
   ngOnInit(): void {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
+  
     if (this.username) {
       this.http
         .get(`http://localhost/PJ/Backend/Student/Company-Form/get-company-form-student.php?username=${this.username}`)
@@ -263,8 +268,22 @@ export class CompanyFormStudentPrintComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          // Replace the current navigation history with the login page
-          this.router.navigateByUrl('/login-student', { replaceUrl: true });
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-student'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

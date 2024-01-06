@@ -72,12 +72,11 @@ export class CompanyStudentComponent implements OnInit {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     this.fetchData();
-    
+
     if (!this.username) {
       this.router.navigateByUrl('/login-student', { replaceUrl: true });
       return;
     }
-    
   }
 
 

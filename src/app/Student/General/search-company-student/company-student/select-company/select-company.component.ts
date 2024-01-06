@@ -52,6 +52,11 @@ export class SelectCompanyComponent implements OnInit {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
 
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
+
     const apiUrl = `http://localhost/PJ/Backend/Student/Company/company-student-detail.php?username=${this.username}`;
 
     this.http.get<CompanyResponse>(apiUrl).subscribe(

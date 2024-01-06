@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 interface NeedStudent {
   number_student_train: string;
@@ -43,11 +44,13 @@ export class CompanyInformationComponent implements OnInit {
   student: { [key: string]: Student[] } = {};
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
+  username: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private companyStudentService: CompanyStudentService
   ) {  }
 
 
@@ -56,7 +59,14 @@ export class CompanyInformationComponent implements OnInit {
       this.selectedOption1 = params['year'];
       this.selectedOption2 = params['type_name'];
     });
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
     this.fetchData();
+
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
 
   fetchData() {
@@ -107,7 +117,22 @@ export class CompanyInformationComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-officer'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

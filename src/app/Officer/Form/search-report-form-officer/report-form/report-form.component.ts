@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 interface Company {
   selected: boolean;
@@ -33,16 +33,17 @@ interface CompanyResponse {
   styleUrls: ['./report-form.component.css']
 })
 export class ReportFormComponent {
-  CompanyInformation: CompanyInformation[] = [];
+  companyInformation: CompanyInformation[] = [];
   student: { [key: string]: Student[] } = {};
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
+  username: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private dataStorageService: DataStorageService
+    private companyStudentService: CompanyStudentService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +51,14 @@ export class ReportFormComponent {
       this.selectedOption1 = params['year'];
       this.selectedOption2 = params['type_name'];
     });
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
     this.fetchData();
+
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
 
   fetchData() {
@@ -62,13 +70,13 @@ export class ReportFormComponent {
 
             if (response && response.success) {
               if (Array.isArray(response.data)) {
-                this.CompanyInformation = response.data.filter(companyInfo => {
+                this.companyInformation = response.data.filter(companyInfo => {
                   // Filter out companies without students
                   return companyInfo.students && companyInfo.students.length > 0;
                 });
 
                 // Build the student map for filtered companies
-                this.CompanyInformation.forEach(company => {
+                this.companyInformation.forEach(company => {
                   this.student[company.company.company_id] = company.students;
                 });
               } else {
@@ -91,7 +99,22 @@ export class ReportFormComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-officer'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

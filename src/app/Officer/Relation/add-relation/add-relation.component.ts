@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddRelationPopupComponent } from './add-relation-popup/add-relation-popup.component';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 @Component({
   selector: 'app-add-relation',
@@ -20,19 +21,31 @@ export class AddRelationComponent {
     relation_pic: null
   };
   displayedFilePath: string | ArrayBuffer | null = null;
+  username: string = '';
 
   constructor(
     private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private companyStudentService: CompanyStudentService
   ) {
     this.relationForm = this.fb.group({
       relation_date: ['', Validators.required],
       relation_content: ['', Validators.required],
       relation_pic: [null, Validators.required]
     });
+  }
+
+  ngOnInit(): void {
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
+
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
 
   openDatePicker() {
@@ -115,16 +128,16 @@ export class AddRelationComponent {
       );
   }
 
-  logout() {
+    logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);
         }
       );
-  }
-}
+  }}

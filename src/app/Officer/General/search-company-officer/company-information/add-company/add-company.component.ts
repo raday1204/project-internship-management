@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStorageService } from '../data-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 @Component({
   selector: 'app-add-company',
@@ -27,13 +28,16 @@ export class AddCompanyComponent {
   companyForm: FormGroup;
   selectedOption2: any;
   selectedOption3: any;
+  username: string = '';
+  loggedInUsername: string = '';
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
-    private DataStorageService: DataStorageService
+    private DataStorageService: DataStorageService,
+    private companyStudentService: CompanyStudentService
   ) {
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
@@ -50,6 +54,12 @@ export class AddCompanyComponent {
   }
 
   ngOnInit() {
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
     this.getOptions();
   }
 
@@ -120,7 +130,22 @@ export class AddCompanyComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-officer'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

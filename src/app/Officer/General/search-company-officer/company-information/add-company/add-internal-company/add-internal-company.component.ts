@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { DialogComponent } from './dialog/dialog.component';
 import { DataStorageService } from '../../data-storage.service';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 interface CompanyData {
   company_id: string;
@@ -57,6 +58,7 @@ export class AddInternalCompanyComponent implements OnInit {
   companyForm: FormGroup;
   selectedOption4: any;
   companyData: CompanyData = {} as CompanyData;
+  username: string = '';
 
   constructor(
     private http: HttpClient,
@@ -65,7 +67,7 @@ export class AddInternalCompanyComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    
+    private companyStudentService: CompanyStudentService,
     private DataStorageService: DataStorageService
   ) {
     this.companyForm = this.fb.group({
@@ -95,6 +97,12 @@ export class AddInternalCompanyComponent implements OnInit {
     const companyId = this.route.snapshot.params['company_id'];
     console.log('Company ID:', companyId);
     this.getCompanyData(companyId);
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
   
   getCompanyData(companyId: string): void {

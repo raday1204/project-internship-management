@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditCompanyPopupComponent } from 'src/app/Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component'
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 interface CompanyData {
   company_id: string;
@@ -50,6 +51,7 @@ export class EditCompanyComponent implements OnInit {
   errorMessage: string | undefined;
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
+  username: string = '';
 
   constructor(
     private location: Location,
@@ -58,7 +60,8 @@ export class EditCompanyComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private companyStudentService: CompanyStudentService
   ) {
     this.companyForm = this.fb.group({
       company_id: [''],
@@ -83,6 +86,13 @@ export class EditCompanyComponent implements OnInit {
     const companyId = this.route.snapshot.params['company_id'];
     console.log('Company ID:', companyId); 
     this.getCompanyData(companyId);
+    
+    this.username = this.companyStudentService.getUsername();
+    console.log('Username from service:', this.username);
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
 
   getCompanyData(companyId: string): void {
@@ -226,7 +236,22 @@ export class EditCompanyComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+
+          // Disable browser back
+          history.pushState('', '', window.location.href);
+          window.onpopstate = function () {
+            history.go(1);
+          };
+          this.companyStudentService.setUsername('');
+          // Navigate to login-student
+          const navigationExtras: NavigationExtras = {
+            replaceUrl: true,
+            state: {
+              clearHistory: true
+            }
+          };
+
+          this.router.navigate(['/login-officer'], navigationExtras);
         },
         (error) => {
           console.error('Logout error:', error);

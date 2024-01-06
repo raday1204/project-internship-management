@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditRelationPopupComponent } from 'src/app/Officer/Relation/edit-relation/edit-relation-popup/edit-relation-popup.component';
+import { DataStorageService } from '../../General/search-company-officer/company-information/data-storage.service';
 
 @Component({
   selector: 'app-edit-relation',
@@ -20,13 +21,16 @@ export class EditRelationComponent implements OnInit {
     relation_pic: ''
   };
   displayedFilePath: string | undefined;
+  username: string = '';
+  loggedInUsername: string = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private dialog: MatDialog,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dataStorageService: DataStorageService
   ) {
     this.relationForm = this.fb.group({
       relation_date: ['', Validators.required],
@@ -38,6 +42,13 @@ export class EditRelationComponent implements OnInit {
   ngOnInit(): void {
     this.relationId = this.route.snapshot.params['id'];
     this.loadRelationData();
+
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
   }
 
   loadRelationData() {
@@ -131,7 +142,8 @@ export class EditRelationComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);

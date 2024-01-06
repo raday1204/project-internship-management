@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 
 interface Relation {
   id: number;
@@ -24,12 +25,15 @@ export class HomeOfficerComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
+    private companyStudentService: CompanyStudentService
   ) { }
 
   ngOnInit() {
+    this.dateTime = new Date();
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
-    this.dateTime = new Date()
+    this.checkLoginStatus();
 
     const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
 
@@ -127,16 +131,42 @@ export class HomeOfficerComponent implements OnInit {
     return differenceInDays < 2;
   }
 
+  checkLoginStatus() {
+    this.http.post<any>('http://localhost/PJ/Backend/Student/home-student.php', { username: this.username })
+      .subscribe(
+        (response: any) => {
+          if (response.loggedIn) {
+            this.username = response.username;
+            console.log(`Welcome, ${this.username}, to the home-student page!`);
+            this.companyStudentService.setUsername(this.username);
+            // Navigate to company-information with the username as a query parameter
+            this.router.navigate([], {
+              relativeTo: this.route,
+              queryParams: { username: this.username },
+              queryParamsHandling: 'merge'
+            });
+          } else {
+            this.router.navigate(['/login-officer']);
+          }
+        },
+        (error) => {
+          console.error('An error occurred:', error);
+        }
+      );
+  }
+
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);
         }
       );
   }
+
 }

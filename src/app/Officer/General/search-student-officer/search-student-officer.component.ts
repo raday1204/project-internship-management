@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataStorageService } from '../search-company-officer/company-information/data-storage.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-search-student-officer',
@@ -14,15 +15,31 @@ export class SearchStudentOfficerComponent {
   selectedOption4: any[] = [];
   studentInformation: any[] = [];
   error: string = '';
+  username: string = '';
+  loggedInUsername: string = '';
+  searchForm: FormGroup;
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private http: HttpClient,
+    private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private dataStorageService: DataStorageService
-  ) { }
+  ) {
+    this.searchForm = this.formBuilder.group({
+      selectedOption3: ['', Validators.required],
+      selectedOption4: ['', Validators.required],
+    });
+  }
 
   ngOnInit() {
+    this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+    this.username = this.loggedInUsername;
+    if (!this.username) {
+      this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+      return;
+    }
     this.getOptions();
   }
 
@@ -51,9 +68,16 @@ export class SearchStudentOfficerComponent {
   }
 
   submitForm() {
+    // Check if the form is valid
+    if (this.searchForm.invalid) {
+      this.snackBar.open('กรุณาเลือกปีการศึกษาและประเภท', 'Close', {
+        duration: 3000,
+      });
+      return;
+    }
     const formData = new FormData();
-    formData.append('year', this.selectedOption3.toString());
-    formData.append('type_name', this.selectedOption4.toString());
+    formData.append('year', this.searchForm.value.selectedOption3.toString());
+    formData.append('type_name', this.searchForm.value.selectedOption4.toString());
 
     this.http.post('http://localhost/PJ/Backend/Officer/Student/student-officer.php', formData)
       .subscribe(
@@ -62,22 +86,22 @@ export class SearchStudentOfficerComponent {
 
           if (response.error) {
             this.snackBar.open('ไม่มีรายชื่อในปีการศึกษาและประเภทที่เลือก', 'Close', {
-              duration: 500,
+              duration: 3000,
             });
 
           } else if (response.student && response.student.length > 0) {
             // Save student information in the data storage service
             this.dataStorageService.setStudentInformation({
-              year: this.selectedOption3,
-              type_name: this.selectedOption4,
+              year: this.searchForm.value.selectedOption3,
+              type_name: this.searchForm.value.selectedOption4,
               student: response.student
             });
 
             // Navigate to student-information component
             const queryParams = {
               StudentInformation: JSON.stringify({
-                year: this.selectedOption3,
-                type_name: this.selectedOption4,
+                year: this.searchForm.value.selectedOption3,
+                type_name: this.searchForm.value.selectedOption4,
                 student: response.student
               })
             };
@@ -97,7 +121,9 @@ export class SearchStudentOfficerComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.searchForm.reset();
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);

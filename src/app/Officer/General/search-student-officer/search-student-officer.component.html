@@ -17,16 +17,16 @@
     <div class="form-container">
         <p>กรุณากรอกข้อมูล</p>
 
-        <form (ngSubmit)="submitForm()" method="post">
+        <form (ngSubmit)="submitForm()" [formGroup]="searchForm" method="post">
             <div class="form-group">
                 <label for="year">ปีการศึกษา</label><br>
-                <select [(ngModel)]="selectedOption3" name="selectedOption3">
+                <select formControlName="selectedOption3" required>
                     <option value="">-- เลือกปีการศึกษา --</option>
                     <option *ngFor="let option of selectedOption3" [value]="option">{{ option }}</option>
                 </select><br>
 
                 <label for="type_name">ประเภท</label><br>
-                <select [(ngModel)]="selectedOption4" name="selectedOption4">
+                <select formControlName="selectedOption4" required>
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>
@@ -35,8 +35,7 @@
             <div class="button-container">
                 <button class="button" style="background-color: #FDFDF6; color: #072D44;"
                     [routerLink]="['/home-officer']">ย้อนกลับ</button>
-                <button class="button" style="background-color: #064469; color: #FDFDF6;"
-                    >ยืนยัน</button>
+                <button class="button" style="background-color: #064469; color: #FDFDF6;">ยืนยัน</button>
             </div>
         </form>
     </div>

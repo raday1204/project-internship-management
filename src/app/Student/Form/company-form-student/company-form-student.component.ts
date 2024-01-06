@@ -92,7 +92,11 @@ export class CompanyFormStudentComponent implements OnInit {
   ngOnInit(): void {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
-
+    if (!this.username) {
+      this.router.navigateByUrl('/login-student', { replaceUrl: true });
+      return;
+    }
+  
     if (this.username) {
       this.http
         .get(`http://localhost/PJ/Backend/Student/Company-Form/get-profile-student.php?username=${this.username}`)
@@ -311,7 +315,7 @@ export class CompanyFormStudentComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          // Replace the current navigation history with the login page
+          this.username = ''; // Reset username
           this.router.navigateByUrl('/login-student', { replaceUrl: true });
         },
         (error) => {

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,22 +11,25 @@ import { Router } from '@angular/router';
 export class LoginOfficerComponent {
   constructor(
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient, 
+    private snackBar: MatSnackBar,
+    ) { }
 
   username: string = '';
 
   onSubmit() {
-    this.http.post('http://localhost/PJ/Backend/Officer/login-officer.php', {
+    this.http.post<any>('http://localhost/PJ/Backend/Officer/login-officer.php', {
       username: this.username,
     }).subscribe({
       next: (res: any) => {
-        // console.log(res);
         if (res.success) {
-          // Login was successful
+          localStorage.setItem('loggedInUsername', res.loggedInUsername);
           this.router.navigate(['/home-officer']);
         } else {
-          // Login failed
-          // console.error('Login failed:', res.message);
+          this.snackBar.open('Username or Password ไม่ถูกต้อง', 'Close', {
+            duration: 3000,
+          });
+          console.error('Login failed:', res.message);
         }
       },
       error: (error) => {

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteRelationPopupComponent } from './delete-relation-popup/delete-relation-popup.component';
+import { DataStorageService } from '../../General/search-company-officer/company-information/data-storage.service';
 
 interface Relation {
   id: number;
@@ -20,14 +21,24 @@ export class RelationOfficerComponent implements OnInit {
 
   currentPage = 1;
   itemsPerPage = 10;
+  username: string = '';
+  loggedInUsername: string = '';
 
   constructor(
     private http: HttpClient, 
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dataStorageService: DataStorageService
     ) {}
 
     ngOnInit(): void {
+      this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
+      this.username = this.loggedInUsername;
+      if (!this.username) {
+        this.router.navigateByUrl('/login-officer', { replaceUrl: true });
+        return;
+      }
+
       this.fetchRelations(this.currentPage, this.itemsPerPage);
     }
   
@@ -89,7 +100,8 @@ export class RelationOfficerComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-officer']);
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-officer', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);

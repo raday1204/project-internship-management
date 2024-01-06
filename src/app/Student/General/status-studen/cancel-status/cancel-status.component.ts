@@ -40,7 +40,7 @@ export class CancelStatusComponent {
     console.log('Username from service:', this.username);
 
     if (!this.username) {
-      this.router.navigate(['/home-student']);
+      this.router.navigate(['/login-student']);
     }
     
     if (this.username) {

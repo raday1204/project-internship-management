@@ -45,7 +45,7 @@ export class EditProfileComponent implements OnInit {
     ct_tel: '',
   };
   studentForm: FormGroup;
-  username: string | undefined;
+  username: string = '';
   errorMessage: string | undefined;
   displayedFilePath: string | undefined;
 

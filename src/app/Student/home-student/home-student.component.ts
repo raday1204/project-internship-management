@@ -166,90 +166,92 @@ export class HomeStudentComponent implements OnInit {
       );
   }
 
- //Company-Status
-checkCompanyStatus() {
-  console.log('Checking training status for username:', this.username);
-  const requestBody = { username: this.username };
+  //Company-Status
+  checkCompanyStatus() {
+    console.log('Checking training status for username:', this.username);
+    const requestBody = { username: this.username };
 
-  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
-    .subscribe(
-      (response: any) => {
-        if (response && response.success) {
-          const trainingData = response.data.trainingData;  // Match the key with PHP response
-          console.log('Training Data:', trainingData);
+    this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+      .subscribe(
+        (response: any) => {
+          if (response && response.success) {
+            const trainingData = response.data.trainingData;  // Match the key with PHP response
+            console.log('Training Data:', trainingData);
 
-          if (trainingData.length > 0) {
-            const company_status = trainingData[0].company_status;
-            if (company_status === '1') {
-              this.router.navigate(['/wait-status']);
-            } else if (company_status === '2') {
-              this.router.navigate(['/confirm-status']);
-            } else if (company_status === '3') {
-              this.router.navigate(['/cancel-status']);
+            if (trainingData.length > 0) {
+              const company_status = trainingData[0].company_status;
+              if (company_status === '1') {
+                this.router.navigate(['/wait-status']);
+              } else if (company_status === '2') {
+                this.router.navigate(['/confirm-status']);
+              } else if (company_status === '3') {
+                this.router.navigate(['/cancel-status']);
+              }
+            } else {
+              // console.log('No training status found.');
+              this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+                duration: 3000,
+              });
             }
           } else {
-            // console.log('No training status found.');
-            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
-              duration: 3000,
-            });
+            console.log('No training status found or an error occurred.');
           }
-        } else {
-          console.log('No training status found or an error occurred.');
+        },
+        (error) => {
+          console.error('An error occurred while checking training status:', error);
         }
-      },
-      (error) => {
-        console.error('An error occurred while checking training status:', error);
-      }
-    );
-}
+      );
+  }
 
   //Assessment-Status
-checkAssessmentStatus() {
-  console.log('Checking training status for username:', this.username);
-  const requestBody = { username: this.username };
+  checkAssessmentStatus() {
+    console.log('Checking training status for username:', this.username);
+    const requestBody = { username: this.username };
 
-  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
-    .subscribe(
-      (response: any) => {
-        if (response && response.success) {
-          const trainingData = response.data.trainingData;  // Match the key with PHP response
-          console.log('Training Data:', trainingData);
+    this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+      .subscribe(
+        (response: any) => {
+          if (response && response.success) {
+            const trainingData = response.data.trainingData;  // Match the key with PHP response
+            console.log('Training Data:', trainingData);
 
-          if (trainingData.length > 0) {
-            const assessment_status = trainingData[0].assessment_status;
-            if (assessment_status === '1') {
-              this.router.navigate(['/wait-assessment-status']);
-            } else if (assessment_status === '2') {
-              this.router.navigate(['/confirm-assessment-status']);
-            } 
+            if (trainingData.length > 0) {
+              const assessment_status = trainingData[0].assessment_status;
+              if (assessment_status === '1') {
+                this.router.navigate(['/wait-assessment-status']);
+              } else if (assessment_status === '2') {
+                this.router.navigate(['/confirm-assessment-status']);
+              }
+            } else {
+              // console.log('No training status found.');
+              this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+                duration: 3000,
+              });
+            }
           } else {
-            // console.log('No training status found.');
-            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
-              duration: 3000,
-            });
+            console.log('No training status found or an error occurred.');
           }
-        } else {
-          console.log('No training status found or an error occurred.');
+        },
+        (error) => {
+          console.error('An error occurred while checking training status:', error);
         }
-      },
-      (error) => {
-        console.error('An error occurred while checking training status:', error);
-      }
-    );
-}
+      );
+  }
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-          this.router.navigate(['/login-student']);
+          this.username = ''; // Reset username
+          this.router.navigateByUrl('/login-student', { replaceUrl: true });
         },
         (error) => {
           console.error('Logout error:', error);
         }
       );
   }
+
 
   isNew(date: string): boolean {
     const newsDate = new Date(date);
