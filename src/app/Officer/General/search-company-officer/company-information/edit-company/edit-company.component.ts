@@ -3,7 +3,10 @@ import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
+<<<<<<< HEAD
 import { MatSnackBar } from '@angular/material/snack-bar';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 import { formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EditCompanyPopupComponent } from 'src/app/Officer/General/search-company-officer/company-information/edit-company/edit-company-popup/edit-company-popup.component'
@@ -51,7 +54,10 @@ export class EditCompanyComponent implements OnInit {
   errorMessage: string | undefined;
   selectedOption1: string | undefined;
   selectedOption2: string | undefined;
+<<<<<<< HEAD
   username: string = '';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   constructor(
     private location: Location,
@@ -185,11 +191,19 @@ export class EditCompanyComponent implements OnInit {
   // Method to open a simple alert as a popup displaying the updated data
   openUpdatePopup(): void {
     const formattedDateAddTraining = this.companyForm.value.date_addtraining ?
+<<<<<<< HEAD
       formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
   
     const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
       formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
   
+=======
+        formatDate(this.companyForm.value.date_addtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+      const formattedDateEndTraining = this.companyForm.value.date_endtraining ?
+        formatDate(this.companyForm.value.date_endtraining, 'yyyy-MM-dd', 'en-US') : '';
+
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     if (this.companyForm.valid) {
       const dialogRef = this.dialog.open(EditCompanyPopupComponent, {
         data: {
@@ -225,6 +239,7 @@ export class EditCompanyComponent implements OnInit {
   }
 
   openDatePicker() {
+<<<<<<< HEAD
   }
 
   goback(){
@@ -257,5 +272,7 @@ export class EditCompanyComponent implements OnInit {
           console.error('Logout error:', error);
         }
       );
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   }
 }

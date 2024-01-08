@@ -4,7 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataStorageService } from '../data-storage.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+<<<<<<< HEAD
 import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
 @Component({
   selector: 'app-add-company',
@@ -28,16 +31,23 @@ export class AddCompanyComponent {
   companyForm: FormGroup;
   selectedOption2: any;
   selectedOption3: any;
+<<<<<<< HEAD
   username: string = '';
   loggedInUsername: string = '';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
+<<<<<<< HEAD
     private DataStorageService: DataStorageService,
     private companyStudentService: CompanyStudentService
+=======
+    private DataStorageService: DataStorageService
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   ) {
     this.companyForm = this.fb.group({
       year: ['', Validators.required],
@@ -107,6 +117,7 @@ export class AddCompanyComponent {
         duration: 3000,
       });
     }
+<<<<<<< HEAD
   }
 
 
@@ -152,4 +163,23 @@ export class AddCompanyComponent {
         }
       );
   }
+=======
+  }
+
+
+  getOptions() {
+    this.http.get('http://localhost/PJ/Backend/Officer/Company/get-company-officer.php').subscribe(
+      (data: any) => {
+        const uniqueTypeNames = new Set(data.type_names);
+        const uniqueCompanyNames = new Set(data.data.map((item: any) => item.company_name));
+
+        this.selectedOption2 = Array.from(uniqueTypeNames);
+        this.selectedOption3 = Array.from(uniqueCompanyNames);
+      },
+      (error) => {
+        console.error('HTTP Error:', error);
+      }
+    );
+  }
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

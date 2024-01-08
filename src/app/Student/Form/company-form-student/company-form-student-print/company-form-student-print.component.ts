@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+<<<<<<< HEAD
 import { NavigationExtras, Router } from '@angular/router';
+=======
+import { Router } from '@angular/router';
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 import { Location } from '@angular/common';
 import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
 

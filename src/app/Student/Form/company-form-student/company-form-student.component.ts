@@ -309,6 +309,7 @@ export class CompanyFormStudentComponent implements OnInit {
       }
     );
   }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -324,4 +325,6 @@ export class CompanyFormStudentComponent implements OnInit {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

@@ -75,13 +75,19 @@ export class StatusOfficerComponent {
     }
 
     const formData = new FormData();
+<<<<<<< HEAD
     formData.append('year', this.searchForm.value.selectedOption1);
     formData.append('type_name', this.searchForm.value.selectedOption2);
+=======
+    formData.append('year', this.selectedOption1);
+    formData.append('type_name', this.selectedOption2);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
     this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe((response: any) => {
         console.log('Backend Response:', response);
 
+<<<<<<< HEAD
         if (response.success && response.data) {
           const companies = response.data.company;
           const students = response.data.students;
@@ -107,6 +113,20 @@ export class StatusOfficerComponent {
               duration: 3000,
             });
           }
+=======
+        if (response.success && response.data && response.data.company && response.data.company.length > 0) {
+          // Assuming you only need the company data, not student and need_student
+          this.dataStorageService.setYearTypecode(this.selectedOption1, this.selectedOption2);
+
+          this.router.navigate(['/status-information'], {
+            relativeTo: this.route,
+            queryParams: {
+              year: this.selectedOption1,
+              type_name: this.selectedOption2
+            },
+            queryParamsHandling: 'merge'
+          });
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
         } else {
           console.error('Invalid response from server.');
         }
@@ -115,6 +135,7 @@ export class StatusOfficerComponent {
           console.error('HTTP Error:', error);
         });
   }
+<<<<<<< HEAD
 
 
   logout() {
@@ -131,4 +152,6 @@ export class StatusOfficerComponent {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

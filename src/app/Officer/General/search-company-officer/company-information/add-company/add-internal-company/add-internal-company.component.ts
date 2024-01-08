@@ -36,6 +36,33 @@ interface CompanyResponse {
   };
 }
 
+interface CompanyData {
+  company_id: string;
+  company_name: string;
+  send_name: string;
+  send_coordinator: string;
+  send_position: string;
+  send_tel: string;
+  send_email: string;
+  send_mobile: string;
+  company_building: string;
+  company_job: string;
+}
+
+interface NeedStudentData {
+  number_student_train: number;
+  date_addtraining: string;
+  date_endtraining: string;
+}
+
+interface CompanyResponse {
+  success: boolean;
+  data: {
+    company: CompanyData;
+    need_student: NeedStudentData;
+  };
+}
+
 @Component({
   selector: 'app-add-internal-company',
   templateUrl: './add-internal-company.component.html',
@@ -58,7 +85,10 @@ export class AddInternalCompanyComponent implements OnInit {
   companyForm: FormGroup;
   selectedOption4: any;
   companyData: CompanyData = {} as CompanyData;
+<<<<<<< HEAD
   username: string = '';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   constructor(
     private http: HttpClient,
@@ -67,7 +97,11 @@ export class AddInternalCompanyComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
+<<<<<<< HEAD
     private companyStudentService: CompanyStudentService,
+=======
+    
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     private DataStorageService: DataStorageService
   ) {
     this.companyForm = this.fb.group({
@@ -97,12 +131,15 @@ export class AddInternalCompanyComponent implements OnInit {
     const companyId = this.route.snapshot.params['company_id'];
     console.log('Company ID:', companyId);
     this.getCompanyData(companyId);
+<<<<<<< HEAD
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     if (!this.username) {
       this.router.navigateByUrl('/login-officer', { replaceUrl: true });
       return;
     }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   }
   
   getCompanyData(companyId: string): void {
@@ -241,6 +278,7 @@ export class AddInternalCompanyComponent implements OnInit {
   openDatePicker() {
     // You can perform any additional logic here if needed
   }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -254,4 +292,6 @@ export class AddInternalCompanyComponent implements OnInit {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

@@ -26,7 +26,11 @@
                 </select><br>
 
                 <label for="type_name">ประเภท</label><br>
+<<<<<<< HEAD
                 <select formControlName="selectedOption4" required>
+=======
+                <select [(ngModel)]="selectedOption4" name="selectedOption4">
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
                     <option value="">-- เลือกประเภท --</option>
                     <option *ngFor="let option of selectedOption4" [value]="option">{{ option }}</option>
                 </select>

@@ -41,7 +41,11 @@ export class ConfirmStatusComponent {
     console.log('Username from service:', this.username);
 
     if (!this.username) {
+<<<<<<< HEAD
       this.router.navigate(['/login-student']);
+=======
+      this.router.navigate(['/home-student']);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     }
 
     if (this.username) {
@@ -70,6 +74,7 @@ export class ConfirmStatusComponent {
       this.errorMessage = 'No username provided.';
     }
   }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -85,4 +90,6 @@ export class ConfirmStatusComponent {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

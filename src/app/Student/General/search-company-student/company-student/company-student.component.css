@@ -82,17 +82,29 @@ td:nth-child(1) {
 
 th:nth-child(2),
 td:nth-child(2) {
+<<<<<<< HEAD
     width: 15%;
+=======
+    width: 18%;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }
 
 th:nth-child(3),
 td:nth-child(3) {
+<<<<<<< HEAD
     width: 15%;
+=======
+    width: 18%;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }
 
 th:nth-child(4),
 td:nth-child(4) {
+<<<<<<< HEAD
     width: 15%;
+=======
+    width: 10%;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }
 
 th:nth-child(5),
@@ -105,8 +117,13 @@ td:nth-child(6) {
     width: 9%;
 }
 
+<<<<<<< HEAD
 th:nth-child(7),
 td:nth-child(7) {
+=======
+th:nth-child(6),
+td:nth-child(6) {
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     width: 24%;
 }
 

@@ -4,8 +4,11 @@ import { HttpClient } from '@angular/common/http';
 import { DataStorageService } from 'src/app/Officer/General/search-company-officer/company-information/data-storage.service';
 import { CompanyStudentService } from './company-student/company-student.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+<<<<<<< HEAD
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
 @Component({
   selector: 'app-search-company-student',
@@ -24,6 +27,7 @@ export class SearchCompanyStudentComponent {
     private route: ActivatedRoute,
     private http: HttpClient,
     private snackBar: MatSnackBar,
+<<<<<<< HEAD
     private location: Location,
     private formBuilder: FormBuilder,
     private dataStorageService: DataStorageService,
@@ -34,16 +38,24 @@ export class SearchCompanyStudentComponent {
       selectedOption6: ['', Validators.required],
     });
   }
+=======
+    private dataStorageService: DataStorageService,
+    private companyStudentService: CompanyStudentService
+  ) { }
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   ngOnInit() {
     this.username = this.companyStudentService.getUsername();
     console.log('Username from service:', this.username);
     this.getOptions();
+<<<<<<< HEAD
 
     if (!this.username) {
       this.router.navigateByUrl('/login-student', { replaceUrl: true });
       return;
     }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   }
 
   getOptions() {
@@ -71,6 +83,7 @@ export class SearchCompanyStudentComponent {
   }
 
   submitForm() {
+<<<<<<< HEAD
     // Check if the form is valid
     if (this.searchForm.invalid) {
       this.snackBar.open('กรุณาเลือกปีการศึกษาและประเภท', 'Close', {
@@ -82,6 +95,11 @@ export class SearchCompanyStudentComponent {
     const formData = new FormData();
     formData.append('year', this.searchForm.value.selectedOption5);
     formData.append('type_name', this.searchForm.value.selectedOption6);
+=======
+    const formData = new FormData();
+    formData.append('year', this.selectedOption5);
+    formData.append('type_name', this.selectedOption6);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
     this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe((response: any) => {
@@ -92,17 +110,30 @@ export class SearchCompanyStudentComponent {
           });
         } else if (response.success && response.data && response.data.company && response.data.company.length > 0) {
           // Assuming you only need the company data, not student and need_student
+<<<<<<< HEAD
           this.dataStorageService.setYearTypecode(this.searchForm.value.selectedOption5, this.searchForm.value.selectedOption6);
+=======
+          this.dataStorageService.setYearTypecode(this.selectedOption5, this.selectedOption6);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
           this.router.navigate(['/company-student'], {
             relativeTo: this.route,
             queryParams: {
+<<<<<<< HEAD
               year: this.searchForm.value.selectedOption5,
               type_name: this.searchForm.value.selectedOption6
             },
             queryParamsHandling: 'merge'
           });
         } else {
+=======
+              year: this.selectedOption5,
+              type_name: this.selectedOption6
+            },
+            queryParamsHandling: 'merge'
+          });
+        }  else {
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
           console.error('Invalid response from server.');
         }
       },
@@ -110,6 +141,7 @@ export class SearchCompanyStudentComponent {
           console.error('HTTP Error:', error);
         });
   }
+<<<<<<< HEAD
 
 
   logout() {
@@ -127,4 +159,6 @@ export class SearchCompanyStudentComponent {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

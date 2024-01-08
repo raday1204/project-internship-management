@@ -93,6 +93,7 @@ export class PermissionFormComponent {
     }
   }
   selectForm(form: any) { }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -121,4 +122,6 @@ export class PermissionFormComponent {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

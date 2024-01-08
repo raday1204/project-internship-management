@@ -167,7 +167,11 @@ export class EditProfileComponent implements OnInit {
             console.log(response);
             if (response.success) {
               this.location.back();
+<<<<<<< HEAD
             }
+=======
+            } 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
           },
           (error) => {
             console.error('Error:', error);

@@ -65,21 +65,37 @@
                 </div>
 
                 <div class="list">
+<<<<<<< HEAD
                     <label for="term">ภาคเรียนที่</label>
                     <select formControlName="term">
                         <option value="">-- เลือกภาคเรียน --</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
+=======
+                    <label for="type_code">ประเภท</label>
+                    <select formControlName="type_name">
+                        <option value="">-- เลือกประเภท --</option>
+                        <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
                     </select>
                 </div>
 
                 <div class="list">
+<<<<<<< HEAD
                     <label for="type_code">ประเภท</label>
                     <select formControlName="type_name">
                         <option value="">-- เลือกประเภท --</option>
                         <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
                     </select><br>
                     <div style="color: red;">กรุณาเลือกประเภท: ฝึกงานตามายวิชา(หลักสูตร)</div>
+=======
+                    <label for="term">ภาคเรียนที่</label>
+                    <select formControlName="term">
+                        <option value="">-- เลือกภาคเรียน --</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select><br>
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
                 </div>
                 <p>ข้อมูลหน่วยงาน</p>
 

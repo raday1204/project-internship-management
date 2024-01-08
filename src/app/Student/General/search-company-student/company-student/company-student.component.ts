@@ -79,7 +79,10 @@ export class CompanyStudentComponent implements OnInit {
     }
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   fetchData() {
     if (this.selectedOption5 && this.selectedOption6) {
       this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_name=${this.selectedOption6}`)
@@ -106,11 +109,17 @@ export class CompanyStudentComponent implements OnInit {
           }
         );
     }
+<<<<<<< HEAD
   
 
   // ยังมีปัญหา
   const selectedCompanyID = localStorage.getItem('selectedCompanyID');
   this.hasSelectedCompany = !!selectedCompanyID;
+=======
+    // ยังมีปัญหา
+    // const selectedCompanyID = localStorage.getItem('selectedCompanyID');
+    // this.hasSelectedCompany = !!selectedCompanyID;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   }
 
   selectCompany(selectedCompany: CompanyInformation) {

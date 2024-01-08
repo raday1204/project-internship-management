@@ -110,24 +110,40 @@ p {
 } */
 
 .list {
+<<<<<<< HEAD
     display: inline-block;
+=======
+    display: inline-block;;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     align-items: center;
     margin-bottom: 10px;
 }
 
 .list label {
+<<<<<<< HEAD
     min-width: 90px;
+=======
+    min-width: 90px; 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     font-size: 16px;
     font-weight: 600;
     margin-right: 15px;
 }
 
 .list input[type="text"] {
+<<<<<<< HEAD
     width: 200px;
     padding: 5px;
     border-radius: 4px;
     border: 2px solid #000;
     box-sizing: border-box;
+=======
+    width: 200px; 
+    padding: 5px;
+    border-radius: 4px;
+    border: 2px solid #000;
+    box-sizing: border-box; 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     margin-left: 10px;
     border-radius: 12px;
     padding: 2px 10px;
@@ -135,25 +151,41 @@ p {
 }
 
 .list-text {
+<<<<<<< HEAD
     display: inline-block;
     ;
+=======
+    display: inline-block;;
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     align-items: center;
     margin-bottom: 10px;
 }
 
 .list-text label {
+<<<<<<< HEAD
     min-width: 60px;
+=======
+    min-width: 60px; 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     font-size: 16px;
     font-weight: 600;
     margin-right: 15px;
 }
 
 .list-text input[type="text"] {
+<<<<<<< HEAD
     width: 200px;
     padding: 5px;
     border-radius: 4px;
     border: 2px solid #000;
     box-sizing: border-box;
+=======
+    width: 200px; 
+    padding: 5px;
+    border-radius: 4px;
+    border: 2px solid #000;
+    box-sizing: border-box; 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     margin-left: 10px;
     border-radius: 12px;
     padding: 2px 10px;
@@ -170,7 +202,11 @@ p {
 }
 
 .list-date label {
+<<<<<<< HEAD
     min-width: 140px;
+=======
+    min-width: 140px; 
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     font-size: 16px;
     font-weight: 600;
     margin-right: 15px;
@@ -183,7 +219,11 @@ p {
     min-width: 200px;
 }
 
+<<<<<<< HEAD
 select {
+=======
+select{
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     padding: 2px 10px;
     margin-right: 30px;
 }

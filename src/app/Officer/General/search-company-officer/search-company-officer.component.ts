@@ -74,8 +74,13 @@ export class SearchCompanyOfficerComponent {
       return;
     }
     const formData = new FormData();
+<<<<<<< HEAD
     formData.append('year', this.searchForm.value.selectedOption1);
     formData.append('type_name', this.searchForm.value.selectedOption2);
+=======
+    formData.append('year', this.selectedOption1);
+    formData.append('type_name', this.selectedOption2);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   
     this.http.post('http://localhost/PJ/Backend/Officer/Company/company-officer.php', formData)
       .subscribe((response: any) => {
@@ -88,8 +93,13 @@ export class SearchCompanyOfficerComponent {
           this.router.navigate(['/company-information'], {
             relativeTo: this.route,
             queryParams: {
+<<<<<<< HEAD
               year: this.searchForm.value.selectedOption1,
               type_name: this.searchForm.value.selectedOption2
+=======
+              year: this.selectedOption1,
+              type_name: this.selectedOption2
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
             },
             queryParamsHandling: 'merge'
           });
@@ -101,6 +111,7 @@ export class SearchCompanyOfficerComponent {
         console.error('HTTP Error:', error);
       });
   }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -117,3 +128,6 @@ export class SearchCompanyOfficerComponent {
       );
   }
 }
+=======
+}  
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801

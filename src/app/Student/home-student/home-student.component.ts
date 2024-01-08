@@ -2,7 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CompanyStudentService } from '../General/search-company-student/company-student/company-student.service';
+<<<<<<< HEAD
 import { MatSnackBar } from '@angular/material/snack-bar';
+=======
+import { MatSnackBar, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
 interface Relation {
   id: number;
@@ -36,6 +40,10 @@ export class HomeStudentComponent implements OnInit {
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
     this.checkLoginStatus();
+<<<<<<< HEAD
+=======
+    // this.checkTrainingStatus();
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
     const serverUrl = 'http://localhost/PJ/Backend/Student/get-relation-student.php';
 
@@ -166,6 +174,7 @@ export class HomeStudentComponent implements OnInit {
       );
   }
 
+<<<<<<< HEAD
   //Company-Status
   checkCompanyStatus() {
     console.log('Checking training status for username:', this.username);
@@ -196,11 +205,39 @@ export class HomeStudentComponent implements OnInit {
             }
           } else {
             console.log('No training status found or an error occurred.');
+=======
+ //Company-Status
+checkCompanyStatus() {
+  console.log('Checking training status for username:', this.username);
+  const requestBody = { username: this.username };
+
+  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+    .subscribe(
+      (response: any) => {
+        if (response && response.success) {
+          const trainingData = response.data.trainingData;  // Match the key with PHP response
+          console.log('Training Data:', trainingData);
+
+          if (trainingData.length > 0) {
+            const company_status = trainingData[0].company_status;
+            if (company_status === '1') {
+              this.router.navigate(['/wait-status']);
+            } else if (company_status === '2') {
+              this.router.navigate(['/confirm-status']);
+            } else if (company_status === '3') {
+              this.router.navigate(['/cancel-status']);
+            }
+          } else {
+            // console.log('No training status found.');
+            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+              duration: 3000,
+            });
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
           }
-        },
-        (error) => {
-          console.error('An error occurred while checking training status:', error);
+        } else {
+          console.log('No training status found or an error occurred.');
         }
+<<<<<<< HEAD
       );
   }
 
@@ -238,6 +275,49 @@ export class HomeStudentComponent implements OnInit {
         }
       );
   }
+=======
+      },
+      (error) => {
+        console.error('An error occurred while checking training status:', error);
+      }
+    );
+}
+
+  //Assessment-Status
+checkAssessmentStatus() {
+  console.log('Checking training status for username:', this.username);
+  const requestBody = { username: this.username };
+
+  this.http.post<any>('http://localhost/PJ/Backend/Student/Training/check-training-status.php', JSON.stringify(requestBody))
+    .subscribe(
+      (response: any) => {
+        if (response && response.success) {
+          const trainingData = response.data.trainingData;  // Match the key with PHP response
+          console.log('Training Data:', trainingData);
+
+          if (trainingData.length > 0) {
+            const assessment_status = trainingData[0].assessment_status;
+            if (assessment_status === '1') {
+              this.router.navigate(['/wait-assessment-status']);
+            } else if (assessment_status === '2') {
+              this.router.navigate(['/confirm-assessment-status']);
+            } 
+          } else {
+            // console.log('No training status found.');
+            this.snackBar.open('ยังไม่ได้เลือกหน่วยงาน', 'Close', {
+              duration: 3000,
+            });
+          }
+        } else {
+          console.log('No training status found or an error occurred.');
+        }
+      },
+      (error) => {
+        console.error('An error occurred while checking training status:', error);
+      }
+    );
+}
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -254,7 +334,10 @@ export class HomeStudentComponent implements OnInit {
       );
   }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   isNew(date: string): boolean {
     const newsDate = new Date(date);
     const today = new Date();

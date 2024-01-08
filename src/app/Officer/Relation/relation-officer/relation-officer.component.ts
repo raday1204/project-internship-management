@@ -21,8 +21,11 @@ export class RelationOfficerComponent implements OnInit {
 
   currentPage = 1;
   itemsPerPage = 10;
+<<<<<<< HEAD
   username: string = '';
   loggedInUsername: string = '';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
   constructor(
     private http: HttpClient, 
@@ -32,6 +35,7 @@ export class RelationOfficerComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+<<<<<<< HEAD
       this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
       this.username = this.loggedInUsername;
       if (!this.username) {
@@ -39,6 +43,8 @@ export class RelationOfficerComponent implements OnInit {
         return;
       }
 
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
       this.fetchRelations(this.currentPage, this.itemsPerPage);
     }
   

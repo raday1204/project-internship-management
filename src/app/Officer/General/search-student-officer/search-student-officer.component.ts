@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataStorageService } from '../search-company-officer/company-information/data-storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +24,10 @@ export class SearchStudentOfficerComponent {
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
+<<<<<<< HEAD
     private formBuilder: FormBuilder,
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     private snackBar: MatSnackBar,
     private dataStorageService: DataStorageService
   ) {
@@ -76,8 +80,13 @@ export class SearchStudentOfficerComponent {
       return;
     }
     const formData = new FormData();
+<<<<<<< HEAD
     formData.append('year', this.searchForm.value.selectedOption3.toString());
     formData.append('type_name', this.searchForm.value.selectedOption4.toString());
+=======
+    formData.append('year', this.selectedOption3.toString());
+    formData.append('type_name', this.selectedOption4.toString());
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
     this.http.post('http://localhost/PJ/Backend/Officer/Student/student-officer.php', formData)
       .subscribe(
@@ -86,22 +95,36 @@ export class SearchStudentOfficerComponent {
 
           if (response.error) {
             this.snackBar.open('ไม่มีรายชื่อในปีการศึกษาและประเภทที่เลือก', 'Close', {
+<<<<<<< HEAD
               duration: 3000,
+=======
+              duration: 500,
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
             });
 
           } else if (response.student && response.student.length > 0) {
             // Save student information in the data storage service
             this.dataStorageService.setStudentInformation({
+<<<<<<< HEAD
               year: this.searchForm.value.selectedOption3,
               type_name: this.searchForm.value.selectedOption4,
+=======
+              year: this.selectedOption3,
+              type_name: this.selectedOption4,
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
               student: response.student
             });
 
             // Navigate to student-information component
             const queryParams = {
               StudentInformation: JSON.stringify({
+<<<<<<< HEAD
                 year: this.searchForm.value.selectedOption3,
                 type_name: this.searchForm.value.selectedOption4,
+=======
+                year: this.selectedOption3,
+                type_name: this.selectedOption4,
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
                 student: response.student
               })
             };
@@ -115,6 +138,7 @@ export class SearchStudentOfficerComponent {
         }
       );
   }
+<<<<<<< HEAD
 
   logout() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
@@ -130,4 +154,6 @@ export class SearchStudentOfficerComponent {
         }
       );
   }
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

@@ -60,6 +60,7 @@ export class ConfirmFormComponent {
   }
 
   fetchData() {
+<<<<<<< HEAD
     this.http
       .get<CompanyResponse>(
         `http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_name=${this.selectedOption2}`
@@ -74,6 +75,28 @@ export class ConfirmFormComponent {
                 // Filter out companies without students
                 return companyInfo.students && companyInfo.students.length > 0;
               });
+=======
+    if (this.selectedOption1 && this.selectedOption2) {
+      this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption1}&type_name=${this.selectedOption2}`)
+        .subscribe(
+          (response: CompanyResponse) => {
+            console.log('Backend Response:', response);
+
+            if (response && response.success) {
+              if (Array.isArray(response.data)) {
+                this.CompanyInformation = response.data.filter(companyInfo => {
+                  // Filter out companies without students
+                  return companyInfo.students && companyInfo.students.length > 0;
+                });
+
+                // Build the student map for filtered companies
+                this.CompanyInformation.forEach(company => {
+                  this.student[company.company.company_id] = company.students;
+                });
+              } else {
+                console.error('Invalid data structure in the server response.');
+              }
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
             } else {
               console.error('Invalid data structure in the server response.');
             }
@@ -84,6 +107,7 @@ export class ConfirmFormComponent {
         }
       );
   }
+<<<<<<< HEAD
 
   selectForm(form: any) { }
 
@@ -114,4 +138,7 @@ export class ConfirmFormComponent {
         }
       );
   }
+=======
+  selectForm(form: any) { }
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

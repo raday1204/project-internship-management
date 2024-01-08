@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationExtras } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+<<<<<<< HEAD
 import { CompanyStudentService } from 'src/app/Student/General/search-company-student/company-student/company-student.service';
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
 interface Company {
   selected: boolean;
@@ -42,9 +45,13 @@ export class EvaluationFormComponent {
 
   constructor(
     private route: ActivatedRoute,
+<<<<<<< HEAD
     private router: Router,
     private http: HttpClient,
     private companyStudentService: CompanyStudentService
+=======
+    private http: HttpClient
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
   ) { }
 
   ngOnInit(): void {
@@ -93,6 +100,7 @@ export class EvaluationFormComponent {
         );
     }
   }
+<<<<<<< HEAD
 
   selectForm(form: any) { }
 
@@ -123,4 +131,8 @@ export class EvaluationFormComponent {
         }
       );
   }
+=======
+  
+  selectForm(form: any) {  }
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

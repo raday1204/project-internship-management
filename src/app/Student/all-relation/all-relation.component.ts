@@ -56,9 +56,13 @@ export class AllRelationComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
+<<<<<<< HEAD
           localStorage.removeItem('selectedCompanyID');
           // Replace the current navigation history with the login page
           this.router.navigateByUrl('/login-student', { replaceUrl: true });
+=======
+          this.router.navigate(['/login-student']);
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
         },
         (error) => {
           console.error('Logout error:', error);

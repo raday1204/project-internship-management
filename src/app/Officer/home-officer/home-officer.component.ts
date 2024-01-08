@@ -9,6 +9,12 @@ interface Relation {
   relation_content: string;
 }
 
+interface Relation {
+  id: number;
+  relation_date: string;
+  relation_content: string;
+}
+
 @Component({
   selector: 'app-home-officer',
   templateUrl: './home-officer.component.html',
@@ -19,6 +25,7 @@ export class HomeOfficerComponent implements OnInit {
   item: any;
   dateTime: Date | undefined
   relations: Relation[] = [];
+<<<<<<< HEAD
   username: string = '';
   loggedInUsername: string = '';
 
@@ -34,6 +41,15 @@ export class HomeOfficerComponent implements OnInit {
     this.loggedInUsername = localStorage.getItem('loggedInUsername') || '';
     this.username = this.loggedInUsername;
     this.checkLoginStatus();
+=======
+
+  constructor(
+    private http: HttpClient,
+  ) { }
+
+  ngOnInit() {
+    this.dateTime = new Date()
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 
     const serverUrl = 'http://localhost/PJ/Backend/Officer/Relation/get-relation.php';
 
@@ -130,6 +146,7 @@ export class HomeOfficerComponent implements OnInit {
     const differenceInDays = Math.floor((today.getTime() - newsDate.getTime()) / (1000 * 3600 * 24));
     return differenceInDays < 2;
   }
+<<<<<<< HEAD
 
   checkLoginStatus() {
     this.http.post<any>('http://localhost/PJ/Backend/Student/home-student.php', { username: this.username })
@@ -169,4 +186,6 @@ export class HomeOfficerComponent implements OnInit {
       );
   }
 
+=======
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
 }

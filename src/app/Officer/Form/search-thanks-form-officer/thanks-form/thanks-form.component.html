@@ -4,7 +4,7 @@
         <nav>
             <ul>
                 <div class="header-list">
-                    <li class="list-item"><a routerLink="/home-officer">หนังสือต่างๆ </a> > </li>
+                    <li class="list-item"><a routerLink="/search-thanks-form-officer">หนังสือต่างๆ </a> > </li>
                     <li class="list-item">หนังสือขอบคุณหน่วยงาน</li>
                 </div>
                 <button (click)="logout()">
@@ -14,8 +14,13 @@
         </nav>
     </header>
 
+<<<<<<< HEAD
     <p *ngIf="companyInformation.length === 0" style="color: red;">ไม่มีหน่วยงานที่นิสิตเลือก</p>
     <p *ngIf="companyInformation.length > 0">ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
+=======
+    <p *ngIf="CompanyInformation.length === 0" style="color: red;">ไม่มีหน่วยงานที่นิสิตเลือก</p>
+    <p *ngIf="CompanyInformation.length > 0">ปีการศึกษา {{ selectedOption1 }} ประเภทที่ {{ selectedOption2 }}</p>
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
     
     <table class="table-container" style="width: 900px;">
         <thead style="font-size: 13px;">

@@ -20,6 +20,15 @@
             <div class="list">
                 <label style="min-width: 120px;" for="year">ปีการศึกษา</label>
                 <input style="width: 230px;" type="text" id="year" formControlName="year"><br>
+<<<<<<< HEAD
+=======
+
+                <label style="min-width: 120px;" for="type_name">ประเภท</label>
+                <select formControlName="type_name">
+                    <option value="">-- เลือกประเภท --</option>
+                    <option *ngFor="let option of selectedOption2" [value]="option">{{ option }}</option>
+                </select>
+>>>>>>> 562c7b26eeb88f3e3a2dddadbaaa2af6d67b5801
             </div>
 
             <div class="list">
