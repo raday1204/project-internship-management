@@ -172,6 +172,7 @@ export class StatusInformationComponent implements OnInit {
   rejectCompanyStatus(studentCode: string) {
     const newStatus = 3;
     this.updateCompanyStatus(studentCode, newStatus);
+    localStorage.removeItem('selectedCompanyID');
   }
 
   confirmAssessmentStatus(studentCode: string) {

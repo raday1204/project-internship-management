@@ -76,6 +76,7 @@ export class ConfirmStatusComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
+          localStorage.removeItem('selectedCompanyID');
           // Replace the current navigation history with the login page
           this.router.navigateByUrl('/login-student', { replaceUrl: true });
         },

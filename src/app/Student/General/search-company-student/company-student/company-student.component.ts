@@ -45,7 +45,7 @@ interface CompanyResponse {
 })
 export class CompanyStudentComponent implements OnInit {
   need_student: { [key: string]: NeedStudent[] } = {};
-  CompanyInformation: CompanyInformation[] = [];
+  companyInformation: CompanyInformation[] = [];
   student: { [key: string]: Student[] } = {};
   username: any;
 
@@ -81,20 +81,20 @@ export class CompanyStudentComponent implements OnInit {
 
 
   fetchData() {
-    if (this.username && this.selectedOption5 && this.selectedOption6) {
+    if (this.selectedOption5 && this.selectedOption6) {
       this.http.get<CompanyResponse>(`http://localhost/PJ/Backend/Officer/Company/get-company-information.php?year=${this.selectedOption5}&type_name=${this.selectedOption6}`)
         .subscribe(
           (response: any) => {
             console.log('Backend Response:', response);
 
             if (response && response.success && response.data) {
-              this.CompanyInformation = response.data;
-              this.CompanyInformation.forEach(company => {
+              this.companyInformation = response.data;
+              this.companyInformation.forEach(company => {
                 this.need_student[company.company.company_id] = company.need_student;
                 this.student[company.company.company_id] = company.students;
               });
               // Sort the data alphabetically by company name (Thai)
-              this.CompanyInformation.sort((a, b) => a.company.company_name.localeCompare(b.company.company_name, 'th'));
+              this.companyInformation.sort((a, b) => a.company.company_name.localeCompare(b.company.company_name, 'th'));
 
             } else {
               console.error('Invalid response from the server.');
@@ -106,12 +106,12 @@ export class CompanyStudentComponent implements OnInit {
           }
         );
     }
-  }
+  
 
   // ยังมีปัญหา
-  // const selectedCompanyID = localStorage.getItem('selectedCompanyID');
-  // this.hasSelectedCompany = !!selectedCompanyID;
-
+  const selectedCompanyID = localStorage.getItem('selectedCompanyID');
+  this.hasSelectedCompany = !!selectedCompanyID;
+  }
 
   selectCompany(selectedCompany: CompanyInformation) {
     if (this.username) {
@@ -177,14 +177,11 @@ export class CompanyStudentComponent implements OnInit {
   }
 
   logout() {
-    // Retrieve the username before making the logout request
-    const username = this.companyStudentService.getUsername();
-
     this.http.post<any>('http://localhost/PJ/Backend/Student/logout.php', {})
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-
+          localStorage.removeItem('selectedCompanyID');
           // Disable browser back
           history.pushState('', '', window.location.href);
           window.onpopstate = function () {

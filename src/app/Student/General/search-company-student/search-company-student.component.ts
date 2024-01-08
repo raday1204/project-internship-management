@@ -117,6 +117,7 @@ export class SearchCompanyStudentComponent {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
+          localStorage.removeItem('selectedCompanyID');
           this.searchForm.reset();
           this.username = ''; // Reset username
           this.router.navigateByUrl('/login-student', { replaceUrl: true });

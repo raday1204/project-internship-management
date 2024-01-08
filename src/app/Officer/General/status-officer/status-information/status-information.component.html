@@ -58,32 +58,6 @@
                             }}
                         </td>
 
-
-                        <!-- <td class="text-center">
-                            <ng-container *ngFor="let trainingItem of training[company.company.company_id]">
-                                <button *ngIf="trainingItem.company_status === 1" class="button"
-                                    (click)="confirmCompany(trainingItem.student_code)"
-                                    style="background-color: white; color: #0075FF;">ยืนยัน</button>
-                                <button *ngIf="trainingItem.company_status === 1" class="button"
-                                    (click)="rejectCompany(trainingItem.student_code)"
-                                    style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
-                                <button *ngIf="trainingItem.company_status === 2" class="button"
-                                    style="background-color: white; color: #0075FF;">ยืนยันเรียบร้อย</button>
-                                <button *ngIf="trainingItem.company_status === 3" class="button"
-                                    style="background-color: white; color: #FF0000;">ไม่รับนิสิตฝึกงาน</button>
-                            </ng-container>
-                        </td>
-
-                        <td class="text-center">
-                            <ng-container *ngFor="let trainingItem of training[company.company.company_id]">
-                                <button *ngIf="trainingItem.assessment_status === 1" class="button"
-                                    (click)="confirmAssessments(trainingItem.student_code)"
-                                    style="background-color: white; color: #0075FF;">ยืนยัน</button>
-                                <button *ngIf="trainingItem.assessment_status === 2" class="button"
-                                    style="background-color: white; color: #4c9a4c;">ยืนยันเรียบร้อย</button>
-                            </ng-container>
-                        </td> -->
-
                         <ng-container *ngIf="studentItem.training && studentItem.training.length > 0">
                             <!-- Loop through training entries for each student -->
                             <ng-container *ngFor="let trainingItem of studentItem.training; let k = index">

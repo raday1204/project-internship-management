@@ -81,7 +81,7 @@ export class SelectCompanyComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-
+          localStorage.removeItem('selectedCompanyID');
           // Disable browser back
           history.pushState('', '', window.location.href);
           window.onpopstate = function () {

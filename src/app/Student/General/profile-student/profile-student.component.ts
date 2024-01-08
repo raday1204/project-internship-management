@@ -154,7 +154,7 @@ export class ProfileStudentComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
-
+          localStorage.removeItem('selectedCompanyID');
           // Clear navigation history and prevent going back
           const navigationExtras: NavigationExtras = {
             replaceUrl: true,

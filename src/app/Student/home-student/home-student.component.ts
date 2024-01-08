@@ -185,6 +185,7 @@ export class HomeStudentComponent implements OnInit {
               } else if (company_status === '2') {
                 this.router.navigate(['/confirm-status']);
               } else if (company_status === '3') {
+                localStorage.removeItem('selectedCompanyID');
                 this.router.navigate(['/cancel-status']);
               }
             } else {
@@ -243,6 +244,7 @@ export class HomeStudentComponent implements OnInit {
       .subscribe(
         () => {
           localStorage.removeItem('loggedInUsername');
+          localStorage.removeItem('selectedCompanyID');
           this.username = ''; // Reset username
           this.router.navigateByUrl('/login-student', { replaceUrl: true });
         },
