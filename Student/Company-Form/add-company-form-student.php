@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die(json_encode(array("success" => false, "message" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     $year = $_POST['year'];
     $type_name = $_POST['type_name'];
     $term = $_POST['term'];

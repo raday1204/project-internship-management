@@ -15,6 +15,8 @@ if ($conn->connect_error) {
     die(json_encode(['success' => false, 'message' => 'Connection failed: ' . $conn->connect_error]));
 }
 
+$conn->set_charset("utf8mb4");
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process form data
     $relation_date = $_POST['relation_date'];

@@ -25,6 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die(json_encode(array("success" => false, "message" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     $company_id = $_POST['company_id'];
     $type_name = $_POST['type_name'];
     $username = $_POST['username'];

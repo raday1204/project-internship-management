@@ -15,6 +15,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 if (isset($_GET['company_id'])) {
     $company_id = $_GET['company_id'];
 

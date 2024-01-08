@@ -19,6 +19,8 @@ if (isset($_POST["username"])) {
         die(json_encode(array("error" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     // Get data from the POST request
     $student_code = $_POST['student_code'];
     $student_name = $_POST['student_name'];

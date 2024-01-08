@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $conn->set_charset("utf8mb4");
+    
     $username = $conn->real_escape_string($username);
 
     // Start a transaction

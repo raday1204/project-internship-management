@@ -15,6 +15,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 if ($_SERVER["REQUEST_METHOD"] === "GET") {
     $year = mysqli_real_escape_string($conn, $_GET['year']);
     $type_name = mysqli_real_escape_string($conn, $_GET['type_name']);

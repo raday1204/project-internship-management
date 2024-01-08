@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die(json_encode(array("error" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     $data = json_decode(file_get_contents("php://input"));
 
     if (isset($data->studentCode)) {

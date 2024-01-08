@@ -22,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    $conn->set_charset("utf8mb4");
+
     // Assuming you're passing the username in the request
     $username = $request['username'];
     $username = mysqli_real_escape_string($conn, $username);

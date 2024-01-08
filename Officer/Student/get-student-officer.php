@@ -20,6 +20,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 // Fetch distinct values from the student table
 $sql = "SELECT DISTINCT year, type_name FROM student";
 $result = $conn->query($sql);

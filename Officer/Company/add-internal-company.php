@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die(json_encode(array("success" => false, "message" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     // Validate and sanitize inputs
     $company_id = isset($_POST['company_id']) ? $conn->real_escape_string($_POST['company_id']) : "";
     $number_student_train = isset($_POST['number_student_train']) ? $conn->real_escape_string($_POST['number_student_train']) : "";

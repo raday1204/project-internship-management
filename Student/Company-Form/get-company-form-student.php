@@ -20,6 +20,8 @@ if (isset($_SESSION["username"]) || isset($_GET["username"])) {
         die(json_encode(array("error" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     $username = $conn->real_escape_string($username);
 
     $sql = "SELECT users.username, student.*, company.*, need_student.*, depart.*

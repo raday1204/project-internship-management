@@ -15,6 +15,8 @@ if ($conn->connect_error) {
     die(json_encode(array("success" => false, "error" => "Connection failed: " . $conn->connect_error)));
 }
 
+$conn->set_charset("utf8mb4");
+
 $sql = "SELECT company.company_id, company.company_name, company.company_building, 
 student.student_code, student.student_name, student.student_lastname, need_student.number_student_train
 FROM company

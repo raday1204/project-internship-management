@@ -18,6 +18,8 @@ if (isset($_POST["username"])) {
         die(json_encode(array("success" => false, "message" => "Connection failed: " . $conn->connect_error)));
     }
 
+    $conn->set_charset("utf8mb4");
+
     $updateFields = array();
 
     // Process file upload

@@ -20,6 +20,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$conn->set_charset("utf8mb4");
+
 // Check if company_id is provided in the query parameters
 if (isset($_GET['company_id'])) {
     // Retrieve company data based on company_id

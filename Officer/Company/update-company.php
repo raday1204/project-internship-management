@@ -24,6 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    $conn->set_charset("utf8mb4");
+
     $company_id = $_POST['company_id'];
     $company_building = $_POST['company_building'];
     $company_job = $_POST['company_job'];

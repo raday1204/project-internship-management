@@ -15,6 +15,8 @@ $dbname = "internship_management";
 
 $conn = new mysqli($hostAuth, $userAuth, $passAuth, $dbname);
 
+$conn->set_charset("utf8mb4");
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     header("HTTP/1.1 200 OK");
     exit;

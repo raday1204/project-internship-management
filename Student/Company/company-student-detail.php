@@ -15,6 +15,8 @@ if ($conn->connect_error) {
     die(json_encode(array("success" => false, "error" => "Connection failed: " . $conn->connect_error)));
 }
 
+$conn->set_charset("utf8mb4");
+
 if (isset($_GET['username'])) {
     $username = $_GET['username'];
 
